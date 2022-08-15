@@ -1,20 +1,25 @@
+import { createTheme, ThemeProvider } from "@mui/material";
+import { Routes, Route } from "react-router-dom";
+import Landing from "../Pages/Landing/Landing";
+
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#094067",
+    },
+    secondary: {
+      main: "#3da9fc",
+    },
+  },
+});
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+      </Routes>
+    </ThemeProvider>
   );
 }
 
