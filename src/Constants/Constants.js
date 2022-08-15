@@ -1,3 +1,5 @@
+import PersonPinIcon from "@mui/icons-material/PersonPin";
+
 export const NavLinks = [
   {
     title: "Home",
@@ -21,7 +23,7 @@ export const NavLinks = [
   },
   {
     title: "Sign In",
-    icon: "account_circle",
-    path: "#signin",
+    icon: <PersonPinIcon />,
+    path: "signin",
   },
 ];

@@ -1,6 +1,7 @@
 import {
   AppBar,
   Box,
+  Button,
   Container,
   Link,
   Stack,
@@ -16,7 +17,11 @@ export default function CustomNavBar({ children }) {
   const theme = useTheme();
   return (
     <>
-      <AppBar elevation={0} sx={{ backgroundColor: "#fff" }} position="static">
+      <AppBar
+        elevation={0}
+        sx={{ backgroundColor: "#fff", display: { sm: "none", md: "block" } }}
+        position="static"
+      >
         <Container maxWidth="xl">
           <Stack
             direction="row"
@@ -25,26 +30,39 @@ export default function CustomNavBar({ children }) {
           >
             <Toolbar>
               <Typography
-                variant="h6"
+                variant="h4"
                 color={theme.palette.primary.main}
                 component="div"
                 sx={{ flexGrow: 1 }}
               >
-                News
+                EduShare
               </Typography>
             </Toolbar>
-            <Stack direction="row" spacing={5}>
-              {NavLinks.map((link, index) => (
-                <Link underline="none" href={link.path}>
-                  {link.title}
-                </Link>
-              ))}
+            <Stack alignItems="center" direction="row" spacing={5}>
+              {NavLinks.map((link, index) => {
+                if (link.path === "signin") {
+                  return (
+                    <Button
+                      color="secondary"
+                      variant="contained"
+                      startIcon={link?.icon}
+                      href="#about"
+                    >
+                      Sign In
+                    </Button>
+                  );
+                } else {
+                  return (
+                    <Button variant="text" href={link.path}>
+                      {link.title}
+                    </Button>
+                  );
+                }
+              })}
             </Stack>
           </Stack>
         </Container>
       </AppBar>
-
-      <Box sx={{ mt: 2 }}>{children}</Box>
     </>
   );
 }

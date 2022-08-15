@@ -10,14 +10,13 @@ import Partnered from "./Partnered/Partnered";
 export default function Landing() {
   return (
     <>
-      <CustomNavBar>
-        <Home />
-        <AboutUs />
-        <NewOpportunities />
-        <Partnered />
-        <ContactUs />
-        <Footer />
-      </CustomNavBar>
+      <CustomNavBar />
+      <Home />
+      <AboutUs />
+      <NewOpportunities />
+      <Partnered />
+      <ContactUs />
+      <Footer />
     </>
   );
 }
