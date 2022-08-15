@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import BgImg from "../../../Assets/images/10088.jpg";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 export default function Home() {
   const theme = useTheme();
   const ScreenSize = useMediaQuery(theme.breakpoints.down("sm"));
@@ -42,7 +43,7 @@ export default function Home() {
                 variant="h3"
                 align={ScreenSize ? "center" : "left"}
               >
-                Your future
+                Your future with,
               </Typography>
               <Typography
                 color={theme.palette.secondary.main}
@@ -68,7 +69,12 @@ export default function Home() {
                 publishing software like Aldus PageMaker including versions of
                 Lorem Ipsum
               </Typography>
-              <Button sx={{ mt: 5 }} variant="contained" href="#about">
+              <Button
+                sx={{ mt: 5 }}
+                variant="contained"
+                href="#about"
+                endIcon={<ArrowDownwardIcon />}
+              >
                 Read More
               </Button>
             </Grid>
@@ -82,12 +88,11 @@ export default function Home() {
                 <img
                   src={BgImg}
                   alt="background"
-                  style={{ width: "120%", height: "100%" }}
+                  style={{ width: "100%", height: "100%" }}
                 />
               </Box>
             </Grid>
           </Grid>
-          <div className="LandingHome"></div>
         </Box>
       </Container>
     </div>

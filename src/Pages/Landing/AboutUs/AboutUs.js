@@ -32,7 +32,7 @@ export default function AboutUs() {
       >
         {AboutVision.map((vision, index) => {
           return (
-            <Grid item sm={12} md={6} key={index}>
+            <Grid item sm={12} md={6} key={index} sx={{ mt: { xs: 5, sm: 5 } }}>
               <Stack justifyContent="center" alignItems="center">
                 <Typography
                   variant="h4"
