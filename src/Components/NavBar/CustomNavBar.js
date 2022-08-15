@@ -5,6 +5,9 @@ import {
   Container,
   Drawer,
   IconButton,
+  ListItemText,
+  MenuItem,
+  MenuList,
   Stack,
   Toolbar,
   Typography,
@@ -118,39 +121,23 @@ export default function CustomNavBar() {
                 {open ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
               <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
-                <Stack
-                  alignItems="center"
-                  justifyContent="space-evenly"
-                  direction="column"
-                  spacing={2}
-                  mt={5}
-                >
+                <MenuList>
                   {NavLinks.map((link, index) => {
                     if (link.path === "signin") {
                       return (
-                        <Button
-                          key={index}
-                          color="secondary"
-                          variant="contained"
-                          startIcon={link?.icon}
-                          onClick={() => navigateUsingMenu(link.path)}
-                        >
+                        <MenuItem onClick={() => navigateUsingMenu(link.path)}>
                           Sign In
-                        </Button>
+                        </MenuItem>
                       );
                     } else {
                       return (
-                        <Button
-                          key={index}
-                          variant="text"
-                          onClick={() => navigateUsingMenu(link.path)}
-                        >
-                          {link.title}
-                        </Button>
+                        <MenuItem onClick={() => navigateUsingMenu(link.path)}>
+                          <ListItemText>{link.title} </ListItemText>
+                        </MenuItem>
                       );
                     }
                   })}
-                </Stack>
+                </MenuList>
               </Drawer>
             </Stack>
           </Stack>
