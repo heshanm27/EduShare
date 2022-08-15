@@ -1,5 +1,6 @@
 import {
   AppBar,
+  Box,
   Button,
   Container,
   Drawer,
@@ -19,19 +20,25 @@ export default function CustomNavBar() {
   const [open, setOpen] = useState(false);
 
   const navigateUsingMenu = (link) => {
+    console.log(window.scrolly);
     setOpen(false);
     const violation = document.getElementById(link.substring(1));
+
     window.scrollTo({
       top: violation?.offsetTop,
       behavior: "smooth",
     });
   };
+
   return (
     <>
       <AppBar
         elevation={0}
-        sx={{ backgroundColor: "#fff", display: { sm: "none", md: "block" } }}
-        position="static"
+        sx={{
+          backgroundColor: "#fff",
+          display: { xs: "none", sm: "none", md: "block" },
+        }}
+        position="sticky"
       >
         <Container maxWidth="xl">
           <Stack
@@ -77,8 +84,11 @@ export default function CustomNavBar() {
 
       <AppBar
         elevation={0}
-        sx={{ backgroundColor: "#fff", display: { sm: "block", md: "none" } }}
-        position="static"
+        sx={{
+          backgroundColor: "#fff",
+          display: { sm: "block", md: "none" },
+        }}
+        position="sticky"
       >
         <Container maxWidth="xl">
           <Stack
@@ -91,7 +101,6 @@ export default function CustomNavBar() {
                 variant="h4"
                 color={theme.palette.primary.main}
                 component="div"
-                sx={{ flexGrow: 1 }}
               >
                 EduShare
               </Typography>
