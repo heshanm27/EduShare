@@ -5,6 +5,7 @@ import {
   Container,
   Drawer,
   IconButton,
+  Link,
   ListItemText,
   MenuItem,
   MenuList,
@@ -25,6 +26,8 @@ export default function CustomNavBar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
   const [hash, setHash] = useState("");
+  const [hide, setHide] = useState(false);
+  const location = useLocation();
 
   const navigateUsingMenu = (link) => {
     setOpen(false);
@@ -36,10 +39,26 @@ export default function CustomNavBar() {
     });
   };
   window.addEventListener("scroll", () => {
-    console.log(window.self);
     setHash(window.location.hash);
   });
 
+  // if (location.pathname === "/signin") {
+  //   setHide(true);
+  // } else {
+  //   setHide(false);
+  // }
+  useEffect(() => {
+    switch (location.pathname) {
+      case "/signin":
+        setHide(true);
+        break;
+      case "/signup":
+        setHide(true);
+        break;
+      default:
+        setHide(false);
+    }
+  }, [location.pathname, hide]);
   return (
     <>
       <AppBar
@@ -57,40 +76,48 @@ export default function CustomNavBar() {
             alignItems="center"
           >
             <Toolbar>
-              <Typography
-                variant="h4"
-                color={theme.palette.primary.main}
-                component="div"
-              >
-                EduShare
-              </Typography>
+              <Link href="/" underline="none">
+                <Typography
+                  variant="h4"
+                  color={theme.palette.primary.main}
+                  component="div"
+                >
+                  EduShare
+                </Typography>
+              </Link>
             </Toolbar>
             <Stack alignItems="center" direction="row" spacing={1}>
-              {NavLinks.map((link, index) => {
-                if (link.path === "signin") {
-                  return (
-                    <Button
-                      key={index}
-                      color="secondary"
-                      variant="contained"
-                      startIcon={link?.icon}
-                      href="/signin"
-                    >
-                      Sign In
-                    </Button>
-                  );
-                } else {
-                  return (
-                    <Button
-                      key={index}
-                      variant={hash === link.path ? "outlined" : "text"}
-                      href={link.path}
-                    >
-                      {link.title}
-                    </Button>
-                  );
-                }
-              })}
+              {!hide &&
+                NavLinks.map((link, index) => {
+                  if (link.path === "signin") {
+                    return (
+                      <Button
+                        key={index}
+                        color="secondary"
+                        variant="contained"
+                        startIcon={link?.icon}
+                        href="/signin"
+                      >
+                        Sign In
+                      </Button>
+                    );
+                  } else {
+                    return (
+                      <Button
+                        key={index}
+                        variant={hash === link.path ? "outlined" : "text"}
+                        href={link.path}
+                      >
+                        {link.title}
+                      </Button>
+                    );
+                  }
+                })}
+              {hide && (
+                <Button variant="contained" href="/">
+                  Home
+                </Button>
+              )}
               <IconButton aria-label="delete" size="large"></IconButton>
             </Stack>
           </Stack>

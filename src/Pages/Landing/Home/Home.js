@@ -8,7 +8,7 @@ import {
   useTheme,
 } from "@mui/material";
 import React from "react";
-import BgImg from "../../../Assets/images/10088.jpg";
+import BgImg from "../../../Assets/images/bg.jpg";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 export default function Home() {
   const theme = useTheme();
