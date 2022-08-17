@@ -19,7 +19,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import { NavLinks } from "../../Constants/Constants";
 import { useLocation } from "react-router-dom";
 import { OneKPlusOutlined } from "@mui/icons-material";
-
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 export default function CustomNavBar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -73,7 +74,7 @@ export default function CustomNavBar() {
                       color="secondary"
                       variant="contained"
                       startIcon={link?.icon}
-                      href="#about"
+                      href="/signin"
                     >
                       Sign In
                     </Button>
@@ -90,6 +91,7 @@ export default function CustomNavBar() {
                   );
                 }
               })}
+              <IconButton aria-label="delete" size="large"></IconButton>
             </Stack>
           </Stack>
         </Container>

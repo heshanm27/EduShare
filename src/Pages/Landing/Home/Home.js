@@ -57,6 +57,7 @@ export default function Home() {
                 align="justify"
                 paragraph
                 sx={{ mt: 3 }}
+                color="#5f6c7b"
               >
                 Lorem Ipsum is simply dummy text of the printing and typesetting
                 industry. Lorem Ipsum has been the industry's standard dummy
