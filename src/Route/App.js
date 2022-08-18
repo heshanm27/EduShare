@@ -8,9 +8,7 @@ import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
 import UserProfile from "../Pages/UserProfile/UserProfile";
-import AdminProtetedRoute from "./AdminProtetedRoute";
-import OrganizationProtetedRoute from "./OrganizationProtetedRoute";
-import UserProtectedRoute from "./UserProtectedRoute";
+import ProtetedRoute from "./ProtetedRoute";
 
 const theme = createTheme({
   palette: {
@@ -40,17 +38,13 @@ function App() {
     <ThemeProvider theme={theme}>
       <Routes>
         <Route path="/home" element={<Landing />} />
-        <Route element={<UserProtectedRoute />}>
-          <Route path="/user" element={<UserProfile />} />
-        </Route>
-        <Route element={<AdminProtetedRoute />}>
-          <Route path="/admin" element={<Admin />} />
-        </Route>
-        <Route element={<OrganizationProtetedRoute />}>
-          <Route path="/org" element={<Organization />} />
-        </Route>
+        <Route path="/user" element={<UserProfile />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route element={<ProtetedRoute />}>
+          <Route path="/admin" element={<Admin />} />
+          <Route path="/org" element={<Organization />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
