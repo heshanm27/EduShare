@@ -42,11 +42,6 @@ export default function CustomNavBar() {
     setHash(window.location.hash);
   });
 
-  // if (location.pathname === "/signin") {
-  //   setHide(true);
-  // } else {
-  //   setHide(false);
-  // }
   useEffect(() => {
     console.log(location.pathname.toLowerCase());
     switch (location.pathname.toLowerCase()) {
