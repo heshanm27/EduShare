@@ -1,5 +1,6 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
+import CustomDrawer from "../Components/Drawer/CustomDrawer";
 import Admin from "../Pages/AdminPanel/Admin";
 
 import Landing from "../Pages/Landing/Landing";
@@ -37,13 +38,24 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
-        <Route path="/home" element={<Landing />} />
-        <Route path="/user" element={<UserProfile />} />
+        <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+
         <Route element={<ProtetedRoute />}>
-          <Route path="/admin" element={<Admin />} />
-          <Route path="/org" element={<Organization />} />
+          <Route path="/user" element={<UserProfile />} />
+
+          {/* adminRoute */}
+          <Route element={<CustomDrawer />}>
+            <Route element={<ProtetedRoute roleRequired="admin" />}>
+              <Route path="/admin" element={<Admin />} />
+            </Route>
+
+            {/* Organization route */}
+            <Route element={<ProtetedRoute roleRequired="org" />}>
+              <Route path="/org" element={<Organization />} />
+            </Route>
+          </Route>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

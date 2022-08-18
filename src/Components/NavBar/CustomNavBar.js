@@ -48,7 +48,8 @@ export default function CustomNavBar() {
   //   setHide(false);
   // }
   useEffect(() => {
-    switch (location.pathname) {
+    console.log(location.pathname.toLowerCase());
+    switch (location.pathname.toLowerCase()) {
       case "/signin":
         setHide(true);
         break;

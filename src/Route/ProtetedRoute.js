@@ -3,14 +3,14 @@ import { Outlet, Navigate, useLocation } from "react-router";
 
 export default function ProtetedRoute({ roleRequired }) {
   const location = useLocation();
-  const auth = localStorage.getItem("user");
-  const roleType = localStorage.getItem("user");
+  const auth = "org";
+  const roleType = "org";
 
   const CheckRole = (role) => {
     return role === roleType ? (
       <Outlet />
     ) : (
-      <Navigate to="/signIn" state={{ from: location }} replace />
+      <Navigate to="/signin" state={{ from: location }} replace />
     );
   };
 
@@ -18,13 +18,13 @@ export default function ProtetedRoute({ roleRequired }) {
     return auth ? (
       CheckRole(roleRequired)
     ) : (
-      <Navigate to="/signIn" state={{ from: location }} replace />
+      <Navigate to="/signin" state={{ from: location }} replace />
     );
   } else {
     return auth ? (
       <Outlet />
     ) : (
-      <Navigate to="/signIn" state={{ from: location }} replace />
+      <Navigate to="/signin" state={{ from: location }} replace />
     );
   }
 }
