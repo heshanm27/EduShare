@@ -1,10 +1,13 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
-import Home from "../Pages/Landing/Home/Home";
+import Admin from "../Pages/AdminPanel/Admin";
+
 import Landing from "../Pages/Landing/Landing";
+import NotFound from "../Pages/NotFound/NotFound";
+import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
+import UserProfile from "../Pages/UserProfile/UserProfile";
 import AdminProtetedRoute from "./AdminProtetedRoute";
 import OrganizationProtetedRoute from "./OrganizationProtetedRoute";
 import UserProtectedRoute from "./UserProtectedRoute";
@@ -36,16 +39,19 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Routes>
+        <Route path="/home" element={<Landing />} />
         <Route element={<UserProtectedRoute />}>
-          <Route path="/landing" element={<Home />} />
+          <Route path="/user" element={<UserProfile />} />
         </Route>
         <Route element={<AdminProtetedRoute />}>
-          <Route path="/" element={<Landing />} />
+          <Route path="/admin" element={<Admin />} />
         </Route>
         <Route element={<OrganizationProtetedRoute />}>
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/org" element={<Organization />} />
         </Route>
+        <Route path="/signup" element={<SignUp />} />
         <Route path="/signin" element={<SignIn />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </ThemeProvider>
   );
