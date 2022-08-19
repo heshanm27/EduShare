@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Container, Grid, Typography, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 
 import React from "react";
@@ -13,7 +6,7 @@ import CustomAvatar from "../../../Components/CustomeAvatar/CustomAvatar";
 
 export default function Partnered() {
   const theme = useTheme();
-  const mediaqury = useMediaQuery(theme.breakpoints.down("sm"));
+
   return (
     <Container
       id="partnered"

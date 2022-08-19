@@ -1,11 +1,4 @@
-import {
-  Box,
-  Container,
-  Grid,
-  Paper,
-  Typography,
-  useTheme,
-} from "@mui/material";
+import { Container, Grid, Typography, useTheme } from "@mui/material";
 import { Stack } from "@mui/system";
 import React from "react";
 import CustomCard from "../../../Components/CustomCard/CustomCard";

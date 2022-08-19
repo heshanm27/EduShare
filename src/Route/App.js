@@ -1,10 +1,10 @@
 import { createTheme, ThemeProvider } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
 import CustomDrawer from "../Components/Drawer/CustomDrawer";
-import Admin from "../Pages/AdminPanel/Admin";
 
 import Landing from "../Pages/Landing/Landing";
 import NotFound from "../Pages/NotFound/NotFound";
+import OppertunitesAdmin from "../Pages/Opportunities/OppertunitesAdmin";
 import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
@@ -47,13 +47,11 @@ function App() {
 
           {/* adminRoute */}
           <Route element={<CustomDrawer />}>
-            <Route element={<ProtetedRoute roleRequired="admin" />}>
-              <Route path="/admin" element={<Admin />} />
-            </Route>
+            <Route element={<ProtetedRoute roleRequired="admin" />}></Route>
 
             {/* Organization route */}
             <Route element={<ProtetedRoute roleRequired="org" />}>
-              <Route path="/org" element={<Organization />} />
+              <Route path="/org" element={<OppertunitesAdmin />} />
             </Route>
           </Route>
         </Route>

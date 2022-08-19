@@ -1,7 +1,5 @@
 import { useState } from "react";
 import Avatar from "@mui/material/Avatar";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -24,15 +22,15 @@ const initialValues = {
 export default function SignIn() {
   const [errors, setErrors] = useState(initialValues);
   const [values, setValues] = useState(initialValues);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
-  //customer snackbar props
-  const [notify, setNotify] = useState({
-    isOpen: false,
-    message: "",
-    type: "error",
-    title: "",
-  });
+  // //customer snackbar props
+  // const [notify, setNotify] = useState({
+  //   isOpen: false,
+  //   message: "",
+  //   type: "error",
+  //   title: "",
+  // });
 
   //validate email
   const validate = () => {

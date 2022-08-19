@@ -13,7 +13,7 @@ import { AboutVision } from "../../../Constants/Constants";
 export default function AboutUs() {
   const theme = useTheme();
   return (
-    <Box sx={{ width: "100%", backgroundColor: theme.palette.secondary.light }}>
+    <Box sx={{ width: "100%", backgroundColor: theme.palette.primary.main }}>
       <Container
         id="about"
         maxWidth="xl"
@@ -28,7 +28,7 @@ export default function AboutUs() {
       >
         <Typography
           variant="h3"
-          color={theme.palette.primary.main}
+          color="white"
           align="center"
           sx={{
             marginBottom: "5rem",

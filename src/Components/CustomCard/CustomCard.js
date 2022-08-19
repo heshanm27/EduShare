@@ -9,7 +9,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { motion } from "framer-motion";
+// import { motion } from "framer-motion";
 import React from "react";
 
 export default function CustomCard({ props }) {
