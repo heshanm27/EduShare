@@ -5,11 +5,8 @@ import ListItem from "@mui/material/ListItem";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Collapse from "@mui/material/Collapse";
-
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
-import StarBorder from "@mui/icons-material/StarBorder";
-import Inboxicon from "@mui/icons-material/MoveToInbox";
 import NavListitem from "./NavListitem";
 import { ListSubheader, Tooltip, useMediaQuery, useTheme } from "@mui/material";
 
@@ -18,7 +15,6 @@ export default function CustomListCollapse(props) {
     props;
   const [open, setOpen] = useState(false);
   const theme = useTheme();
-  const resalution = useMediaQuery(theme.breakpoints.down("sm"));
   const handleClick = () => {
     setOpen(!open);
   };

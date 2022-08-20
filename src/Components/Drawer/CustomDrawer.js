@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
@@ -12,24 +11,20 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import { Tooltip, useMediaQuery } from "@mui/material";
+import { List, Tooltip, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
-import NavListitem from "./NavListitem";
 import CustomListCollapse from "./CustomListCollapse";
 import SchoolIcon from "@mui/icons-material/School";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
 import {
   DonOpportunitiesRoutes,
   EduOpportunitiesRoutes,
   VolOpportunitiesRoutes,
 } from "./DrawerRoutes";
+import NavListitem from "./NavListitem";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -161,35 +156,51 @@ export default function CustomDrawer() {
           </Tooltip>
         </DrawerHeader>
         <Divider />
-        <CustomListCollapse
-          TitleIcon={<SchoolIcon />}
-          TitleText="Education"
-          Subheader="Education Opportunities"
-          ListItems={EduOpportunitiesRoutes}
-          onclicks={closeNavigation}
-          DrawerStatus={open}
-        />
-        <Divider />
-        <Divider />
-        <CustomListCollapse
-          TitleIcon={<EmojiPeopleIcon />}
-          TitleText="Volunteering"
-          Subheader="Volunteering Opportunities"
-          ListItems={VolOpportunitiesRoutes}
-          onclicks={closeNavigation}
-          DrawerStatus={open}
-        />
-        <Divider />
-        <Divider />
-        <CustomListCollapse
-          TitleIcon={<VolunteerActivismIcon />}
-          TitleText="Donations"
-          Subheader="Dontaions Opportunities"
-          ListItems={DonOpportunitiesRoutes}
-          onclicks={closeNavigation}
-          DrawerStatus={open}
-        />
-        <Divider />
+        <List
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            flex: 1,
+          }}
+        >
+          <CustomListCollapse
+            TitleIcon={<SchoolIcon />}
+            TitleText="Education"
+            Subheader="Education Opportunities"
+            ListItems={EduOpportunitiesRoutes}
+            onclicks={closeNavigation}
+            DrawerStatus={open}
+          />
+          <Divider />
+          <Divider />
+          <CustomListCollapse
+            TitleIcon={<EmojiPeopleIcon />}
+            TitleText="Volunteering"
+            Subheader="Volunteering Opportunities"
+            ListItems={VolOpportunitiesRoutes}
+            onclicks={closeNavigation}
+            DrawerStatus={open}
+          />
+          <Divider />
+          <Divider />
+          <CustomListCollapse
+            TitleIcon={<VolunteerActivismIcon />}
+            TitleText="Donations"
+            Subheader="Dontaions Opportunities"
+            ListItems={DonOpportunitiesRoutes}
+            onclicks={closeNavigation}
+            DrawerStatus={open}
+          />
+          <Divider />
+          <Box sx={{ flex: 1 }}></Box>
+          <NavListitem
+            label="Log Out"
+            activeIcon={<MeetingRoomIcon />}
+            icon={<MeetingRoomOutlinedIcon />}
+            path="logout"
+          />
+        </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
         <Outlet />
