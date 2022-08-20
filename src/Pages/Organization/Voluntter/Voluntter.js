@@ -2,11 +2,11 @@ import { Container } from "@mui/material";
 import MaterialTable from "material-table";
 import React from "react";
 
-export default function Organization() {
+export default function Voluntter() {
   return (
     <Container maxWidth="xl">
       <MaterialTable
-        title="Simple Action Preview"
+        title="Volunteer Requests"
         options={{ actionsColumnIndex: -1, addRowPosition: "first" }}
         columns={[
           { title: "Name", field: "name" },

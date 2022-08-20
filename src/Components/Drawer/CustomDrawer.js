@@ -20,7 +20,16 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import MailIcon from "@mui/icons-material/Mail";
 import { Tooltip, useMediaQuery } from "@mui/material";
 import { Outlet } from "react-router-dom";
-
+import NavListitem from "./NavListitem";
+import CustomListCollapse from "./CustomListCollapse";
+import SchoolIcon from "@mui/icons-material/School";
+import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
+import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
+import {
+  DonOpportunitiesRoutes,
+  EduOpportunitiesRoutes,
+  VolOpportunitiesRoutes,
+} from "./DrawerRoutes";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -105,6 +114,13 @@ export default function CustomDrawer() {
     setOpen(false);
   };
 
+  const closeNavigation = () => {
+    //if resultion match only drawer auto lose when clik button
+    if (reslution) {
+      setOpen(false);
+    }
+  };
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -145,55 +161,35 @@ export default function CustomDrawer() {
           </Tooltip>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <CustomListCollapse
+          TitleIcon={<SchoolIcon />}
+          TitleText="Education"
+          Subheader="Education Opportunities"
+          ListItems={EduOpportunitiesRoutes}
+          onclicks={closeNavigation}
+          DrawerStatus={open}
+        />
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}
-              >
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}
-                >
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
+        <Divider />
+        <CustomListCollapse
+          TitleIcon={<EmojiPeopleIcon />}
+          TitleText="Volunteering"
+          Subheader="Volunteering Opportunities"
+          ListItems={VolOpportunitiesRoutes}
+          onclicks={closeNavigation}
+          DrawerStatus={open}
+        />
+        <Divider />
+        <Divider />
+        <CustomListCollapse
+          TitleIcon={<VolunteerActivismIcon />}
+          TitleText="Donations"
+          Subheader="Dontaions Opportunities"
+          ListItems={DonOpportunitiesRoutes}
+          onclicks={closeNavigation}
+          DrawerStatus={open}
+        />
+        <Divider />
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
         <Outlet />

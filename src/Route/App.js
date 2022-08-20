@@ -4,7 +4,9 @@ import CustomDrawer from "../Components/Drawer/CustomDrawer";
 
 import Landing from "../Pages/Landing/Landing";
 import NotFound from "../Pages/NotFound/NotFound";
-import OppertunitesAdmin from "../Pages/Opportunities/OppertunitesAdmin";
+import EducationalOrg from "../Pages/Organization/Educational/Educational";
+import DonationOrg from "../Pages/Organization/Donation/Donation";
+import VoluntterOrg from "../Pages/Organization/Voluntter/Voluntter";
 import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
@@ -51,7 +53,9 @@ function App() {
 
             {/* Organization route */}
             <Route element={<ProtetedRoute roleRequired="org" />}>
-              <Route path="/org" element={<OppertunitesAdmin />} />
+              <Route path="/edu" element={<EducationalOrg />} />
+              <Route path="/don" element={<DonationOrg />} />
+              <Route path="/vol" element={<VoluntterOrg />} />
             </Route>
           </Route>
         </Route>

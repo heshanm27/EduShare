@@ -7,7 +7,7 @@ export default function OppertunitesAdmin() {
     <>
       <Container maxWidth="xl">
         <MaterialTable
-          title="Simple Action Preview"
+          title="EDUCATIONAL OPPORTUNITIES"
           options={{ actionsColumnIndex: -1, addRowPosition: "first" }}
           columns={[
             { title: "Name", field: "name" },
