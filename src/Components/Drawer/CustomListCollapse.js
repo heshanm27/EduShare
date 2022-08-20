@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
@@ -9,15 +9,38 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import NavListitem from "./NavListitem";
 import { ListSubheader, Tooltip, useMediaQuery, useTheme } from "@mui/material";
+import { useLocation } from "react-router-dom";
 
 export default function CustomListCollapse(props) {
-  const { TitleIcon, TitleText, ListItems, onclicks, Subheader, DrawerStatus } =
-    props;
+  const {
+    TitleIcon,
+    TitleText,
+    ListItems,
+    onclicks,
+    Subheader,
+    DrawerStatus,
+    path,
+  } = props;
+  const [active, setActive] = useState(true);
+  const location = useLocation();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const handleClick = () => {
     setOpen(!open);
   };
+
+  const ActivePathStyle = {
+    color: theme.palette.primary.main,
+  };
+  const ActiveListitemStyle = {
+    backgroundColor: theme.palette.grey[300],
+  };
+  const ActivePathIconStyle = {
+    color: theme.palette.primary.main,
+  };
+  useEffect(() => {
+    setActive(location.pathname === path);
+  }, [location, path]);
   return (
     <List
       component="nav"
@@ -30,9 +53,15 @@ export default function CustomListCollapse(props) {
       subheader={DrawerStatus && <ListSubheader>{Subheader}</ListSubheader>}
     >
       <Tooltip title={TitleText} placement="right" arrow>
-        <ListItem button onClick={handleClick}>
-          <ListItemIcon>{TitleIcon}</ListItemIcon>
-          <ListItemText primary={TitleText} />
+        <ListItem
+          sx={active && ActiveListitemStyle}
+          button
+          onClick={handleClick}
+        >
+          <ListItemIcon sx={active && ActivePathIconStyle}>
+            {TitleIcon}
+          </ListItemIcon>
+          <ListItemText sx={active && ActivePathStyle} primary={TitleText} />
 
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>

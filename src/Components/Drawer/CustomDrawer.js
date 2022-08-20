@@ -101,6 +101,7 @@ export default function CustomDrawer() {
   const theme = useTheme();
   const reslution = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(reslution ? false : true);
+
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -171,6 +172,7 @@ export default function CustomDrawer() {
             ListItems={EduOpportunitiesRoutes}
             onclicks={closeNavigation}
             DrawerStatus={open}
+            path="/edu"
           />
           <Divider />
           <Divider />
@@ -181,6 +183,7 @@ export default function CustomDrawer() {
             ListItems={VolOpportunitiesRoutes}
             onclicks={closeNavigation}
             DrawerStatus={open}
+            path="/vol"
           />
           <Divider />
           <Divider />
@@ -191,6 +194,7 @@ export default function CustomDrawer() {
             ListItems={DonOpportunitiesRoutes}
             onclicks={closeNavigation}
             DrawerStatus={open}
+            path="/don"
           />
           <Divider />
           <Box sx={{ flex: 1 }}></Box>

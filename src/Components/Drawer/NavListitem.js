@@ -31,7 +31,7 @@ function NavListitem({ label, icon, activeIcon, path, onClick }) {
 
   useEffect(() => {
     setActive(location.pathname === path);
-  }, [location]);
+  }, [location, path]);
   return (
     /* menuitem class deafult if active is true menuitemative class will be set */
     <Tooltip title={label} placement="right" arrow>
