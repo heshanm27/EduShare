@@ -30,13 +30,11 @@ export default function CustomListCollapse(props) {
   };
 
   const ActivePathStyle = {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   };
-  const ActiveListitemStyle = {
-    backgroundColor: theme.palette.grey[300],
-  };
+
   const ActivePathIconStyle = {
-    color: theme.palette.primary.main,
+    color: theme.palette.secondary.main,
   };
   useEffect(() => {
     setActive(location.pathname === path);
@@ -53,11 +51,7 @@ export default function CustomListCollapse(props) {
       subheader={DrawerStatus && <ListSubheader>{Subheader}</ListSubheader>}
     >
       <Tooltip title={TitleText} placement="right" arrow>
-        <ListItem
-          sx={active && ActiveListitemStyle}
-          button
-          onClick={handleClick}
-        >
+        <ListItem button onClick={handleClick}>
           <ListItemIcon sx={active && ActivePathIconStyle}>
             {TitleIcon}
           </ListItemIcon>
