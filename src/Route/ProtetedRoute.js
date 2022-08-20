@@ -3,7 +3,7 @@ import { Outlet, Navigate, useLocation } from "react-router";
 
 export default function ProtetedRoute({ roleRequired }) {
   const location = useLocation();
-  const auth = "org";
+  const auth = "";
   const roleType = "org";
 
   const CheckRole = (role) => {

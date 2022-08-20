@@ -23,6 +23,8 @@ import {
   DonOpportunitiesRoutes,
   EduOpportunitiesRoutes,
   VolOpportunitiesRoutes,
+  AdminReportRoutes,
+  AdminRoutes,
 } from "./DrawerRoutes";
 import NavListitem from "./NavListitem";
 const drawerWidth = 240;
@@ -99,6 +101,7 @@ const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
 
 export default function CustomDrawer() {
   const theme = useTheme();
+  const [user, setUser] = useState("admin");
   const reslution = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(reslution ? false : true);
 
@@ -165,38 +168,68 @@ export default function CustomDrawer() {
             flex: 1,
           }}
         >
-          <CustomListCollapse
-            TitleIcon={<SchoolIcon />}
-            TitleText="Education"
-            Subheader="Education Opportunities"
-            ListItems={EduOpportunitiesRoutes}
-            onclicks={closeNavigation}
-            DrawerStatus={open}
-            path="/edu"
-          />
-          <Divider />
-          <Divider />
-          <CustomListCollapse
-            TitleIcon={<EmojiPeopleIcon />}
-            TitleText="Volunteering"
-            Subheader="Volunteering Opportunities"
-            ListItems={VolOpportunitiesRoutes}
-            onclicks={closeNavigation}
-            DrawerStatus={open}
-            path="/vol"
-          />
-          <Divider />
-          <Divider />
-          <CustomListCollapse
-            TitleIcon={<VolunteerActivismIcon />}
-            TitleText="Donations"
-            Subheader="Dontaions Opportunities"
-            ListItems={DonOpportunitiesRoutes}
-            onclicks={closeNavigation}
-            DrawerStatus={open}
-            path="/don"
-          />
-          <Divider />
+          {user === "org" && (
+            <>
+              <CustomListCollapse
+                TitleIcon={<SchoolIcon />}
+                TitleText="Education"
+                Subheader="Education Opportunities"
+                ListItems={EduOpportunitiesRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/edu"
+              />
+              <Divider />
+              <Divider />
+              <CustomListCollapse
+                TitleIcon={<EmojiPeopleIcon />}
+                TitleText="Volunteering"
+                Subheader="Volunteering Opportunities"
+                ListItems={VolOpportunitiesRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/vol"
+              />
+              <Divider />
+              <Divider />
+              <CustomListCollapse
+                TitleIcon={<VolunteerActivismIcon />}
+                TitleText="Donations"
+                Subheader="Dontaions Opportunities"
+                ListItems={DonOpportunitiesRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/don"
+              />
+              <Divider />
+            </>
+          )}
+
+          {user === "admin" && (
+            <>
+              <CustomListCollapse
+                TitleIcon={<VolunteerActivismIcon />}
+                TitleText="Form Controll"
+                Subheader="Admin Setting"
+                ListItems={AdminRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/qualifications"
+              />
+              <Divider />
+              <CustomListCollapse
+                TitleIcon={<VolunteerActivismIcon />}
+                TitleText="Analytics"
+                Subheader="Analytics Reports"
+                ListItems={AdminReportRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/report"
+              />
+              <Divider />
+            </>
+          )}
+
           <Box sx={{ flex: 1 }}></Box>
           <NavListitem
             label="Log Out"
