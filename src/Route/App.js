@@ -7,7 +7,6 @@ import NotFound from "../Pages/NotFound/NotFound";
 import EducationalOrg from "../Pages/Organization/Educational/Educational";
 import DonationOrg from "../Pages/Organization/Donation/Donation";
 import VoluntterOrg from "../Pages/Organization/Voluntter/Voluntter";
-import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
 import UserProfile from "../Pages/UserProfile/UserProfile";
@@ -15,6 +14,7 @@ import ProtetedRoute from "./ProtetedRoute";
 import Qualifications from "../Pages/Admin/Qualifications/Qualifications";
 import InterestedAreas from "../Pages/Admin/InterestedAreas/InterestedAreas";
 import AdminReports from "../Pages/Admin/Reports/AdminReports";
+import UserContextProvider from "../Context/userContext";
 
 const theme = createTheme({
   palette: {
@@ -42,32 +42,34 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
+      <UserContextProvider>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/signin" element={<SignIn />} />
 
-        <Route element={<ProtetedRoute />}>
-          <Route path="/user" element={<UserProfile />} />
+          <Route element={<ProtetedRoute />}>
+            <Route path="/user" element={<UserProfile />} />
 
-          {/* adminRoute */}
-          <Route element={<CustomDrawer />}>
-            <Route element={<ProtetedRoute roleRequired="admin" />}>
-              <Route path="/qualifications" element={<Qualifications />} />
-              <Route path="/interested" element={<InterestedAreas />} />
-              <Route path="/report" element={<AdminReports />} />
-            </Route>
+            {/* adminRoute */}
+            <Route element={<CustomDrawer />}>
+              <Route element={<ProtetedRoute roleRequired="admin" />}>
+                <Route path="/qualifications" element={<Qualifications />} />
+                <Route path="/interested" element={<InterestedAreas />} />
+                <Route path="/report" element={<AdminReports />} />
+              </Route>
 
-            {/* Organization route */}
-            <Route element={<ProtetedRoute roleRequired="org" />}>
-              <Route path="/edu" element={<EducationalOrg />} />
-              <Route path="/don" element={<DonationOrg />} />
-              <Route path="/vol" element={<VoluntterOrg />} />
+              {/* Organization route */}
+              <Route element={<ProtetedRoute roleRequired="org" />}>
+                <Route path="/edu" element={<EducationalOrg />} />
+                <Route path="/don" element={<DonationOrg />} />
+                <Route path="/vol" element={<VoluntterOrg />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </UserContextProvider>
     </ThemeProvider>
   );
 }

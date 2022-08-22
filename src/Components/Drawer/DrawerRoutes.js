@@ -55,18 +55,18 @@ export const VolOpportunitiesRoutes = [
 
 export const AdminRoutes = [
   {
-    label: "Qualifications",
-    path: "/qualifications",
-    icon: <SettingsApplicationsOutlinedIcon />,
-    activeIcon: <SettingsApplicationsIcon />,
-    component: "vehicle",
-  },
-  {
     label: "Interested",
     path: "/interested",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",
+  },
+  {
+    label: "Qualifications",
+    path: "/qualifications",
+    icon: <SettingsApplicationsOutlinedIcon />,
+    activeIcon: <SettingsApplicationsIcon />,
+    component: "vehicle",
   },
 ];
 

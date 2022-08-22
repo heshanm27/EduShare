@@ -6,21 +6,35 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { IconButton, Paper, Stack } from "@mui/material";
+import { Chip, IconButton, Paper, Stack, useTheme } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
+import DoneIcon from "@mui/icons-material/Done";
+import { useEffect } from "react";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../FireBase/Config";
 
 const initialValues = {
+  firstName: "",
+  lastName: "",
   email: "",
+  phoneNo: "",
+  address: "",
+  city: "",
+  education: "",
+  intrest: [],
+  password: "",
 };
 
 export default function SignUp() {
+  const theme = useTheme();
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
   const [img, setImg] = useState();
-
+  const [intrestedAreas, setIntrestedAreas] = useState([]);
+  const intrestedAreasColletionRef = collection(db, "intrestedAreas");
   const onImageChange = (e) => {
     const [file] = e.target.files;
     setImg(URL.createObjectURL(file));
@@ -40,7 +54,9 @@ export default function SignUp() {
     temp.email =
       (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
       (values.email ? "" : "Please enter email ");
-
+    temp.intrest =
+      (values.intrest.length !== 0 ? "" : "Please select intrest") ||
+      (values.intrest.length >= 3 ? "" : "Please select more than 3 intrest");
     setErrors({
       ...temp,
     });
@@ -60,6 +76,19 @@ export default function SignUp() {
     });
   };
 
+  const handleAddIntrestedArea = (area) => {
+    if (values.intrest.includes(area.id)) {
+      setValues({
+        ...values,
+        intrest: values.intrest.filter((x) => x !== area.id),
+      });
+    } else {
+      setValues({
+        ...values,
+        intrest: [...values.intrest, area.id],
+      });
+    }
+  };
   //handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -69,6 +98,18 @@ export default function SignUp() {
     }
   };
 
+  useEffect(() => {
+    const getIntrestedArea = async () => {
+      const data = await getDocs(intrestedAreasColletionRef);
+      setIntrestedAreas(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    };
+    getIntrestedArea();
+    console.log(intrestedAreas);
+  }, []);
+  console.log(values.intrest);
+  console.log(errors);
   return (
     <>
       <CustomNavBar />
@@ -254,6 +295,31 @@ export default function SignUp() {
                 >
                   Sign Up
                 </LoadingButton>{" "}
+              </Grid>
+              <Grid item xs={12}>
+                {intrestedAreas.map((area) => (
+                  <Chip
+                    sx={{ margin: 1 }}
+                    color="info"
+                    key={area.id}
+                    variant={
+                      values.intrest?.includes(area.id) ? "filled" : "outlined"
+                    }
+                    icon={values.intrest?.includes(area.id) ? <DoneIcon /> : ""}
+                    label={area.name}
+                    onClick={() => handleAddIntrestedArea(area)}
+                  />
+                ))}
+              </Grid>
+              <Grid item xs={12}>
+                {errors.intrest && (
+                  <Typography
+                    variant="subtitle1"
+                    color={theme.palette.error.main}
+                  >
+                    {errors.intrest}
+                  </Typography>
+                )}
               </Grid>
             </Grid>
           </Stack>

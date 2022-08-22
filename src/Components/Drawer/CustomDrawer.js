@@ -214,7 +214,7 @@ export default function CustomDrawer() {
                 ListItems={AdminRoutes}
                 onclicks={closeNavigation}
                 DrawerStatus={open}
-                path="/qualifications"
+                path="/interested"
               />
               <Divider />
               <CustomListCollapse
