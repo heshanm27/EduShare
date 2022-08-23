@@ -6,7 +6,14 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Chip, IconButton, Paper, Stack, useTheme } from "@mui/material";
+import {
+  Chip,
+  IconButton,
+  Paper,
+  Stack,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
@@ -14,7 +21,10 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useEffect } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../../FireBase/Config";
-
+import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
+import CustomSelect from "../../Components/CustomSelect/CustomSelect";
+import { useUserAuthContext } from "../../Context/userContext";
+import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -22,13 +32,35 @@ const initialValues = {
   phoneNo: "",
   address: "",
   city: "",
+  province: "",
   education: "",
   intrest: [],
   password: "",
+  confirmPassword: "",
 };
+
+const Provinces = [
+  { value: "eastern", label: "Eastern" },
+  { value: "northern", label: "Northern" },
+  { value: "north western", label: "North Western" },
+  { value: "north central", label: "North Central" },
+  { value: "central", label: "Central" },
+  { value: "sabaragamuwa", label: "Sabaragamuwa" },
+  { value: "uva", label: "Uva" },
+  { value: "southern", label: "Southern" },
+  { value: "western", label: "Western" },
+];
+
+const Education = [
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+];
 
 export default function SignUp() {
   const theme = useTheme();
+  const { signUp, user } = useUserAuthContext();
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
@@ -49,7 +81,7 @@ export default function SignUp() {
   });
 
   //validate email
-  const validate = () => {
+  function validate() {
     let temp = {};
     temp.email =
       (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
@@ -57,12 +89,33 @@ export default function SignUp() {
     temp.intrest =
       (values.intrest.length !== 0 ? "" : "Please select intrest") ||
       (values.intrest.length >= 3 ? "" : "Please select more than 3 intrest");
+    temp.password =
+      (values.password ? "" : "Please enter password") ||
+      (values.password.length >= 6
+        ? ""
+        : "Password must be atleast 6 characters");
+    temp.confirmPassword =
+      (values.confirmPassword ? "" : "Please enter confirm password") ||
+      (values.confirmPassword === values.password
+        ? ""
+        : "Password does not match");
+    temp.firstName = values.firstName ? "" : "Please enter first name";
+    temp.lastName = values.lastName ? "" : "Please enter last name";
+    temp.phoneNo =
+      (values.phoneNo ? "" : "Please enter phone number") ||
+      (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
+        ? ""
+        : "Please enter valid phone number");
+    temp.address = values.address ? "" : "Please enter address";
+    temp.city = values.city ? "" : "Please enter city";
+    temp.province = values.province ? "" : "Please select province";
+    temp.education = values.education ? "" : "Please select education status";
     setErrors({
       ...temp,
     });
     // //if all the proprties valid to the function that provide in every() it will return true  or if one fail it return false
     return Object.values(temp).every((x) => x === "");
-  };
+  }
 
   /**
    *@description this function is used to handle the change of the input fields
@@ -92,9 +145,24 @@ export default function SignUp() {
   //handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     //validate values
     if (validate()) {
+      try {
+        const userData = await signUp(values.email, values.password);
+        console.log(user);
+        console.log(userData);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+        setNotify({
+          isOpen: true,
+          message: err.message,
+          type: "error",
+        });
+      }
+    } else {
+      setLoading(false);
     }
   };
 
@@ -106,16 +174,14 @@ export default function SignUp() {
       );
     };
     getIntrestedArea();
-    console.log(intrestedAreas);
   }, []);
-  console.log(values.intrest);
-  console.log(errors);
+
   return (
     <>
       <CustomNavBar />
       <Container component="main" maxWidth="sm">
         <CssBaseline />
-        <Paper sx={{ mt: 10 }}>
+        <Paper sx={{ mt: 5 }}>
           <Box
             sx={{
               display: "flex",
@@ -132,7 +198,11 @@ export default function SignUp() {
               component="label"
             >
               <Avatar sx={{ width: 100, height: 100 }}>
-                <img src={img} style={{ width: 100, height: 100 }} />
+                <img
+                  src={img}
+                  alt="userlogo"
+                  style={{ width: 100, height: 100 }}
+                />
               </Avatar>
               <input
                 hidden
@@ -155,27 +225,27 @@ export default function SignUp() {
               <Grid item xs={12} sm={6}>
                 {" "}
                 <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                  autoComplete="First Name"
+                  errorsMsg={errors.firstName}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="First Name: "
+                  type="text"
+                  value={values.firstName}
+                  error={Boolean(errors.firstName)}
+                  name="firstName"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 {" "}
                 <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                  autoComplete="Last Name"
+                  errorsMsg={errors.lastName}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="Last Name"
+                  type="text"
+                  value={values.lastName}
+                  error={Boolean(errors.lastName)}
+                  name="lastName"
                 />
               </Grid>
               <Grid item xs={12}>
@@ -194,92 +264,128 @@ export default function SignUp() {
               <Grid item xs={12}>
                 {" "}
                 <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                  autoComplete="tel"
+                  errorsMsg={errors.phoneNo}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="Phone No"
+                  type="tel"
+                  value={values.phoneNo}
+                  error={Boolean(errors.phoneNo)}
+                  name="phoneNo"
                 />
               </Grid>
               <Grid item xs={12}>
                 {" "}
                 <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                  autoComplete="address"
+                  errorsMsg={errors.address}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="Address"
+                  type="text"
+                  value={values.address}
+                  error={Boolean(errors.address)}
+                  name="address"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
                 {" "}
                 <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                  autoComplete="address-level2"
+                  errorsMsg={errors.city}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="City"
+                  type="text"
+                  value={values.city}
+                  error={Boolean(errors.city)}
+                  name="city"
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                {" "}
-                <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                <CustomSelect
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                {" "}
-                <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
-                  handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  errorsMsg={errors.province}
+                  label="Province"
+                  value={values.province}
+                  error={Boolean(errors.province)}
+                  name="province"
+                  width="100%"
+                  options={Provinces}
                 />
               </Grid>
               <Grid item xs={12}>
-                {" "}
-                <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                <CustomSelect
+                  name="education"
+                  errorsMsg={errors.education}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                  label="Education"
+                  value={values.education}
+                  error={Boolean(errors.education)}
+                  options={Education}
+                  width="100%"
                 />
               </Grid>
               <Grid item xs={12}>
-                {" "}
-                <CustomTextField
-                  autoComplete="email"
-                  errorsMsg={errors.email}
+                <Stack
+                  direction="column"
+                  justifyContent="end"
+                  alignItems="start"
+                >
+                  <Typography
+                    variant="body1"
+                    color={theme.palette.text.secondary}
+                  >
+                    Intrested Areas*
+                  </Typography>
+                </Stack>
+                {intrestedAreas.map((area) => (
+                  <Tooltip title={area?.discription} arrow>
+                    <Chip
+                      sx={{ margin: 1 }}
+                      color="info"
+                      key={area.id}
+                      variant={
+                        values.intrest?.includes(area.id)
+                          ? "filled"
+                          : "outlined"
+                      }
+                      icon={
+                        values.intrest?.includes(area.id) ? <DoneIcon /> : ""
+                      }
+                      label={area.name}
+                      onClick={() => handleAddIntrestedArea(area)}
+                    />
+                  </Tooltip>
+                ))}
+              </Grid>
+              {errors.intrest && (
+                <Grid item xs={12}>
+                  <Typography
+                    variant="subtitle1"
+                    color={theme.palette.error.main}
+                  >
+                    {errors.intrest}
+                  </Typography>
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <CustomPasswordInput
+                  values={values}
+                  error={Boolean(errors.password)}
+                  errorsMsg={errors.password}
+                  setValues={setValues}
                   handleChanges={handleChanges}
-                  label="Email Address"
-                  type="email"
-                  value={values.email}
-                  error={Boolean(errors.email)}
-                  name="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <CustomPasswordInput
+                  title="Confirm Password"
+                  label="confirmPassword"
+                  customvalue={values.confirmPassword}
+                  values={values}
+                  error={Boolean(errors.confirmPassword)}
+                  errorsMsg={errors.confirmPassword}
+                  setValues={setValues}
+                  handleChanges={handleChanges}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -296,31 +402,6 @@ export default function SignUp() {
                   Sign Up
                 </LoadingButton>{" "}
               </Grid>
-              <Grid item xs={12}>
-                {intrestedAreas.map((area) => (
-                  <Chip
-                    sx={{ margin: 1 }}
-                    color="info"
-                    key={area.id}
-                    variant={
-                      values.intrest?.includes(area.id) ? "filled" : "outlined"
-                    }
-                    icon={values.intrest?.includes(area.id) ? <DoneIcon /> : ""}
-                    label={area.name}
-                    onClick={() => handleAddIntrestedArea(area)}
-                  />
-                ))}
-              </Grid>
-              <Grid item xs={12}>
-                {errors.intrest && (
-                  <Typography
-                    variant="subtitle1"
-                    color={theme.palette.error.main}
-                  >
-                    {errors.intrest}
-                  </Typography>
-                )}
-              </Grid>
             </Grid>
           </Stack>
           <Grid container justifyContent="flex-end" sx={{ p: 2 }}>
@@ -331,6 +412,7 @@ export default function SignUp() {
             </Grid>
           </Grid>
         </Paper>
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );

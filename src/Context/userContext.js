@@ -8,19 +8,24 @@ import {
 
 import { auth } from "../FireBase/Config";
 
-const userAuthContext = createContext();
+const userAuthContext = createContext({
+  user: null,
+  signIn: () => Promise,
+  signUp: () => Promise,
+  logOut: () => Promise,
+});
 
 export default function UserContextProvider({ children }) {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   //sign in firebase user
   function signIn(email, password) {
-    return signInWithEmailAndPassword(email, password);
+    return signInWithEmailAndPassword(auth, email, password);
   }
 
   //signup firebase user
   function signUp(email, password) {
-    return createUserWithEmailAndPassword(email, password);
+    return createUserWithEmailAndPassword(auth, email, password);
   }
 
   //logout firebase user
