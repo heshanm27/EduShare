@@ -19,12 +19,13 @@ import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
 import DoneIcon from "@mui/icons-material/Done";
 import { useEffect } from "react";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
 import { db } from "../../FireBase/Config";
 import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
 import CustomSelect from "../../Components/CustomSelect/CustomSelect";
 import { useUserAuthContext } from "../../Context/userContext";
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
+import { uploadImage } from "../../utility/UploadImage";
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -64,11 +65,14 @@ export default function SignUp() {
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
-  const [img, setImg] = useState();
+  const [img, setImg] = useState(null);
+  const [ProfileImage, setProfileImage] = useState(null);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
   const intrestedAreasColletionRef = collection(db, "intrestedAreas");
+
   const onImageChange = (e) => {
     const [file] = e.target.files;
+    setProfileImage(e.target.files[0]);
     setImg(URL.createObjectURL(file));
   };
 
@@ -142,6 +146,32 @@ export default function SignUp() {
       });
     }
   };
+
+  const addNewUser = async (userid) => {
+    if (validate()) {
+      let Url = "";
+      console.log(ProfileImage);
+      // if (ProfileImage !== null) {
+      //   console.log("work");
+      Url = await uploadImage(ProfileImage, "UsersAvatar");
+
+      // }
+      const userObj = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNo: values.phoneNo,
+        address: values.address,
+        city: values.city,
+        province: values.province,
+        education: values.education,
+        intrest: values.intrest,
+        img: Url,
+      };
+      console.log(userObj);
+      setDoc(doc(db, "users", userid), userObj);
+    }
+  };
+
   //handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -150,10 +180,12 @@ export default function SignUp() {
     if (validate()) {
       try {
         const userData = await signUp(values.email, values.password);
-        console.log(user);
-        console.log(userData);
+        const newUSer = await addNewUser(userData.user.uid);
+        console.log(newUSer);
+        console.log("currunt user" + user);
         setLoading(false);
       } catch (err) {
+        console.log(err);
         setLoading(false);
         setNotify({
           isOpen: true,
