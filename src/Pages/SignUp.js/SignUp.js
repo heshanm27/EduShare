@@ -7,6 +7,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {
+  Button,
   Chip,
   IconButton,
   Paper,
@@ -19,13 +20,15 @@ import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
 import DoneIcon from "@mui/icons-material/Done";
 import { useEffect } from "react";
-import { collection, getDocs, addDoc, setDoc, doc } from "firebase/firestore";
-import { db } from "../../FireBase/Config";
+import { collection, getDocs, setDoc, doc } from "firebase/firestore";
+import { auth, db } from "../../FireBase/Config";
 import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
 import CustomSelect from "../../Components/CustomSelect/CustomSelect";
-import { useUserAuthContext } from "../../Context/userContext";
+
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
 import { uploadImage } from "../../utility/UploadImage";
+import VerifiedIcon from "@mui/icons-material/Verified";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -61,7 +64,6 @@ const Education = [
 
 export default function SignUp() {
   const theme = useTheme();
-  const { signUp, user } = useUserAuthContext();
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
@@ -150,12 +152,10 @@ export default function SignUp() {
   const addNewUser = async (userid) => {
     if (validate()) {
       let Url = "";
-      console.log(ProfileImage);
-      // if (ProfileImage !== null) {
-      //   console.log("work");
-      Url = await uploadImage(ProfileImage, "UsersAvatar");
+      if (ProfileImage !== null) {
+        Url = await uploadImage(ProfileImage, "UsersAvatar");
+      }
 
-      // }
       const userObj = {
         firstName: values.firstName,
         lastName: values.lastName,
@@ -166,9 +166,9 @@ export default function SignUp() {
         education: values.education,
         intrest: values.intrest,
         img: Url,
+        userRole: "admin",
       };
-      console.log(userObj);
-      setDoc(doc(db, "users", userid), userObj);
+      setDoc(doc(db, "users", userid), userObj, { merge: true });
     }
   };
 
@@ -179,10 +179,12 @@ export default function SignUp() {
     //validate values
     if (validate()) {
       try {
-        const userData = await signUp(values.email, values.password);
-        const newUSer = await addNewUser(userData.user.uid);
-        console.log(newUSer);
-        console.log("currunt user" + user);
+        const userData = await createUserWithEmailAndPassword(
+          auth,
+          values.email,
+          values.password
+        );
+        await addNewUser(userData.user.uid);
         setLoading(false);
       } catch (err) {
         console.log(err);
@@ -366,11 +368,11 @@ export default function SignUp() {
                     variant="body1"
                     color={theme.palette.text.secondary}
                   >
-                    Intrested Areas*
+                    Intrested Areas*(Select minimum 3 intrested areas)
                   </Typography>
                 </Stack>
                 {intrestedAreas.map((area) => (
-                  <Tooltip title={area?.discription} arrow>
+                  <Tooltip key={area.id} title={area?.discription} arrow>
                     <Chip
                       sx={{ margin: 1 }}
                       color="info"
@@ -381,7 +383,11 @@ export default function SignUp() {
                           : "outlined"
                       }
                       icon={
-                        values.intrest?.includes(area.id) ? <DoneIcon /> : ""
+                        values.intrest?.includes(area.id) ? (
+                          <VerifiedIcon />
+                        ) : (
+                          <DoneIcon />
+                        )
                       }
                       label={area.name}
                       onClick={() => handleAddIntrestedArea(area)}

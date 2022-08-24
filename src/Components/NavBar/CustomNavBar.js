@@ -1,11 +1,13 @@
 import {
   AppBar,
+  Avatar,
   Button,
   Container,
   Drawer,
   IconButton,
   Link,
   ListItemText,
+  Menu,
   MenuItem,
   MenuList,
   Stack,
@@ -17,7 +19,10 @@ import React, { useEffect, useState } from "react";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { NavLinks } from "../../Constants/Constants";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import { auth } from "../../FireBase/Config";
 
 export default function CustomNavBar() {
   const theme = useTheme();
@@ -25,7 +30,22 @@ export default function CustomNavBar() {
   const [hash, setHash] = useState("");
   const [hide, setHide] = useState(false);
   const location = useLocation();
+  const [anchor, setAnchor] = useState(false);
+  const navigate = useNavigate();
+  const handleClick = (event) => {
+    setAnchor(event.currentTarget);
+  };
 
+  const handleClose = (path) => {
+    if (path === "logout") {
+      signOut(auth);
+      setAnchor(false);
+    } else {
+      navigate(path);
+      setAnchor(false);
+    }
+  };
+  const { curruntUser, isLoggedIn } = useSelector((state) => state.user);
   const navigateUsingMenu = (link) => {
     setOpen(false);
     const violation = document.getElementById(link.substring(1));
@@ -79,21 +99,42 @@ export default function CustomNavBar() {
                 </Typography>
               </Link>
             </Toolbar>
+
             <Stack alignItems="center" direction="row" spacing={1}>
               {!hide &&
                 NavLinks.map((link, index) => {
                   if (link.path === "signin") {
-                    return (
-                      <Button
-                        key={index}
-                        color="secondary"
-                        variant="contained"
-                        startIcon={link?.icon}
-                        href="/signin"
-                      >
-                        Sign In
-                      </Button>
-                    );
+                    switch (isLoggedIn) {
+                      case false:
+                        return (
+                          <Button
+                            key={index}
+                            color="secondary"
+                            variant="contained"
+                            startIcon={link?.icon}
+                            href="/signin"
+                          >
+                            Sign In
+                          </Button>
+                        );
+
+                      case true:
+                        return (
+                          <IconButton
+                            aria-label="delete"
+                            onClick={handleClick}
+                            size="large"
+                          >
+                            <Avatar
+                              alt="Remy Sharp"
+                              src={curruntUser.image ? curruntUser.image : ""}
+                            />
+                          </IconButton>
+                        );
+
+                      default:
+                        return null;
+                    }
                   } else {
                     return (
                       <Button
@@ -116,7 +157,28 @@ export default function CustomNavBar() {
           </Stack>
         </Container>
       </AppBar>
-
+      <Menu
+        id="simple-menu"
+        anchorEl={anchor}
+        keepMounted
+        open={anchor}
+        onClose={handleClose}
+      >
+        {curruntUser?.role != "admin" && (
+          <MenuItem onClick={() => handleClose("/profile")}>
+            My account
+          </MenuItem>
+        )}
+        {curruntUser?.role == "admin" && (
+          <MenuItem onClick={() => handleClose("/qualifications")}>
+            DashBord
+          </MenuItem>
+        )}
+        {curruntUser?.role == "org" && (
+          <MenuItem onClick={() => handleClose("/edu")}>DashBord</MenuItem>
+        )}
+        <MenuItem onClick={() => handleClose("logout")}>Logout</MenuItem>
+      </Menu>
       <AppBar
         elevation={0}
         sx={{

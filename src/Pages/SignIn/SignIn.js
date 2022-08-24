@@ -6,11 +6,15 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { Paper, Stack } from "@mui/material";
+import { Button, Paper, Stack } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
 import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
+
+import { Navigate, useNavigate } from "react-router-dom";
+import { auth } from "../../FireBase/Config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const initialValues = {
   email: "",
@@ -21,6 +25,7 @@ const initialValues = {
 export default function SignIn() {
   const [errors, setErrors] = useState(initialValues);
   const [values, setValues] = useState(initialValues);
+  const navigate = useNavigate();
 
   // const navigate = useNavigate();
 
@@ -67,6 +72,9 @@ export default function SignIn() {
     //validate values
     if (validate()) {
       //dispatch action to sign in user
+      await signInWithEmailAndPassword(auth, values.email, values.password);
+      console.log("logged in");
+      navigate("/edu", { replace: true });
     }
   };
 
@@ -134,6 +142,7 @@ export default function SignIn() {
                 sx={{ mt: 3, mb: 1 }}
                 size="large"
                 loadingPosition="center"
+                onClick={handleSubmit}
               >
                 Sign In
               </LoadingButton>
