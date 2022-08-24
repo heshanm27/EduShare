@@ -6,7 +6,7 @@ export default function ProtetedRoute({ roleRequired }) {
   const { curruntUser, isLoggedIn } = useSelector((state) => state.user);
 
   const auth = curruntUser;
-  const roleType = "org";
+  const roleType = curruntUser?.role;
   console.log("user", curruntUser?.role);
   const CheckRole = (role) => {
     return role === roleType ? <Outlet /> : <Navigate to="/signin" replace />;
