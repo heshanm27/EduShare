@@ -31,7 +31,6 @@ export default function CustomSelect(props) {
           name={name}
           value={value}
           onChange={handleChanges}
-          autoWidth
           label={label}
         >
           {options.map((option, index) => {

@@ -52,10 +52,13 @@ export default function CustomListCollapse(props) {
     >
       <Tooltip title={TitleText} placement="right" arrow>
         <ListItem button onClick={handleClick}>
-          <ListItemIcon sx={active && ActivePathIconStyle}>
+          <ListItemIcon sx={active ? ActivePathIconStyle : {}}>
             {TitleIcon}
           </ListItemIcon>
-          <ListItemText sx={active && ActivePathStyle} primary={TitleText} />
+          <ListItemText
+            sx={active ? ActivePathStyle : {}}
+            primary={TitleText}
+          />
 
           {open ? <ExpandLess /> : <ExpandMore />}
         </ListItem>

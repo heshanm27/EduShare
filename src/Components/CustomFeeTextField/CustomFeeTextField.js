@@ -1,7 +1,7 @@
 import { InputAdornment, TextField } from "@mui/material";
 import React from "react";
 
-export default function CustomTextField({
+export default function CustomFeeTextField({
   name,
   type,
   label,
@@ -25,6 +25,8 @@ export default function CustomTextField({
         name={name}
         type={type ? type : "text"}
         value={value}
+        min="0"
+        max="1000000"
         autoComplete={autoComplete ? autoComplete : "off"}
         error={error}
         helperText={errorsMsg ? errorsMsg : helptext}

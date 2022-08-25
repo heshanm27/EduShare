@@ -1,17 +1,14 @@
 import { InputAdornment, TextField } from "@mui/material";
 import React from "react";
 
-export default function CustomTextField({
+export default function CustomTextArea({
   name,
   type,
   label,
   error,
   errorsMsg,
   value,
-  autoComplete,
   handleChanges,
-  startIcon,
-  helptext,
 }) {
   return (
     <>
@@ -25,16 +22,10 @@ export default function CustomTextField({
         name={name}
         type={type ? type : "text"}
         value={value}
-        autoComplete={autoComplete ? autoComplete : "off"}
         error={error}
-        helperText={errorsMsg ? errorsMsg : helptext}
-        InputProps={
-          startIcon && {
-            startAdornment: (
-              <InputAdornment position="start">{startIcon}</InputAdornment>
-            ),
-          }
-        }
+        helperText={errorsMsg}
+        multiline
+        inputProps={{ style: { resize: "both" } }}
       />
     </>
   );

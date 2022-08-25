@@ -40,3 +40,10 @@ export const AboutVision = [
     btntext: "Register as Organization",
   },
 ];
+
+export const EducationLevel = [
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+  { value: "primary", label: "Primary" },
+];

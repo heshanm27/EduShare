@@ -18,7 +18,6 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
-import DoneIcon from "@mui/icons-material/Done";
 import { useEffect } from "react";
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../FireBase/Config";
@@ -27,6 +26,7 @@ import CustomSelect from "../../Components/CustomSelect/CustomSelect";
 
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
 import { uploadImage } from "../../utility/UploadImage";
+import DoneIcon from "@mui/icons-material/Done";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 const initialValues = {

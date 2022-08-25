@@ -50,7 +50,7 @@ function NavListitem({ label, icon, activeIcon, path, onClick }) {
           }
         }}
       >
-        <ListItemIcon sx={active && ActiveIconStyle}>
+        <ListItemIcon sx={active ? ActiveIconStyle : {}}>
           {active ? activeIcon : icon}
         </ListItemIcon>
         <ListItemText
