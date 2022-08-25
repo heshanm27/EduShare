@@ -1,17 +1,13 @@
 import {
-  Box,
-  Chip,
   Container,
   Grid,
   IconButton,
-  InputAdornment,
   Stack,
-  TextField,
   Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
-import { collection, getDocs } from "firebase/firestore";
+import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
 import CustomSelect from "../../CustomSelect/CustomSelect";
@@ -22,6 +18,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Thumbnail from "../../../Assets/images/EduShareThumbnail.jpg";
 import CustomTextArea from "../../CustomTextArea/CustomTextArea";
+import { uploadImage } from "../../../utility/UploadImage";
+import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
+
 const initialValues = {
   title: "",
   details: "",
@@ -30,10 +29,11 @@ const initialValues = {
   phoneNo: "",
   courseFee: 0,
   closingDate: "",
-  ThumbnailUrl: "",
+  ThumbnailUrl:
+    "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
 
-export default function EduationalForm({ updatevalues }) {
+export default function EduationalForm({ setNotify, updatevalues, setOpen }) {
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
@@ -123,9 +123,46 @@ export default function EduationalForm({ updatevalues }) {
   //handle submit
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+    setLoading(true);
     //validate values
     if (validate()) {
+      try {
+        let Url = "";
+        if (ThumbnailImage) {
+          Url = await uploadImage(ThumbnailImage, "EduationalTumbnail");
+        }
+
+        const PostObj = {
+          title: values.title,
+          details: values.details,
+          educationLevel: values.educationLevel,
+          intrest: values.intrest,
+          phoneNo: values.phoneNo,
+          courseFee: values.courseFee,
+          closingDate: values.closingDate,
+          ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
+          createdAt: Timestamp.fromDate(new Date()),
+        };
+        await addDoc(collection(db, "EduationalPost"), PostObj);
+        setLoading(false);
+        setOpen(false);
+        setNotify({
+          isOpen: true,
+          message: "Post added successfully",
+          type: "success",
+          title: "Success",
+        });
+      } catch (error) {
+        setNotify({
+          isOpen: true,
+          message: error.message,
+          type: "error",
+          title: "Error",
+        });
+        setLoading(false);
+      }
+    } else {
+      setLoading(false);
     }
   };
 
@@ -207,7 +244,7 @@ export default function EduationalForm({ updatevalues }) {
         </Grid>
         <Grid item xs={12}>
           {" "}
-          <CustomTextField
+          <CustomDatePicker
             autoComplete="date"
             errorsMsg={errors.closingDate}
             handleChanges={handleChanges}
@@ -250,6 +287,7 @@ export default function EduationalForm({ updatevalues }) {
             style={{ width: "500px", Height: "300px" }}
             src={img}
             loading="lazy"
+            alt="thumbnail"
           />
         </Grid>
         <Grid item xs={12}>

@@ -6,8 +6,17 @@ import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomTextField from "../../../Components/CustomTextField/CustomTextField";
 import EduationalForm from "../../../Components/Forms/EducationalForm/EduationalForm";
 import { MTableAction } from "material-table";
+import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
 export default function OppertunitesAdmin() {
   const [open, setOpen] = useState(false);
+  //customer snackbar props
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   // const [columns, setColumns] = useState([
   //   {
   //     field: "employeeId",
@@ -188,8 +197,9 @@ export default function OppertunitesAdmin() {
         setOpen={setOpen}
         title="Post New Eduational Opportunities"
       >
-        <EduationalForm />
+        <EduationalForm setNotify={setNotify} setOpen={setOpen} />
       </CustomeDialog>
+      <CustomSnackBar notify={notify} setNotify={setNotify} />
     </>
   );
 }
