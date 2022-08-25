@@ -8,11 +8,18 @@ import EduationalForm from "../../../Components/Forms/EducationalForm/Eduational
 import { MTableAction } from "material-table";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
 import { useEffect } from "react";
-import { collection, onSnapshot, query, where } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
 export default function OppertunitesAdmin() {
   const [open, setOpen] = useState(false);
-
+  const [updateValue, setUpdateValue] = useState(null);
   const [FullData, setFullData] = useState([]);
   const [loading, setLoading] = useState(true);
   //customer snackbar props
@@ -58,6 +65,11 @@ export default function OppertunitesAdmin() {
       type: "currency",
     },
   ];
+
+  const updateOpenPopup = (data) => {
+    setUpdateValue(data);
+    setOpen(true);
+  };
   useEffect(() => {
     const q = query(collection(db, "EduationalPost"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
@@ -89,8 +101,25 @@ export default function OppertunitesAdmin() {
           data={FullData}
           editable={{
             onRowDelete: (oldData) =>
-              new Promise((resolve, reject) => {
-                resolve();
+              new Promise(async (resolve, reject) => {
+                try {
+                  await deleteDoc(doc(db, "EduationalPost", oldData.id));
+                  setNotify({
+                    isOpen: true,
+                    message: "Post deleted successfully",
+                    type: "success",
+                    title: "Deleted",
+                  });
+                  resolve();
+                } catch (error) {
+                  setNotify({
+                    isOpen: true,
+                    message: error.message,
+                    type: "error",
+                    title: "Error",
+                  });
+                  reject();
+                }
               }),
           }}
           actions={[
@@ -103,7 +132,7 @@ export default function OppertunitesAdmin() {
             {
               icon: "edit",
               tooltip: "Edit Post",
-              onClick: (event, rowData) => setOpen(true),
+              onClick: (event, rowData) => updateOpenPopup(rowData),
             },
           ]}
           components={{
@@ -131,7 +160,12 @@ export default function OppertunitesAdmin() {
         setOpen={setOpen}
         title="Post New Eduational Opportunities"
       >
-        <EduationalForm setNotify={setNotify} setOpen={setOpen} />
+        <EduationalForm
+          setNotify={setNotify}
+          setOpen={setOpen}
+          updateValue={updateValue}
+          setUpdateValue={setUpdateValue}
+        />
       </CustomeDialog>
       <CustomSnackBar notify={notify} setNotify={setNotify} />
     </>

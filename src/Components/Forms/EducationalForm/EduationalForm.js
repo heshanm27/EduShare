@@ -33,7 +33,12 @@ const initialValues = {
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
 
-export default function EduationalForm({ setNotify, updatevalues, setOpen }) {
+export default function EduationalForm({
+  setNotify,
+  updateValue,
+  setOpen,
+  setUpdateValue,
+}) {
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
@@ -94,12 +99,15 @@ export default function EduationalForm({ setNotify, updatevalues, setOpen }) {
     };
     getIntrestedArea();
 
-    if (updatevalues) {
-      setValues({
-        ...values,
-        intrest: updatevalues.intrest,
-      });
+    if (updateValue) {
+      setValues(updateValue);
+      setImg(updateValue.ThumbnailUrl);
     }
+    return () => {
+      setValues(initialValues);
+      setErrors(initialValues);
+      setUpdateValue(null);
+    };
   }, []);
 
   /**
@@ -291,18 +299,33 @@ export default function EduationalForm({ setNotify, updatevalues, setOpen }) {
           />
         </Grid>
         <Grid item xs={12}>
-          <LoadingButton
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3 }}
-            loading={loading}
-            size="large"
-            loadingPosition="center"
-            onClick={handleSubmit}
-          >
-            Post
-          </LoadingButton>{" "}
+          {updateValue ? (
+            <LoadingButton
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3 }}
+              loading={loading}
+              size="large"
+              loadingPosition="center"
+              onClick={handleSubmit}
+            >
+              Update Post
+            </LoadingButton>
+          ) : (
+            <LoadingButton
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3 }}
+              loading={loading}
+              size="large"
+              loadingPosition="center"
+              onClick={handleSubmit}
+            >
+              Post
+            </LoadingButton>
+          )}
         </Grid>
       </Grid>
     </Container>
