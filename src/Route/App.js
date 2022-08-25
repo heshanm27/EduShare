@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import CustomDrawer from "../Components/Drawer/CustomDrawer";
 
 import Landing from "../Pages/Landing/Landing";
@@ -7,7 +7,6 @@ import NotFound from "../Pages/NotFound/NotFound";
 import EducationalOrg from "../Pages/Organization/Educational/Educational";
 import DonationOrg from "../Pages/Organization/Donation/Donation";
 import VoluntterOrg from "../Pages/Organization/Voluntter/Voluntter";
-import Organization from "../Pages/Organization/Organization";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
 import UserProfile from "../Pages/UserProfile/UserProfile";
@@ -16,6 +15,12 @@ import Qualifications from "../Pages/Admin/Qualifications/Qualifications";
 import InterestedAreas from "../Pages/Admin/InterestedAreas/InterestedAreas";
 import AdminReports from "../Pages/Admin/Reports/AdminReports";
 
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect } from "react";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../FireBase/Config";
+import { setCurruentUser, unsetCurruntUser } from "../Redux/userSlice";
+import { useDispatch } from "react-redux";
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,12 +38,36 @@ const theme = createTheme({
 
 function App() {
   const loader = document.querySelector(".centerdiv");
+  const dispatch = useDispatch();
 
   const hideLoader = () => {
     console.log(loader);
     loader.style.display = "none";
   };
   window.addEventListener("load", hideLoader);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      const UserDetails = {};
+      if (user) {
+        const docRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists) {
+          UserDetails.id = user.uid;
+          UserDetails.name = docSnap.data().firstName;
+          UserDetails.email = user.email;
+          UserDetails.image = docSnap.data().img;
+          UserDetails.role = docSnap.data().userRole;
+        }
+        dispatch(setCurruentUser(UserDetails));
+      } else {
+        dispatch(unsetCurruntUser(user));
+      }
+    });
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   return (
     <ThemeProvider theme={theme}>

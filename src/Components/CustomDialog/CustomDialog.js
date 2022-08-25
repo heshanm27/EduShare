@@ -16,7 +16,7 @@ export default function CustomeDialog({ open, setOpen, children, title }) {
   //style objects
   const displaywraper = {
     position: "absolute",
-    top: 10,
+    top: 2,
   };
 
   const iconbtn = {

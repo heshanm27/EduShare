@@ -11,8 +11,17 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { List, Tooltip, useMediaQuery } from "@mui/material";
-import { Outlet } from "react-router-dom";
+import {
+  Avatar,
+  List,
+  Tooltip,
+  useMediaQuery,
+  Container,
+  Stack,
+  Menu,
+  MenuItem,
+} from "@mui/material";
+import { Outlet, useNavigate } from "react-router-dom";
 import CustomListCollapse from "./CustomListCollapse";
 import SchoolIcon from "@mui/icons-material/School";
 import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
@@ -27,6 +36,10 @@ import {
   AdminRoutes,
 } from "./DrawerRoutes";
 import NavListitem from "./NavListitem";
+import { useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import { auth } from "../../FireBase/Config";
+
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -101,10 +114,12 @@ const Drawer = styled(MuiDrawer)(({ theme, open }) => ({
 
 export default function CustomDrawer() {
   const theme = useTheme();
-  const [user, setUser] = useState("admin");
+
+  const { curruntUser, isLoggedIn } = useSelector((state) => state.user);
   const reslution = useMediaQuery(theme.breakpoints.down("sm"));
   const [open, setOpen] = useState(reslution ? false : true);
-
+  const [anchor, setAnchor] = useState(false);
+  const navigate = useNavigate();
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -117,6 +132,20 @@ export default function CustomDrawer() {
     //if resultion match only drawer auto lose when clik button
     if (reslution) {
       setOpen(false);
+    }
+  };
+
+  const handleClick = (event) => {
+    setAnchor(event.currentTarget);
+  };
+
+  const handleClose = (path) => {
+    if (path === "logout") {
+      signOut(auth);
+      setAnchor(false);
+    } else {
+      navigate(path);
+      setAnchor(false);
     }
   };
 
@@ -139,9 +168,27 @@ export default function CustomDrawer() {
               <MenuIcon />
             </IconButton>
           </Tooltip>
-          <Typography variant="h6" noWrap component="div">
-            Mini variant drawer
-          </Typography>
+          <Container maxWidth="xl">
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Typography variant="h6" noWrap component="div">
+                Hello! {curruntUser.name}
+              </Typography>
+              <IconButton
+                aria-label="delete"
+                onClick={handleClick}
+                size="large"
+              >
+                <Avatar
+                  alt="Remy Sharp"
+                  src={curruntUser.image ? curruntUser.image : ""}
+                />
+              </IconButton>
+            </Stack>
+          </Container>
         </Toolbar>
       </AppBar>
       <Drawer variant={reslution ? "temporary" : "permanent"} open={open}>
@@ -168,7 +215,7 @@ export default function CustomDrawer() {
             flex: 1,
           }}
         >
-          {user === "org" && (
+          {curruntUser?.role === "org" && (
             <>
               <CustomListCollapse
                 TitleIcon={<SchoolIcon />}
@@ -205,7 +252,7 @@ export default function CustomDrawer() {
             </>
           )}
 
-          {user === "admin" && (
+          {curruntUser?.role === "admin" && (
             <>
               <CustomListCollapse
                 TitleIcon={<VolunteerActivismIcon />}
@@ -214,7 +261,7 @@ export default function CustomDrawer() {
                 ListItems={AdminRoutes}
                 onclicks={closeNavigation}
                 DrawerStatus={open}
-                path="/qualifications"
+                path="/interested"
               />
               <Divider />
               <CustomListCollapse
@@ -238,6 +285,21 @@ export default function CustomDrawer() {
             path="logout"
           />
         </List>
+
+        <Menu
+          id="simple-menu"
+          anchorEl={anchor}
+          keepMounted
+          open={anchor}
+          onClose={handleClose}
+        >
+          {curruntUser?.role != "admin" && (
+            <MenuItem onClick={() => handleClose("/profile")}>
+              My account
+            </MenuItem>
+          )}
+          <MenuItem onClick={() => handleClose("logout")}>Logout</MenuItem>
+        </Menu>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
         <Outlet />

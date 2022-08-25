@@ -1,7 +1,7 @@
-import { InputAdornment, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import React from "react";
 
-export default function CustomTextField({
+export default function CustomDatePicker({
   name,
   type,
   label,
@@ -10,7 +10,6 @@ export default function CustomTextField({
   value,
   autoComplete,
   handleChanges,
-  startIcon,
   helptext,
 }) {
   return (
@@ -28,13 +27,9 @@ export default function CustomTextField({
         autoComplete={autoComplete ? autoComplete : "off"}
         error={error}
         helperText={errorsMsg ? errorsMsg : helptext}
-        InputProps={
-          startIcon && {
-            startAdornment: (
-              <InputAdornment position="start">{startIcon}</InputAdornment>
-            ),
-          }
-        }
+        inputProps={{
+          min: new Date().toISOString().split("T")[0],
+        }}
       />
     </>
   );

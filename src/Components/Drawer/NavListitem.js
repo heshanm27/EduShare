@@ -5,8 +5,10 @@ import {
   Tooltip,
   useTheme,
 } from "@mui/material";
+import { signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { auth } from "../../FireBase/Config";
 
 function NavListitem({ label, icon, activeIcon, path, onClick }) {
   const [active, setActive] = useState(true);
@@ -41,14 +43,14 @@ function NavListitem({ label, icon, activeIcon, path, onClick }) {
         sx={active ? ActiveMenuIteStyle : NormalMenuItemStyle}
         onClick={() => {
           if (path === "logout") {
-            navigate("/login");
+            signOut(auth);
           } else {
             onClick();
             navigate(path);
           }
         }}
       >
-        <ListItemIcon sx={active && ActiveIconStyle}>
+        <ListItemIcon sx={active ? ActiveIconStyle : {}}>
           {active ? activeIcon : icon}
         </ListItemIcon>
         <ListItemText
