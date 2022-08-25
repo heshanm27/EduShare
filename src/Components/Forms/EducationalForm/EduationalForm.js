@@ -138,7 +138,7 @@ export default function EduationalForm({ setNotify, updatevalues, setOpen }) {
           educationLevel: values.educationLevel,
           intrest: values.intrest,
           phoneNo: values.phoneNo,
-          courseFee: values.courseFee,
+          courseFee: Number(values.courseFee),
           closingDate: values.closingDate,
           ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
           createdAt: Timestamp.fromDate(new Date()),
