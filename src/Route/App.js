@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from "@mui/material";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import CustomDrawer from "../Components/Drawer/CustomDrawer";
 
 import Landing from "../Pages/Landing/Landing";
@@ -20,7 +20,8 @@ import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../FireBase/Config";
 import { setCurruentUser, unsetCurruntUser } from "../Redux/userSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -39,12 +40,24 @@ const theme = createTheme({
 function App() {
   const loader = document.querySelector(".centerdiv");
   const dispatch = useDispatch();
-
+  const { curruntUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const hideLoader = () => {
     console.log(loader);
     loader.style.display = "none";
   };
   window.addEventListener("load", hideLoader);
+
+  const routeChangeToUSer = () => {
+    switch (curruntUser?.role) {
+      case "admin":
+        return "/qualifications";
+      case "org":
+        return "/edu";
+      default:
+        return "/";
+    }
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -59,6 +72,7 @@ function App() {
           UserDetails.image = docSnap.data().img;
           UserDetails.role = docSnap.data().userRole;
         }
+
         dispatch(setCurruentUser(UserDetails));
       } else {
         dispatch(unsetCurruntUser(user));
@@ -74,8 +88,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/signin" element={<SignIn />} />
-
+        <Route
+          path="/signin"
+          element={
+            curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
+          }
+        />
         <Route element={<ProtetedRoute />}>
           <Route path="/user" element={<UserProfile />} />
 

@@ -124,6 +124,7 @@ export default function CustomNavBar() {
                             aria-label="delete"
                             onClick={handleClick}
                             size="large"
+                            key={index}
                           >
                             <Avatar
                               alt="Remy Sharp"

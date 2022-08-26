@@ -39,7 +39,8 @@ import NavListitem from "./NavListitem";
 import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../../FireBase/Config";
-
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -255,7 +256,7 @@ export default function CustomDrawer() {
           {curruntUser?.role === "admin" && (
             <>
               <CustomListCollapse
-                TitleIcon={<VolunteerActivismIcon />}
+                TitleIcon={<AdminPanelSettingsIcon />}
                 TitleText="Form Controll"
                 Subheader="Admin Setting"
                 ListItems={AdminRoutes}
@@ -265,7 +266,7 @@ export default function CustomDrawer() {
               />
               <Divider />
               <CustomListCollapse
-                TitleIcon={<VolunteerActivismIcon />}
+                TitleIcon={<AssessmentIcon />}
                 TitleText="Analytics"
                 Subheader="Analytics Reports"
                 ListItems={AdminReportRoutes}

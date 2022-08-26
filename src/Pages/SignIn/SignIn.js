@@ -11,7 +11,7 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
 import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../FireBase/Config";
 import { signInWithEmailAndPassword } from "firebase/auth";
@@ -28,7 +28,7 @@ export default function SignIn() {
   const [values, setValues] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { curruntUser } = useSelector((state) => state.user);
+  const { isLoading } = useSelector((state) => state.user);
 
   //customer snackbar props
   const [notify, setNotify] = useState({
@@ -73,20 +73,13 @@ export default function SignIn() {
     //validate values
     if (validate()) {
       //dispatch action to sign in user
-
       try {
+        console.log("before signin" + isLoading);
         await signInWithEmailAndPassword(auth, values.email, values.password);
+
+        console.log("sign in success");
+        navigate("/edu", { replace: true });
         setLoading(false);
-        switch (curruntUser?.role) {
-          case "admin":
-            navigate("/qualifications", { replace: true });
-            break;
-          case "org":
-            navigate("/edu", { replace: true });
-            break;
-          default:
-            break;
-        }
       } catch (error) {
         setNotify({
           isOpen: true,

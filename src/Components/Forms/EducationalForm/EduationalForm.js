@@ -20,7 +20,7 @@ import Thumbnail from "../../../Assets/images/EduShareThumbnail.jpg";
 import CustomTextArea from "../../CustomTextArea/CustomTextArea";
 import { uploadImage } from "../../../utility/UploadImage";
 import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
-
+import { useSelector } from "react-redux";
 const initialValues = {
   title: "",
   details: "",
@@ -44,10 +44,11 @@ export default function EduationalForm({
   const [values, setValues] = useState(initialValues);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
   const intrestedAreasColletionRef = collection(db, "intrestedAreas");
+  const userColletionRef = collection(db, "users");
   const theme = useTheme();
   const [img, setImg] = useState(Thumbnail);
   const [ThumbnailImage, setThumbnailImage] = useState(null);
-
+  const { curruntUser } = useSelector((state) => state.user);
   const handleAddIntrestedArea = (area) => {
     if (values.intrest.includes(area.id)) {
       setValues({
@@ -161,6 +162,7 @@ export default function EduationalForm({
           title: "Success",
         });
       } catch (error) {
+        console.log(error);
         setNotify({
           isOpen: true,
           message: error.message,
