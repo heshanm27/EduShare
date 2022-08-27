@@ -14,13 +14,13 @@ import ProtetedRoute from "./ProtetedRoute";
 import Qualifications from "../Pages/Admin/Qualifications/Qualifications";
 import InterestedAreas from "../Pages/Admin/InterestedAreas/InterestedAreas";
 import AdminReports from "../Pages/Admin/Reports/AdminReports";
-
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { auth, db } from "../FireBase/Config";
 import { setCurruentUser, unsetCurruntUser } from "../Redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import UserEduFeed from "../Pages/User/UserEduFeed/UserEduFeed";
 
 const theme = createTheme({
   palette: {
@@ -54,6 +54,8 @@ function App() {
         return "/qualifications";
       case "org":
         return "/edu";
+      case "user":
+        return "/eduFeed";
       default:
         return "/";
     }
@@ -95,8 +97,10 @@ function App() {
           }
         />
         <Route element={<ProtetedRoute />}>
-          <Route path="/user" element={<UserProfile />} />
-
+          <Route element={<ProtetedRoute roleRequired="user" />}>
+            <Route path="/user" element={<UserProfile />} />
+            <Route path="/edufeed" element={<UserEduFeed />} />
+          </Route>
           {/* adminRoute */}
           <Route element={<CustomDrawer />}>
             <Route element={<ProtetedRoute roleRequired="admin" />}>

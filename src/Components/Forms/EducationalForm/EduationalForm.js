@@ -7,7 +7,13 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import { addDoc, collection, getDocs, Timestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  getDocs,
+  Timestamp,
+  doc,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
 import CustomSelect from "../../CustomSelect/CustomSelect";
@@ -151,6 +157,7 @@ export default function EduationalForm({
           closingDate: values.closingDate,
           ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
           createdAt: Timestamp.fromDate(new Date()),
+          createdByRef: doc(userColletionRef, curruntUser.id),
         };
         await addDoc(collection(db, "EduationalPost"), PostObj);
         setLoading(false);

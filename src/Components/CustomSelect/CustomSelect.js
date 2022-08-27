@@ -7,22 +7,23 @@ import {
 } from "@mui/material";
 import React from "react";
 
-export default function CustomSelect(props) {
-  const {
-    name,
-    label,
-    error,
-    errorsMsg,
-    value,
-    handleChanges,
-    options,
-    width,
-  } = props;
+export default function CustomSelect({
+  name,
+  label,
+  error,
+  errorsMsg,
+  value,
+  handleChanges,
+  options,
+  width,
+  variant,
+}) {
   return (
     <>
       <FormControl
         sx={{ m: 1, minWidth: width ? width : 120 }}
         error={error ? true : false}
+        variant={variant ? variant : "outlined"}
       >
         <InputLabel id="custom-select">{label}</InputLabel>
         <Select
@@ -32,6 +33,7 @@ export default function CustomSelect(props) {
           value={value}
           onChange={handleChanges}
           label={label}
+          defaultValue={options[0]}
         >
           {options.map((option, index) => {
             return (
