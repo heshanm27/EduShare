@@ -17,6 +17,7 @@ import {
   onSnapshot,
   orderBy,
   query,
+  startAt,
   where,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
@@ -74,10 +75,20 @@ export default function UserEduFeed() {
 
   useEffect(() => {
     setLoading(true);
-    let q = query(
-      collection(db, "EduationalPost"),
-      orderBy(filter, orderDirections)
-    );
+    let q;
+    if (search) {
+      q = query(
+        collection(db, "EduationalPost"),
+        orderBy(filter, orderDirections),
+        where("title", "==", search)
+      );
+    } else {
+      q = query(
+        collection(db, "EduationalPost"),
+        orderBy(filter, orderDirections)
+      );
+    }
+
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
