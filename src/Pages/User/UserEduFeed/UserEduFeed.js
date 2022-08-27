@@ -1,6 +1,4 @@
 import {
-  Box,
-  CircularProgress,
   Container,
   FormControl,
   Grid,
@@ -8,16 +6,19 @@ import {
   Input,
   InputAdornment,
   InputLabel,
-  MenuItem,
   Paper,
-  Select,
-  Skeleton,
   Stack,
   Tooltip,
   Typography,
   useTheme,
 } from "@mui/material";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import CustomCard from "../../../Components/CustomCard/CustomCard";
 import { db } from "../../../FireBase/Config";
@@ -30,18 +31,53 @@ import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSke
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [filter, setFilter] = useState("");
+  const [filter, setFilter] = useState("createdAt");
+  const [filterSelect, setfilterSelect] = useState("new");
+  const [orderDirections, setOrderDirections] = useState("asc");
   const theme = useTheme();
   const [search, setSearch] = useState("");
 
   const handleChanges = (e) => {
     const { value } = e.target;
-    setFilter(value);
+    console.log(value);
+    switch (value) {
+      case "old":
+        setfilterSelect("old");
+        setOrderDirections("asc");
+        setFilter("createdAt");
+        break;
+      case "lowprice":
+        setfilterSelect("lowprice");
+        setOrderDirections("asc");
+        setFilter("courseFee");
+        break;
+      case "highprice":
+        setfilterSelect("highprice");
+        setOrderDirections("desc");
+        setFilter("courseFee");
+        break;
+      default:
+        setfilterSelect("new");
+        setOrderDirections("desc");
+        setFilter("createdAt");
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    console.log(e.target.value);
+    let q = query(
+      collection(db, "EduationalPost"),
+      where("title", "==", search)
+    );
   };
 
   useEffect(() => {
     setLoading(true);
-    const q = query(collection(db, "EduationalPost"));
+    let q = query(
+      collection(db, "EduationalPost"),
+      orderBy(filter, orderDirections)
+    );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
@@ -54,7 +90,8 @@ export default function UserEduFeed() {
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [filter, orderDirections, search]);
+
   return (
     <>
       <Container maxWidth="xl">
@@ -91,9 +128,7 @@ export default function UserEduFeed() {
                       id="standard-adornment-search"
                       placeholder="Search by Title"
                       value={search}
-                      onChange={(e) => {
-                        setSearch(e.target.value);
-                      }}
+                      onChange={handleSearch}
                       endAdornment={
                         <InputAdornment position="end">
                           <Tooltip title="Search">
@@ -118,8 +153,8 @@ export default function UserEduFeed() {
                 <Grid item xs={12} sm={4}>
                   <CustomSelect
                     handleChanges={handleChanges}
-                    label="Province"
-                    value={filter}
+                    label="Filter By"
+                    value={filterSelect}
                     name="filter"
                     width="100%"
                     options={FilterTypes}
@@ -149,7 +184,7 @@ export default function UserEduFeed() {
                   sx={{ mt: { xs: 5, sm: 5 } }}
                 >
                   <Stack justifyContent="center" alignItems="center">
-                    <CustomCard />
+                    <CustomCard data={item} />
                   </Stack>
                 </Grid>
               ))}

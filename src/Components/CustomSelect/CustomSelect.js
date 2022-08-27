@@ -33,7 +33,6 @@ export default function CustomSelect({
           value={value}
           onChange={handleChanges}
           label={label}
-          defaultValue={options[0]}
         >
           {options.map((option, index) => {
             return (

@@ -51,7 +51,6 @@ export const EducationLevel = [
 export const FilterTypes = [
   { value: "new", label: "Newest" },
   { value: "old", label: "Oldest" },
-  { value: "free", label: "Free" },
   { value: "lowprice", label: "Low Price" },
   { value: "highprice", label: "High Price" },
 ];

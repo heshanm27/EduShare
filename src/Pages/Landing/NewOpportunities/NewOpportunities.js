@@ -27,7 +27,7 @@ export default function NewOpportunities() {
           return (
             <Grid item sm={12} md={6} key={index} sx={{ mt: { xs: 5, sm: 5 } }}>
               <Stack justifyContent="center" alignItems="center">
-                <CustomCard />
+                {/* <CustomCard /> */}
               </Stack>
             </Grid>
           );
