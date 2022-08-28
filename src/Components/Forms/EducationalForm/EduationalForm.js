@@ -156,6 +156,7 @@ export default function EduationalForm({
           courseFee: Number(values.courseFee),
           closingDate: values.closingDate,
           ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
+          searchTags: values.title.toLowerCase(),
           createdAt: Timestamp.fromDate(new Date()),
           createdByRef: doc(userColletionRef, curruntUser.id),
         };

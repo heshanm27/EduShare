@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import {
   collection,
+  endAt,
   onSnapshot,
   orderBy,
   query,
@@ -66,11 +67,6 @@ export default function UserEduFeed() {
 
   const handleSearch = (e) => {
     setSearch(e.target.value);
-    console.log(e.target.value);
-    let q = query(
-      collection(db, "EduationalPost"),
-      where("title", "==", search)
-    );
   };
 
   useEffect(() => {
@@ -79,8 +75,9 @@ export default function UserEduFeed() {
     if (search) {
       q = query(
         collection(db, "EduationalPost"),
-        orderBy(filter, orderDirections),
-        where("title", "==", search)
+        orderBy("title"),
+        startAt(search),
+        endAt(search + "\uf8ff")
       );
     } else {
       q = query(
