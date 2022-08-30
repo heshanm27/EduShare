@@ -55,16 +55,17 @@ export default function EduationalForm({
   const [img, setImg] = useState(Thumbnail);
   const [ThumbnailImage, setThumbnailImage] = useState(null);
   const { curruntUser } = useSelector((state) => state.user);
+
   const handleAddIntrestedArea = (area) => {
-    if (values.intrest.includes(area.id)) {
+    if (values.intrest.includes(area.name)) {
       setValues({
         ...values,
-        intrest: values.intrest.filter((x) => x !== area.id),
+        intrest: values.intrest.filter((x) => x !== area.name),
       });
     } else {
       setValues({
         ...values,
-        intrest: [...values.intrest, area.id],
+        intrest: [...values.intrest, area.name],
       });
     }
   };
@@ -137,6 +138,10 @@ export default function EduationalForm({
 
   //handle submit
   const handleSubmit = async (event) => {
+    const curruntUserDetails = {};
+    curruntUserDetails.id = curruntUser.id;
+    curruntUserDetails.name = curruntUser.name;
+    curruntUserDetails.image = curruntUser.image;
     event.preventDefault();
     setLoading(true);
     //validate values
@@ -158,7 +163,7 @@ export default function EduationalForm({
           ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
           searchTags: values.title.toLowerCase(),
           createdAt: Timestamp.fromDate(new Date()),
-          createdByRef: doc(userColletionRef, curruntUser.id),
+          createdBy: curruntUserDetails,
         };
         await addDoc(collection(db, "EduationalPost"), PostObj);
         setLoading(false);

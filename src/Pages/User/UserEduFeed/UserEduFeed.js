@@ -15,6 +15,7 @@ import {
 import {
   collection,
   endAt,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -86,10 +87,11 @@ export default function UserEduFeed() {
       );
     }
 
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
       const postData = [];
-      querySnapshot.forEach((doc) => {
-        postData.push({ ...doc.data(), id: doc.id });
+      querySnapshot.forEach(async (doc) => {
+        let newPost = { ...doc.data(), id: doc.id };
+        postData.push(newPost);
       });
       setEduPosts(postData);
       setLoading(false);
@@ -99,7 +101,7 @@ export default function UserEduFeed() {
       unsubscribe();
     };
   }, [filter, orderDirections, search]);
-
+  console.log(eduPosts);
   return (
     <>
       <Container maxWidth="xl">

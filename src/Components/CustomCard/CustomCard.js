@@ -9,6 +9,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
+import moment from "moment";
 import React from "react";
 
 export default function CustomCard({ data }) {
@@ -24,16 +25,28 @@ export default function CustomCard({ data }) {
                 aria-label="postCard"
                 alt="posted Org"
                 sx={{ width: 80, height: 80 }}
-                src="https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FLogo.png?alt=media&token=f7914701-962d-4f22-a07c-8bc4eb3f3017"
+                src={
+                  data.createdBy
+                    ? data.createdBy.image
+                    : "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FLogo.png?alt=media&token=f7914701-962d-4f22-a07c-8bc4eb3f3017"
+                }
               />
             }
-            title="Sri Lanka Institute of Information Technology"
-            subheader="September 14, 2016"
+            title={data.createdBy ? data.createdBy.name : "example"}
+            subheader={
+              data
+                ? "Posted " + moment(data.createdAt.toDate()).fromNow()
+                : "Posted " + "September 14, 2016"
+            }
           />
           <CardMedia
             component="img"
             height="194"
-            image="https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5"
+            image={
+              data
+                ? data.ThumbnailUrl
+                : "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5"
+            }
             alt="Paella dish"
           />
           <CardContent>
@@ -47,15 +60,7 @@ export default function CustomCard({ data }) {
               align="justify"
               gutterBottom
             >
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industry's standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book. It has
-              survived not only five centuries, but also the leap into
-              electronic typesetting, remaining essentially unchanged. It was
-              popularised in the 1960s with the release of Letraset sheets
-              containing Lorem Ipsum passages, and more recently with desktop
-              publishing software like Aldus PageMaker including versions of
+              {data && data.details}
               Lorem Ipsum.
             </Typography>
           </CardContent>

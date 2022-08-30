@@ -136,15 +136,17 @@ export default function SignUp() {
   };
 
   const handleAddIntrestedArea = (area) => {
-    if (values.intrest.includes(area.id)) {
+    console.log(values.intrest);
+    console.log(area);
+    if (values.intrest.includes(area.name)) {
       setValues({
         ...values,
-        intrest: values.intrest.filter((x) => x !== area.id),
+        intrest: values.intrest.filter((x) => x !== area.name),
       });
     } else {
       setValues({
         ...values,
-        intrest: [...values.intrest, area.id],
+        intrest: [...values.intrest, area.name],
       });
     }
   };
@@ -378,12 +380,12 @@ export default function SignUp() {
                       color="info"
                       key={area.id}
                       variant={
-                        values.intrest?.includes(area.id)
+                        values.intrest?.includes(area.name)
                           ? "filled"
                           : "outlined"
                       }
                       icon={
-                        values.intrest?.includes(area.id) ? (
+                        values.intrest?.includes(area.name) ? (
                           <VerifiedIcon />
                         ) : (
                           <DoneIcon />

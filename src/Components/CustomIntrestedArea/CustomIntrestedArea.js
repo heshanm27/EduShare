@@ -36,10 +36,10 @@ export default function CustomIntrestedArea({
               color="info"
               key={area.id}
               variant={
-                values.intrest?.includes(area.id) ? "filled" : "outlined"
+                values.intrest?.includes(area.name) ? "filled" : "outlined"
               }
               icon={
-                values.intrest?.includes(area.id) ? (
+                values.intrest?.includes(area.name) ? (
                   <VerifiedIcon />
                 ) : (
                   <DoneIcon />
