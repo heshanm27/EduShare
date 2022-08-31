@@ -5,26 +5,27 @@ import {
   CardContent,
   CardHeader,
   CardMedia,
+  Chip,
   Typography,
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import moment from "moment";
 import React from "react";
-
-export default function CustomCard({ data }) {
+import TagIcon from "@mui/icons-material/Tag";
+export default function CustomCard({ data, handleCardClick }) {
   const theme = useTheme();
 
   return (
     <motion.div whileHover={{ scale: 1.1 }}>
-      <Card sx={{ maxWidth: 345 }}>
-        <CardActionArea onClick={() => alert("licked")}>
+      <Card sx={{ maxWidth: 400, maxHeight: 645 }}>
+        <CardActionArea onClick={handleCardClick}>
           <CardHeader
             avatar={
               <Avatar
                 aria-label="postCard"
                 alt="posted Org"
-                sx={{ width: 80, height: 80 }}
+                sx={{ width: 50, height: 50 }}
                 src={
                   data.createdBy
                     ? data.createdBy.image
@@ -35,8 +36,8 @@ export default function CustomCard({ data }) {
             title={data.createdBy ? data.createdBy.name : "example"}
             subheader={
               data
-                ? "Posted " + moment(data.createdAt.toDate()).fromNow()
-                : "Posted " + "September 14, 2016"
+                ? "posted " + moment(data.createdAt.toDate()).fromNow()
+                : "posted " + "September 14, 2016"
             }
           />
           <CardMedia
@@ -49,10 +50,9 @@ export default function CustomCard({ data }) {
             }
             alt="Paella dish"
           />
-          <CardContent>
-            <Typography gutterBottom variant="h6" component="div">
+          <CardContent sx={{ height: 200 }}>
+            <Typography gutterBottom variant="button" component="div">
               {data.title}
-              {data.courseFee}
             </Typography>
             <Typography
               variant="body2"
@@ -61,8 +61,41 @@ export default function CustomCard({ data }) {
               gutterBottom
             >
               {data && data.details}
-              Lorem Ipsum.
             </Typography>
+          </CardContent>
+          <CardContent>
+            Course fee - :
+            {data && data.courseFee > 0 ? (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="justify"
+                gutterBottom
+              >
+                {"$" + data.courseFee}
+              </Typography>
+            ) : (
+              <Chip
+                color="success"
+                label="Free"
+                size="small"
+                sx={{ p: 1, m: 0.5 }}
+              />
+            )}
+            <br />
+            {data &&
+              data.intrest.map((intrest) => {
+                return (
+                  <Chip
+                    color="info"
+                    label={intrest}
+                    key={intrest}
+                    size="small"
+                    sx={{ p: 1, m: 0.5 }}
+                    icon={<TagIcon />}
+                  />
+                );
+              })}
           </CardContent>
         </CardActionArea>
       </Card>

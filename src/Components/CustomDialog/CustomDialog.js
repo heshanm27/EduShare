@@ -5,14 +5,21 @@ import {
   DialogTitle,
   IconButton,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@mui/material";
 import React from "react";
 import CloseIcon from "@mui/icons-material/Close";
 
-export default function CustomeDialog({ open, setOpen, children, title }) {
+export default function CustomeDialog({
+  open,
+  setOpen,
+  children,
+  title,
+  maxWidth,
+}) {
   const theme = useTheme();
-
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
   //style objects
   const displaywraper = {
     position: "absolute",
@@ -33,6 +40,8 @@ export default function CustomeDialog({ open, setOpen, children, title }) {
       onClose={() => setOpen(false)}
       fullWidth
       sx={displaywraper}
+      maxWidth={maxWidth ? maxWidth : "sm"}
+      fullScreen={fullScreen}
     >
       <DialogTitle>
         <Box

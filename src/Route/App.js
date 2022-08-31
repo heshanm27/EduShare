@@ -21,6 +21,7 @@ import { auth, db } from "../FireBase/Config";
 import { setCurruentUser, unsetCurruntUser } from "../Redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import UserEduFeed from "../Pages/User/UserEduFeed/UserEduFeed";
+import UserEduApplyForm from "../Components/Forms/UserEduApplyForm/UserEduApplyForm";
 
 const theme = createTheme({
   palette: {
@@ -100,6 +101,7 @@ function App() {
           <Route element={<ProtetedRoute roleRequired="user" />}>
             <Route path="/user" element={<UserProfile />} />
             <Route path="/edufeed" element={<UserEduFeed />} />
+            <Route path="/eduform" element={<UserEduApplyForm />} />
           </Route>
           {/* adminRoute */}
           <Route element={<CustomDrawer />}>
