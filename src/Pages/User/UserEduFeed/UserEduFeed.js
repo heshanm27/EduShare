@@ -30,15 +30,20 @@ import CloseIcon from "@mui/icons-material/Close";
 import CustomSelect from "../../../Components/CustomSelect/CustomSelect";
 import { FilterTypes } from "../../../Constants/Constants";
 import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSkeletonCard";
-
+import { useNavigate } from "react-router-dom";
+import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
+import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("createdAt");
   const [filterSelect, setfilterSelect] = useState("new");
-  const [orderDirections, setOrderDirections] = useState("asc");
+  const [orderDirections, setOrderDirections] = useState("desc");
+  const [seletedCardData, setSelectedCardData] = useState(null);
   const theme = useTheme();
   const [search, setSearch] = useState("");
+  const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleChanges = (e) => {
     const { value } = e.target;
@@ -70,17 +75,23 @@ export default function UserEduFeed() {
     setSearch(e.target.value);
   };
 
+  const handleCardClick = (data) => {
+    setOpen(true);
+    setSelectedCardData(data);
+  };
+
   useEffect(() => {
     setLoading(true);
     let q;
     if (search) {
       q = query(
         collection(db, "EduationalPost"),
-        orderBy("title"),
+        orderBy("searchTags"),
         startAt(search),
         endAt(search + "\uf8ff")
       );
     } else {
+      console.log(filter, filterSelect, orderDirections);
       q = query(
         collection(db, "EduationalPost"),
         orderBy(filter, orderDirections)
@@ -131,7 +142,7 @@ export default function UserEduFeed() {
                       htmlFor="standard-adornment-search"
                       sx={{ p: 1 }}
                     >
-                      Search User
+                      Search
                     </InputLabel>
                     <Input
                       sx={{ p: 1 }}
@@ -194,7 +205,10 @@ export default function UserEduFeed() {
                   sx={{ mt: { xs: 5, sm: 5 } }}
                 >
                   <Stack justifyContent="center" alignItems="center">
-                    <CustomCard data={item} />
+                    <CustomCard
+                      data={item}
+                      handleCardClick={() => handleCardClick(item)}
+                    />
                   </Stack>
                 </Grid>
               ))}
@@ -235,6 +249,14 @@ export default function UserEduFeed() {
             </Grid>
           )}
         </Paper>
+        <CustomeDialog
+          open={open}
+          setOpen={setOpen}
+          title="Course Details"
+          maxWidth="md"
+        >
+          <CustomDataViewPop data={seletedCardData} />
+        </CustomeDialog>
       </Container>
     </>
   );
