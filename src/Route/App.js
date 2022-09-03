@@ -1,4 +1,4 @@
-import { createTheme, ThemeProvider } from "@mui/material";
+import { Box, createTheme, ThemeProvider } from "@mui/material";
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import CustomDrawer from "../Components/Drawer/CustomDrawer";
 
@@ -22,6 +22,9 @@ import { setCurruentUser, unsetCurruntUser } from "../Redux/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import UserEduFeed from "../Pages/User/UserEduFeed/UserEduFeed";
 import UserEduApplyForm from "../Components/Forms/UserEduApplyForm/UserEduApplyForm";
+import UserNavBar from "../Components/UserNavBar/UserNavBar";
+import UserDonFeed from "../Pages/User/UserDonFeed/UserDonFeed";
+import UserVonFeed from "../Pages/User/UserVonFeed/UserVonFeed";
 
 const theme = createTheme({
   palette: {
@@ -88,39 +91,45 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<SignUp />} />
-        <Route
-          path="/signin"
-          element={
-            curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
-          }
-        />
-        <Route element={<ProtetedRoute />}>
-          <Route element={<ProtetedRoute roleRequired="user" />}>
-            <Route path="/user" element={<UserProfile />} />
-            <Route path="/edufeed" element={<UserEduFeed />} />
-            <Route path="/eduform" element={<UserEduApplyForm />} />
-          </Route>
-          {/* adminRoute */}
-          <Route element={<CustomDrawer />}>
-            <Route element={<ProtetedRoute roleRequired="admin" />}>
-              <Route path="/qualifications" element={<Qualifications />} />
-              <Route path="/interested" element={<InterestedAreas />} />
-              <Route path="/report" element={<AdminReports />} />
+      <Box sx={{ backgroundColor: theme.palette.background.paper }}>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route
+            path="/signin"
+            element={
+              curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
+            }
+          />
+          <Route element={<ProtetedRoute />}>
+            <Route element={<ProtetedRoute roleRequired="user" />}>
+              <Route element={<UserNavBar />}>
+                <Route path="/user" element={<UserProfile />} />
+                <Route path="/edufeed" element={<UserEduFeed />} />
+                <Route path="/donfeed" element={<UserDonFeed />} />
+                <Route path="/vonfeed" element={<UserVonFeed />} />
+                <Route path="/eduform" element={<UserEduApplyForm />} />
+              </Route>
             </Route>
+            {/* adminRoute */}
+            <Route element={<CustomDrawer />}>
+              <Route element={<ProtetedRoute roleRequired="admin" />}>
+                <Route path="/qualifications" element={<Qualifications />} />
+                <Route path="/interested" element={<InterestedAreas />} />
+                <Route path="/report" element={<AdminReports />} />
+              </Route>
 
-            {/* Organization route */}
-            <Route element={<ProtetedRoute roleRequired="org" />}>
-              <Route path="/edu" element={<EducationalOrg />} />
-              <Route path="/don" element={<DonationOrg />} />
-              <Route path="/vol" element={<VoluntterOrg />} />
+              {/* Organization route */}
+              <Route element={<ProtetedRoute roleRequired="org" />}>
+                <Route path="/edu" element={<EducationalOrg />} />
+                <Route path="/don" element={<DonationOrg />} />
+                <Route path="/vol" element={<VoluntterOrg />} />
+              </Route>
             </Route>
           </Route>
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Box>
     </ThemeProvider>
   );
 }
