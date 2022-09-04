@@ -28,6 +28,20 @@ export const NavLinks = [
   },
 ];
 
+export const UserNavLinks = [
+  {
+    title: "Education",
+    path: "/edufeed",
+  },
+  {
+    title: "Volunteer",
+    path: "/vonfeed",
+  },
+  {
+    title: "Donation",
+    path: "/donfeed",
+  },
+];
 export const AboutVision = [
   {
     title: "For Individuals",
