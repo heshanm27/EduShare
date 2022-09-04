@@ -10,10 +10,17 @@
 /*terst*/
 //just a testing comment//
 
+/*Since component logic is written in JavaScript instead of templates,
+ you can easily pass rich data through your app and keep state out of the DOM.*/
+/*We don’t make assumptions about the rest of your technology stack, so you can develop new features
+ in React without rewriting existing code.*/
+ //React can also render on the server using Node and power mobile apps using React Native.
+
 
 
 /*Comment by RBR*/
 /*Comment by RBR 2*/
 /*comment by RBR 3*/
+
 
 
