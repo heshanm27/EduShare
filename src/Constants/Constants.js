@@ -62,6 +62,11 @@ export const EducationLevel = [
   { value: "primary", label: "Primary" },
 ];
 
+export const workLocationSelect = [
+  { value: "Hybrid", label: "Hybrid" },
+  { value: "Online", label: "Online" },
+  { value: "OnSite", label: "OnSite" },
+];
 export const FilterTypes = [
   { value: "new", label: "Newest" },
   { value: "old", label: "Oldest" },

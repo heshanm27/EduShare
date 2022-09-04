@@ -12,9 +12,11 @@ import {
   Button,
   Avatar,
   ListItemText,
-  MenuList,
   Drawer,
   Box,
+  ListItem,
+  ListItemButton,
+  List,
 } from "@mui/material";
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
@@ -170,35 +172,24 @@ export default function UserNavBar() {
                 {open ? <CloseIcon /> : <MenuIcon />}
               </IconButton>
 
-              <Drawer
-                sx={{ width: "240px" }}
-                anchor="right"
-                open={open}
-                onClose={() => setOpen(false)}
-              >
-                <MenuList>
-                  {UserNavLinks.map((link, index) => {
-                    if (link.path === "signin") {
+              <Drawer anchor="right" open={open} onClose={() => setOpen(false)}>
+                <Box sx={{ width: "200px" }}>
+                  <List>
+                    {UserNavLinks.map((link, index) => {
                       return (
-                        <MenuItem
+                        <ListItem
                           onClick={() => navigateUsingMenu(link.path)}
                           key={index}
+                          disablePadding
                         >
-                          Sign In
-                        </MenuItem>
+                          <ListItemButton>
+                            <ListItemText>{link.title} </ListItemText>
+                          </ListItemButton>
+                        </ListItem>
                       );
-                    } else {
-                      return (
-                        <MenuItem
-                          onClick={() => navigateUsingMenu(link.path)}
-                          key={index}
-                        >
-                          <ListItemText>{link.title} </ListItemText>
-                        </MenuItem>
-                      );
-                    }
-                  })}
-                </MenuList>
+                    })}
+                  </List>
+                </Box>
               </Drawer>
             </Stack>
           </Stack>

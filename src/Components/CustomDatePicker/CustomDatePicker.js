@@ -25,6 +25,7 @@ export default function CustomDatePicker({
         type={type ? type : "text"}
         value={value}
         autoComplete={autoComplete ? autoComplete : "off"}
+        focused
         error={error}
         helperText={errorsMsg ? errorsMsg : helptext}
         inputProps={{
