@@ -17,33 +17,25 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
-import CustomSelect from "../../CustomSelect/CustomSelect";
 import CustomTextField from "../../CustomTextField/CustomTextField";
-import {
-  EducationLevel,
-  workLocationSelect,
-} from "../../../Constants/Constants";
 import CustomIntrestedArea from "../../CustomIntrestedArea/CustomIntrestedArea";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Thumbnail from "../../../Assets/images/EduShareThumbnail.jpg";
 import CustomTextArea from "../../CustomTextArea/CustomTextArea";
 import { uploadImage } from "../../../utility/UploadImage";
-import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
+
 import { useSelector } from "react-redux";
 const initialValues = {
   title: "",
   details: "",
-  educationLevel: "",
   intrest: [],
   phoneNo: "",
-  workLocation: "",
-  closingDate: "",
   ThumbnailUrl:
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
 
-export default function VoluntterForm({
+export default function DonationForm({
   setNotify,
   updateValue,
   setOpen,
@@ -54,7 +46,6 @@ export default function VoluntterForm({
   const [values, setValues] = useState(initialValues);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
   const intrestedAreasColletionRef = collection(db, "intrestedAreas");
-  const userColletionRef = collection(db, "users");
   const theme = useTheme();
   const [img, setImg] = useState(Thumbnail);
   const [ThumbnailImage, setThumbnailImage] = useState(null);
@@ -88,11 +79,7 @@ export default function VoluntterForm({
       (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
         ? ""
         : "Please enter valid phone number");
-    temp.educationLevel = values.educationLevel
-      ? ""
-      : "Please select education level";
-    temp.closingDate = values.closingDate ? "" : "Please select closing date";
-    temp.workLocation = values.workLocation ? "" : "Please enter work location";
+
     setErrors({
       ...temp,
     });
@@ -142,23 +129,20 @@ export default function VoluntterForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "VolunteerTumbnail");
+        Url = await uploadImage(ThumbnailImage, "DonationTumbnail");
       }
 
       const PostObj = {
         title: values.title,
         details: values.details,
-        educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        workLocation: values.workLocation,
-        closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "VolunteerPost"), PostObj);
+      await addDoc(collection(db, "DonationPost"), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -183,23 +167,20 @@ export default function VoluntterForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "VolunteerTumbnail");
+        Url = await uploadImage(ThumbnailImage, "DonationTumbnail");
       }
 
       const PostObj = {
         title: values.title,
         details: values.details,
-        educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        workLocation: values.workLocation,
-        closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await updateDoc(doc(db, "VolunteerPost", updateValue.id), PostObj);
+      await updateDoc(doc(db, "DonationPost", updateValue.id), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -266,18 +247,7 @@ export default function VoluntterForm({
             name="details"
           />
         </Grid>
-        <Grid item xs={12}>
-          <CustomSelect
-            name="educationLevel"
-            errorsMsg={errors.educationLevel}
-            handleChanges={handleChanges}
-            label="Education Level"
-            value={values.educationLevel}
-            error={Boolean(errors.educationLevel)}
-            options={EducationLevel}
-            width="100%"
-          />
-        </Grid>
+
         <CustomIntrestedArea
           handleAddIntrestedArea={handleAddIntrestedArea}
           errors={errors}
@@ -297,32 +267,6 @@ export default function VoluntterForm({
             value={values.phoneNo}
             error={Boolean(errors.phoneNo)}
             name="phoneNo"
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          <CustomSelect
-            name="workLocation"
-            errorsMsg={errors.workLocation}
-            handleChanges={handleChanges}
-            label="Work Location"
-            value={values.workLocation}
-            error={Boolean(errors.workLocation)}
-            options={workLocationSelect}
-            width="100%"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          {" "}
-          <CustomDatePicker
-            autoComplete="date"
-            errorsMsg={errors.closingDate}
-            handleChanges={handleChanges}
-            label="Closing Date"
-            type="date"
-            value={values.closingDate}
-            error={Boolean(errors.closingDate)}
-            name="closingDate"
           />
         </Grid>
         <Grid item xs={12}>

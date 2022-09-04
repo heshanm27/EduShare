@@ -85,7 +85,7 @@ export default function Voluntter() {
     <>
       <Container maxWidth="xl">
         <MaterialTable
-          title="EDUCATIONAL OPPORTUNITIES"
+          title="VOLUNTEER OPPORTUNITIES"
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
@@ -153,7 +153,7 @@ export default function Voluntter() {
       <CustomeDialog
         open={open}
         setOpen={setOpen}
-        title="Post New Eduational Opportunities"
+        title="Post new volunteer opportunity"
       >
         <VoluntterForm
           setNotify={setNotify}

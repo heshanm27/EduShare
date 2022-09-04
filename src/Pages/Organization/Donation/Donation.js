@@ -1,20 +1,16 @@
 import { Button, Chip, Container, TextareaAutosize } from "@mui/material";
-import MaterialTable from "material-table";
-import React, { useState } from "react";
+import MaterialTable, { MTableAction } from "material-table";
+import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
-import CustomTextField from "../../../Components/CustomTextField/CustomTextField";
-import EduationalForm from "../../../Components/Forms/EducationalForm/EduationalForm";
-import { MTableAction } from "material-table";
+import DonationForm from "../../../Components/Forms/DonationForm/DonationForm";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
-import { useEffect } from "react";
 import {
   collection,
   deleteDoc,
   doc,
   onSnapshot,
   query,
-  where,
 } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
 export default function Donation() {
@@ -45,24 +41,10 @@ export default function Donation() {
       ),
     },
     {
-      title: "Post Closing Date",
-      field: "closingDate",
-      type: "date",
+      title: "Phone No",
+      field: "phoneNo",
+      type: "number",
       sorting: false,
-    },
-    { title: "Education Level", field: "educationLevel", sorting: false },
-    {
-      title: "Course Fee",
-      field: "courseFee",
-      align: "left",
-      render: (rowData) => {
-        if (rowData.courseFee === 0) {
-          return <Chip label="Free" color="success" variant="filled" />;
-        } else {
-          return "LKR " + rowData.courseFee.toFixed(2);
-        }
-      },
-      type: "currency",
     },
   ];
 
@@ -71,7 +53,7 @@ export default function Donation() {
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(collection(db, "EduationalPost"));
+    const q = query(collection(db, "DonationPost"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
@@ -90,7 +72,7 @@ export default function Donation() {
     <>
       <Container maxWidth="xl">
         <MaterialTable
-          title="EDUCATIONAL OPPORTUNITIES"
+          title="DONATION OPPORTUNITIES"
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
@@ -103,7 +85,7 @@ export default function Donation() {
             onRowDelete: (oldData) =>
               new Promise(async (resolve, reject) => {
                 try {
-                  await deleteDoc(doc(db, "EduationalPost", oldData.id));
+                  await deleteDoc(doc(db, "DonationPost", oldData.id));
                   setNotify({
                     isOpen: true,
                     message: "Post deleted successfully",
@@ -155,12 +137,8 @@ export default function Donation() {
           }}
         />
       </Container>
-      <CustomeDialog
-        open={open}
-        setOpen={setOpen}
-        title="Post New Eduational Opportunities"
-      >
-        <EduationalForm
+      <CustomeDialog open={open} setOpen={setOpen} title="Post new Donation">
+        <DonationForm
           setNotify={setNotify}
           setOpen={setOpen}
           updateValue={updateValue}

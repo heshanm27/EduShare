@@ -162,7 +162,7 @@ export default function OppertunitesAdmin() {
       <CustomeDialog
         open={open}
         setOpen={setOpen}
-        title="Post New Eduational Opportunities"
+        title="Post new eduational opportunity"
       >
         <EduationalForm
           setNotify={setNotify}
