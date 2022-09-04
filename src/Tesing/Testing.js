@@ -6,5 +6,6 @@
 /*Declarative views make your code more predictable and easier to the debug.*/
 /*terst*/
 //just a testing comment//
-/*Since component logic is written in JavaScript instead of templates,
- you can easily pass rich data through your app and keep state out of the DOM.*/
+
+//updating repo//
+
