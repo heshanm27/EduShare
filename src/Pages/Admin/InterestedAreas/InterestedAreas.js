@@ -1,9 +1,9 @@
-import { Button, Chip, Container, TextareaAutosize } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import MaterialTable, { MTableAction } from "material-table";
 import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
-import VoluntterForm from "../../../Components/Forms/VoluntterForm/VoluntterForm";
+import IntrestedAreasForm from "../../../Components/Forms/IntrestedAreasForm/IntrestedAreasForm";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
 
 import {
@@ -27,21 +27,8 @@ export default function InterestedAreas() {
     title: "",
   });
   const columns = [
-    { title: "User Name", field: "firstName" },
-    { title: "User Email", field: "email" },
-    {
-      title: "User Phone No",
-      field: "phoneNo",
-      sorting: false,
-    },
-    {
-      title: "User Role",
-      field: "userRole",
-      align: "left",
-      render: (rowData) => {
-        return <Chip label={rowData.userRole} color="info" variant="filled" />;
-      },
-    },
+    { title: "Intrested Area", field: "name" },
+    { title: "Intrested Discription", field: "discription" },
   ];
 
   const updateOpenPopup = (data) => {
@@ -49,7 +36,7 @@ export default function InterestedAreas() {
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(collection(db, "users"));
+    const q = query(collection(db, "intrestedAreas"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
@@ -68,7 +55,7 @@ export default function InterestedAreas() {
     <>
       <Container maxWidth="xl">
         <MaterialTable
-          title="User Details"
+          title="Intrested Areas"
           isLoading={loading}
           options={{
             actionsColumnIndex: -1,
@@ -78,7 +65,58 @@ export default function InterestedAreas() {
           columns={columns}
           data={FullData}
           editable={{
-            onRowUpdate: (newData, oldData) => {},
+            onRowDelete: (oldData) =>
+              new Promise(async (resolve, reject) => {
+                try {
+                  await deleteDoc(doc(db, "intrestedAreas", oldData.id));
+                  setNotify({
+                    isOpen: true,
+                    message: "Intrested Area deleted successfully",
+                    type: "success",
+                    title: "Deleted",
+                  });
+                  resolve();
+                } catch (error) {
+                  setNotify({
+                    isOpen: true,
+                    message: error.message,
+                    type: "error",
+                    title: "Error",
+                  });
+                  reject();
+                }
+              }),
+          }}
+          actions={[
+            {
+              icon: "add",
+              tooltip: "Add User",
+              isFreeAction: true,
+              onClick: () => {},
+            },
+            {
+              icon: "edit",
+              tooltip: "Edit Post",
+              onClick: (event, rowData) => updateOpenPopup(rowData),
+            },
+          ]}
+          components={{
+            Action: (props) => {
+              if (props.action.icon === "add") {
+                return (
+                  <Button
+                    size="large"
+                    variant="contained"
+                    startIcon={<AddIcon />}
+                    onClick={() => setOpen(true)}
+                  >
+                    Add Post
+                  </Button>
+                );
+              } else {
+                return <MTableAction {...props} />;
+              }
+            },
           }}
         />
       </Container>
@@ -87,7 +125,7 @@ export default function InterestedAreas() {
         setOpen={setOpen}
         title="Post new volunteer opportunity"
       >
-        <VoluntterForm
+        <IntrestedAreasForm
           setNotify={setNotify}
           setOpen={setOpen}
           updateValue={updateValue}
