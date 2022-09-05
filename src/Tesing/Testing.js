@@ -27,6 +27,8 @@
 
 /*JSX is optional and not required to use React.
  Try the Babel REPL to see the raw JavaScript code produced by the JSX compilation step.*/
+/*In addition to taking input data (accessed via this.props), a component can maintain internal state data (accessed via this.state). When a component’s state data changes,
+ the rendered markup will be updated by re-invoking render().*/
 
 
 
