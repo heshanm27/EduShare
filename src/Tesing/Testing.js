@@ -22,5 +22,13 @@
 /*Comment by RBR 2*/
 /*comment by RBR 3*/
 
+/*React components implement a render() method that takes input data and returns what to display. This example uses an XML-like syntax called JSX.
+ Input data that is passed into the component can be accessed by render() via this.props.*/
+
+/*JSX is optional and not required to use React.
+ Try the Babel REPL to see the raw JavaScript code produced by the JSX compilation step.*/
+/*In addition to taking input data (accessed via this.props), a component can maintain internal state data (accessed via this.state). When a component’s state data changes,
+ the rendered markup will be updated by re-invoking render().*/
+
 
 
