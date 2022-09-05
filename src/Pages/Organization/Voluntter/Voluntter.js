@@ -91,7 +91,7 @@ export default function Voluntter() {
             actionsColumnIndex: -1,
             addRowPosition: "first",
           }}
-          localization={{ toolbar: { searchPlaceholder: "No/Brand/Year" } }}
+          localization={{ toolbar: { searchPlaceholder: "Post title" } }}
           columns={columns}
           data={FullData}
           editable={{

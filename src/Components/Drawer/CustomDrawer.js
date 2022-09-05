@@ -28,12 +28,14 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
   DonOpportunitiesRoutes,
   EduOpportunitiesRoutes,
   VolOpportunitiesRoutes,
   AdminReportRoutes,
   AdminRoutes,
+  AdminUserRoutes,
 } from "./DrawerRoutes";
 import NavListitem from "./NavListitem";
 import { useSelector } from "react-redux";
@@ -267,6 +269,15 @@ export default function CustomDrawer() {
               />
               <Divider />
               <CustomListCollapse
+                TitleIcon={<ManageAccountsIcon />}
+                TitleText="User Controll"
+                Subheader="User Setting"
+                ListItems={AdminUserRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/usercontrol"
+              />
+              <CustomListCollapse
                 TitleIcon={<AssessmentIcon />}
                 TitleText="Analytics"
                 Subheader="Analytics Reports"
@@ -275,6 +286,7 @@ export default function CustomDrawer() {
                 DrawerStatus={open}
                 path="/report"
               />
+
               <Divider />
             </>
           )}

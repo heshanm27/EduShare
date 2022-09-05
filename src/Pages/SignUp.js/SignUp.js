@@ -169,6 +169,7 @@ export default function SignUp() {
         intrest: values.intrest,
         img: Url,
         userRole: "admin",
+        email: values.email,
       };
       setDoc(doc(db, "users", userid), userObj, { merge: true });
     }
@@ -188,6 +189,7 @@ export default function SignUp() {
         );
         await addNewUser(userData.user.uid);
         setLoading(false);
+        setValues(initialValues);
       } catch (err) {
         console.log(err);
         setLoading(false);

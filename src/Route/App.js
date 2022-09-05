@@ -11,7 +11,7 @@ import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import ProtetedRoute from "./ProtetedRoute";
-import Qualifications from "../Pages/Admin/Qualifications/Qualifications";
+import UserManage from "../Pages/Admin/UserManage/UserManage";
 import InterestedAreas from "../Pages/Admin/InterestedAreas/InterestedAreas";
 import AdminReports from "../Pages/Admin/Reports/AdminReports";
 import { onAuthStateChanged } from "firebase/auth";
@@ -114,7 +114,7 @@ function App() {
             {/* adminRoute */}
             <Route element={<CustomDrawer />}>
               <Route element={<ProtetedRoute roleRequired="admin" />}>
-                <Route path="/qualifications" element={<Qualifications />} />
+                <Route path="/usercontrol" element={<UserManage />} />
                 <Route path="/interested" element={<InterestedAreas />} />
                 <Route path="/report" element={<AdminReports />} />
               </Route>
