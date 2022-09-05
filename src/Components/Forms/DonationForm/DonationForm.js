@@ -17,50 +17,35 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
-import CustomSelect from "../../CustomSelect/CustomSelect";
 import CustomTextField from "../../CustomTextField/CustomTextField";
-import { EducationLevel } from "../../../Constants/Constants";
 import CustomIntrestedArea from "../../CustomIntrestedArea/CustomIntrestedArea";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
 import Thumbnail from "../../../Assets/images/EduShareThumbnail.jpg";
 import CustomTextArea from "../../CustomTextArea/CustomTextArea";
 import { uploadImage } from "../../../utility/UploadImage";
-import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
+
 import { useSelector } from "react-redux";
 const initialValues = {
   title: "",
   details: "",
-  educationLevel: "",
   intrest: [],
   phoneNo: "",
-  courseFee: "0",
-  closingDate: "",
   ThumbnailUrl:
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
 
-const initialErrors = {
-  title: "",
-  details: "",
-  educationLevel: "",
-  intrest: [],
-  phoneNo: "",
-  courseFee: "",
-  closingDate: "",
-};
-export default function EduationalForm({
+export default function DonationForm({
   setNotify,
   updateValue,
   setOpen,
   setUpdateValue,
 }) {
-  const [errors, setErrors] = useState(initialErrors);
+  const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
   const intrestedAreasColletionRef = collection(db, "intrestedAreas");
-  const userColletionRef = collection(db, "users");
   const theme = useTheme();
   const [img, setImg] = useState(Thumbnail);
   const [ThumbnailImage, setThumbnailImage] = useState(null);
@@ -94,13 +79,7 @@ export default function EduationalForm({
       (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
         ? ""
         : "Please enter valid phone number");
-    temp.educationLevel = values.educationLevel
-      ? ""
-      : "Please select education level";
-    temp.closingDate = values.closingDate ? "" : "Please select closing date";
-    temp.courseFee =
-      (Number(values.courseFee) >= 0 ? "" : "Please enter 1 course fee") ||
-      (values.courseFee ? "" : "Please enter 2 course fee");
+
     setErrors({
       ...temp,
     });
@@ -150,23 +129,20 @@ export default function EduationalForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "EduationalTumbnail");
+        Url = await uploadImage(ThumbnailImage, "DonationTumbnail");
       }
 
       const PostObj = {
         title: values.title,
         details: values.details,
-        educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        courseFee: Number(values.courseFee),
-        closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "EduationalPost"), PostObj);
+      await addDoc(collection(db, "DonationPost"), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -191,23 +167,20 @@ export default function EduationalForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "EduationalTumbnail");
+        Url = await uploadImage(ThumbnailImage, "DonationTumbnail");
       }
 
       const PostObj = {
         title: values.title,
         details: values.details,
-        educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        courseFee: Number(values.courseFee),
-        closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await updateDoc(doc(db, "EduationalPost", updateValue.id), PostObj);
+      await updateDoc(doc(db, "DonationPost", updateValue.id), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -247,7 +220,6 @@ export default function EduationalForm({
       setLoading(false);
     }
   };
-  console.log(values);
   return (
     <Container>
       <Grid container spacing={3}>
@@ -275,18 +247,7 @@ export default function EduationalForm({
             name="details"
           />
         </Grid>
-        <Grid item xs={12}>
-          <CustomSelect
-            name="educationLevel"
-            errorsMsg={errors.educationLevel}
-            handleChanges={handleChanges}
-            label="Education Level"
-            value={values.educationLevel}
-            error={Boolean(errors.educationLevel)}
-            options={EducationLevel}
-            width="100%"
-          />
-        </Grid>
+
         <CustomIntrestedArea
           handleAddIntrestedArea={handleAddIntrestedArea}
           errors={errors}
@@ -306,35 +267,6 @@ export default function EduationalForm({
             value={values.phoneNo}
             error={Boolean(errors.phoneNo)}
             name="phoneNo"
-          />
-        </Grid>
-
-        <Grid item xs={12}>
-          {" "}
-          <CustomTextField
-            autoComplete="off"
-            errorsMsg={errors.courseFee}
-            handleChanges={handleChanges}
-            label="Course Fee"
-            type="number"
-            value={values.courseFee}
-            error={Boolean(errors.courseFee)}
-            name="courseFee"
-            helptext="Please enter 0 “zero” if the course is free"
-            startIcon="RS"
-          />
-        </Grid>
-        <Grid item xs={12}>
-          {" "}
-          <CustomDatePicker
-            autoComplete="date"
-            errorsMsg={errors.closingDate}
-            handleChanges={handleChanges}
-            label="Closing Date"
-            type="date"
-            value={values.closingDate}
-            error={Boolean(errors.closingDate)}
-            name="closingDate"
           />
         </Grid>
         <Grid item xs={12}>

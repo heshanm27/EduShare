@@ -1,20 +1,17 @@
 import { Button, Chip, Container, TextareaAutosize } from "@mui/material";
-import MaterialTable from "material-table";
-import React, { useState } from "react";
+import MaterialTable, { MTableAction } from "material-table";
+import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
-import CustomTextField from "../../../Components/CustomTextField/CustomTextField";
 import EduationalForm from "../../../Components/Forms/EducationalForm/EduationalForm";
-import { MTableAction } from "material-table";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
-import { useEffect } from "react";
+
 import {
   collection,
   deleteDoc,
   doc,
   onSnapshot,
   query,
-  where,
 } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
 export default function OppertunitesAdmin() {
@@ -132,7 +129,13 @@ export default function OppertunitesAdmin() {
             {
               icon: "edit",
               tooltip: "Edit Post",
-              onClick: (event, rowData) => updateOpenPopup(rowData),
+              onClick: (event, rowData) => {
+                const data = {
+                  ...rowData,
+                  courseFee: String(rowData.courseFee),
+                };
+                updateOpenPopup(data);
+              },
             },
           ]}
           components={{
@@ -144,6 +147,7 @@ export default function OppertunitesAdmin() {
                     variant="contained"
                     startIcon={<AddIcon />}
                     onClick={() => setOpen(true)}
+                    sx={{ margin: "0px 20px" }}
                   >
                     Add Post
                   </Button>
@@ -158,7 +162,7 @@ export default function OppertunitesAdmin() {
       <CustomeDialog
         open={open}
         setOpen={setOpen}
-        title="Post New Eduational Opportunities"
+        title="Post new eduational opportunity"
       >
         <EduationalForm
           setNotify={setNotify}

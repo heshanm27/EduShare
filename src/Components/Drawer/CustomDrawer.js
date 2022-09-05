@@ -41,6 +41,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../FireBase/Config";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import { motion } from "framer-motion";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -303,7 +304,17 @@ export default function CustomDrawer() {
         </Menu>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
-        <Outlet />
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{
+            opacity: 0,
+            x: -100,
+            transition: { duration: 0.1, ease: "easeIn", bounce: 0.5 },
+          }}
+        >
+          <Outlet />
+        </motion.div>
       </Box>
     </Box>
   );
