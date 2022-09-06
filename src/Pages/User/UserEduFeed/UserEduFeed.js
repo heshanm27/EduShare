@@ -33,6 +33,7 @@ import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSke
 import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
+import UserNavBar from "../../../Components/UserNavBar/UserNavBar";
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -115,7 +116,13 @@ export default function UserEduFeed() {
   console.log(eduPosts);
   return (
     <>
-      <Container maxWidth="xl">
+      <Container
+        maxWidth="xl"
+        sx={{ mt: 5, backgroundColor: theme.palette.background.paper }}
+      >
+        <Typography variant="h4" color={theme.palette.primary.main}>
+          Educationa Feed
+        </Typography>
         <Container maxWidth="lg">
           <Stack
             direction="column"
