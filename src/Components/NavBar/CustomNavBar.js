@@ -171,7 +171,7 @@ export default function CustomNavBar() {
           </MenuItem>
         )}
         {curruntUser?.role == "admin" && (
-          <MenuItem onClick={() => handleClose("/qualifications")}>
+          <MenuItem onClick={() => handleClose("/interested")}>
             DashBord
           </MenuItem>
         )}

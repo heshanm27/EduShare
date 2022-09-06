@@ -28,12 +28,14 @@ import VolunteerActivismIcon from "@mui/icons-material/VolunteerActivism";
 import EmojiPeopleIcon from "@mui/icons-material/EmojiPeople";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import MeetingRoomOutlinedIcon from "@mui/icons-material/MeetingRoomOutlined";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import {
   DonOpportunitiesRoutes,
   EduOpportunitiesRoutes,
   VolOpportunitiesRoutes,
   AdminReportRoutes,
   AdminRoutes,
+  AdminUserRoutes,
 } from "./DrawerRoutes";
 import NavListitem from "./NavListitem";
 import { useSelector } from "react-redux";
@@ -41,6 +43,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../FireBase/Config";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssessmentIcon from "@mui/icons-material/Assessment";
+import { motion } from "framer-motion";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -266,6 +269,15 @@ export default function CustomDrawer() {
               />
               <Divider />
               <CustomListCollapse
+                TitleIcon={<ManageAccountsIcon />}
+                TitleText="User Controll"
+                Subheader="User Setting"
+                ListItems={AdminUserRoutes}
+                onclicks={closeNavigation}
+                DrawerStatus={open}
+                path="/usercontrol"
+              />
+              <CustomListCollapse
                 TitleIcon={<AssessmentIcon />}
                 TitleText="Analytics"
                 Subheader="Analytics Reports"
@@ -274,6 +286,7 @@ export default function CustomDrawer() {
                 DrawerStatus={open}
                 path="/report"
               />
+
               <Divider />
             </>
           )}
@@ -303,7 +316,17 @@ export default function CustomDrawer() {
         </Menu>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
-        <Outlet />
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{
+            opacity: 0,
+            x: -100,
+            transition: { duration: 0.1, ease: "easeIn", bounce: 0.5 },
+          }}
+        >
+          <Outlet />
+        </motion.div>
       </Box>
     </Box>
   );

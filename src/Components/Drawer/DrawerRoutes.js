@@ -57,19 +57,21 @@ export const AdminRoutes = [
   {
     label: "Interested",
     path: "/interested",
-    icon: <AssessmentOutlinedIcon />,
-    activeIcon: <AssessmentIcon />,
+    icon: <SettingsApplicationsOutlinedIcon />,
+    activeIcon: <SettingsApplicationsIcon />,
     component: "Reports",
   },
+];
+
+export const AdminUserRoutes = [
   {
-    label: "Qualifications",
-    path: "/qualifications",
+    label: "Settings",
+    path: "/usercontrol",
     icon: <SettingsApplicationsOutlinedIcon />,
     activeIcon: <SettingsApplicationsIcon />,
     component: "vehicle",
   },
 ];
-
 export const AdminReportRoutes = [
   {
     label: "Reports",

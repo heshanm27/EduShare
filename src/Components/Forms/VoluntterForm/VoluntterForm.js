@@ -19,7 +19,10 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import CustomTextField from "../../CustomTextField/CustomTextField";
-import { EducationLevel } from "../../../Constants/Constants";
+import {
+  EducationLevel,
+  workLocationSelect,
+} from "../../../Constants/Constants";
 import CustomIntrestedArea from "../../CustomIntrestedArea/CustomIntrestedArea";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -34,28 +37,19 @@ const initialValues = {
   educationLevel: "",
   intrest: [],
   phoneNo: "",
-  courseFee: "0",
+  workLocation: "",
   closingDate: "",
   ThumbnailUrl:
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
 
-const initialErrors = {
-  title: "",
-  details: "",
-  educationLevel: "",
-  intrest: [],
-  phoneNo: "",
-  courseFee: "",
-  closingDate: "",
-};
-export default function EduationalForm({
+export default function VoluntterForm({
   setNotify,
   updateValue,
   setOpen,
   setUpdateValue,
 }) {
-  const [errors, setErrors] = useState(initialErrors);
+  const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
@@ -98,9 +92,7 @@ export default function EduationalForm({
       ? ""
       : "Please select education level";
     temp.closingDate = values.closingDate ? "" : "Please select closing date";
-    temp.courseFee =
-      (Number(values.courseFee) >= 0 ? "" : "Please enter 1 course fee") ||
-      (values.courseFee ? "" : "Please enter 2 course fee");
+    temp.workLocation = values.workLocation ? "" : "Please enter work location";
     setErrors({
       ...temp,
     });
@@ -150,7 +142,7 @@ export default function EduationalForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "EduationalTumbnail");
+        Url = await uploadImage(ThumbnailImage, "VolunteerTumbnail");
       }
 
       const PostObj = {
@@ -159,14 +151,14 @@ export default function EduationalForm({
         educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        courseFee: Number(values.courseFee),
+        workLocation: values.workLocation,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "EduationalPost"), PostObj);
+      await addDoc(collection(db, "VolunteerPost"), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -191,7 +183,7 @@ export default function EduationalForm({
     try {
       let Url = "";
       if (ThumbnailImage) {
-        Url = await uploadImage(ThumbnailImage, "EduationalTumbnail");
+        Url = await uploadImage(ThumbnailImage, "VolunteerTumbnail");
       }
 
       const PostObj = {
@@ -200,14 +192,14 @@ export default function EduationalForm({
         educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
-        courseFee: Number(values.courseFee),
+        workLocation: values.workLocation,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await updateDoc(doc(db, "EduationalPost", updateValue.id), PostObj);
+      await updateDoc(doc(db, "VolunteerPost", updateValue.id), PostObj);
       setLoading(false);
       setOpen(false);
       setNotify({
@@ -247,7 +239,6 @@ export default function EduationalForm({
       setLoading(false);
     }
   };
-  console.log(values);
   return (
     <Container>
       <Grid container spacing={3}>
@@ -310,18 +301,15 @@ export default function EduationalForm({
         </Grid>
 
         <Grid item xs={12}>
-          {" "}
-          <CustomTextField
-            autoComplete="off"
-            errorsMsg={errors.courseFee}
+          <CustomSelect
+            name="workLocation"
+            errorsMsg={errors.workLocation}
             handleChanges={handleChanges}
-            label="Course Fee"
-            type="number"
-            value={values.courseFee}
-            error={Boolean(errors.courseFee)}
-            name="courseFee"
-            helptext="Please enter 0 “zero” if the course is free"
-            startIcon="RS"
+            label="Work Location"
+            value={values.workLocation}
+            error={Boolean(errors.workLocation)}
+            options={workLocationSelect}
+            width="100%"
           />
         </Grid>
         <Grid item xs={12}>
