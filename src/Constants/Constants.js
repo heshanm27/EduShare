@@ -56,10 +56,12 @@ export const AboutVision = [
 ];
 
 export const EducationLevel = [
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
+  { value: "G.E.C O/L", label: "G.E.C O/L" },
+  { value: "G.E.C A/L", label: "G.E.C A/L" },
+  { value: "Diploma", label: "Diploma" },
+  { value: "UnderGraduate", label: "UnderGraduate" },
+  { value: "Graduate", label: "Graduate" },
+  { value: "Master Degree", label: "Master Degree" },
 ];
 
 export const workLocationSelect = [
