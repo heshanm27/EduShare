@@ -55,7 +55,7 @@ function App() {
   const routeChangeToUSer = () => {
     switch (curruntUser?.role) {
       case "admin":
-        return "/qualifications";
+        return "/interested";
       case "org":
         return "/edu";
       case "user":
