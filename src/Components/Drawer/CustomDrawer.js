@@ -197,7 +197,12 @@ export default function CustomDrawer() {
       </AppBar>
       <Drawer variant={reslution ? "temporary" : "permanent"} open={open}>
         <DrawerHeader>
-          <Typography variant="h6" noWrap align="left">
+          <Typography
+            variant="h6"
+            noWrap
+            align="left"
+            color={theme.palette.secondary.main}
+          >
             EduShare
           </Typography>
           <Tooltip title="Close">

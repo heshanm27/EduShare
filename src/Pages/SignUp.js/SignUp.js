@@ -53,13 +53,6 @@ const Provinces = [
   { value: "western", label: "Western" },
 ];
 
-const Education = [
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-];
-
 export default function SignUp() {
   const theme = useTheme();
   const [errors, setErrors] = useState(initialValues);

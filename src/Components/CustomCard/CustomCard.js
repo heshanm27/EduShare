@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -15,7 +16,11 @@ import React from "react";
 import TagIcon from "@mui/icons-material/Tag";
 export default function CustomCard({ data, handleCardClick }) {
   const theme = useTheme();
-
+  const typo = (text) => {
+    return <Typography color="text.secondary">{text}</Typography>;
+  };
+  const truncate = (input) =>
+    input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;
   return (
     <motion.div whileHover={{ scale: 1.1 }}>
       <Card sx={{ maxWidth: 400, maxHeight: 645 }}>
@@ -60,7 +65,7 @@ export default function CustomCard({ data, handleCardClick }) {
               align="justify"
               gutterBottom
             >
-              {data && data.details}
+              {data && truncate(data.details)}
             </Typography>
           </CardContent>
           <CardContent>
@@ -71,17 +76,20 @@ export default function CustomCard({ data, handleCardClick }) {
                 color="text.secondary"
                 align="justify"
                 gutterBottom
+                display={"inline"}
+                sx={{ p: 1 }}
               >
-                {"$" + data.courseFee}
+                {data.courseFee + " LKR"}
               </Typography>
             ) : (
               <Chip
                 color="success"
-                label="Free"
+                label="Free Of Charge"
                 size="small"
                 sx={{ p: 1, m: 0.5 }}
               />
             )}
+            <br />
             <br />
             {data &&
               data.intrest.map((intrest) => {

@@ -19,7 +19,7 @@ import {
   List,
 } from "@mui/material";
 import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../../FireBase/Config";
@@ -27,6 +27,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { UserNavLinks } from "../../Constants/Constants";
 import { motion } from "framer-motion";
+import { ControlCameraSharp } from "@material-ui/icons";
 export default function UserNavBar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -35,7 +36,7 @@ export default function UserNavBar() {
   const navigate = useNavigate();
   const [anchor, setAnchor] = useState(false);
   const { curruntUser, isLoggedIn } = useSelector((state) => state.user);
-
+  const location = useLocation();
   const handleClick = (event) => {
     setAnchor(event.currentTarget);
   };
@@ -53,6 +54,7 @@ export default function UserNavBar() {
     setOpen(false);
     navigate(link);
   };
+  console.log(location.pathname);
   return (
     <>
       <AppBar
@@ -84,10 +86,18 @@ export default function UserNavBar() {
             <Stack alignItems="center" direction="row" spacing={1}>
               {!hide &&
                 UserNavLinks.map((link, index) => {
+                  console.log(link.path);
                   return (
                     <Button
                       key={index}
-                      variant={hash === link.path ? "outlined" : "text"}
+                      variant={
+                        location?.pathname === link.path ? "outlined" : "text"
+                      }
+                      color={
+                        location?.pathname === link.path
+                          ? "secondary"
+                          : "primary"
+                      }
                       href={link.path}
                     >
                       {link.title}

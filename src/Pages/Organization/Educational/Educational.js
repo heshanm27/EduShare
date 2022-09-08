@@ -54,13 +54,16 @@ export default function OppertunitesAdmin() {
       align: "left",
       render: (rowData) => {
         if (rowData.courseFee === 0) {
-          return <Chip label="Free" color="success" variant="filled" />;
+          return (
+            <Chip label="Free Of Charge" color="success" variant="filled" />
+          );
         } else {
           return "LKR " + rowData.courseFee.toFixed(2);
         }
       },
       type: "currency",
     },
+    { title: "Course Duration", field: "courseDuration", sorting: false },
   ];
 
   const updateOpenPopup = (data) => {

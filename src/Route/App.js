@@ -25,7 +25,7 @@ import UserEduApplyForm from "../Components/Forms/UserEduApplyForm/UserEduApplyF
 import UserNavBar from "../Components/UserNavBar/UserNavBar";
 import UserDonFeed from "../Pages/User/UserDonFeed/UserDonFeed";
 import UserVonFeed from "../Pages/User/UserVonFeed/UserVonFeed";
-
+import SignUpRole from "../Pages/SignUp.js/SignUpRole/SignUpRole";
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,8 +33,8 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: "#3da9fc",
-      light: "#b3e5fc",
+      main: "#0071F2",
+      light: "#2D9CDB",
       contrastText: "#fff",
     },
     text: {},
@@ -95,12 +95,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/roles" element={<SignUpRole />} />
           <Route
             path="/signin"
             element={
               curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
             }
           />
+
           <Route element={<ProtetedRoute />}>
             <Route element={<ProtetedRoute roleRequired="user" />}>
               <Route element={<UserNavBar />}>

@@ -3,6 +3,7 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Chip,
   Container,
   Paper,
   Stack,
@@ -27,7 +28,7 @@ export default function CustomDataViewPop({ data }) {
             width="50%"
             loading="lazy"
           />
-          <Typography>{data.details}</Typography>
+          <Typography sx={{ p: 1 }}>{data.details}</Typography>
           <div>
             <Accordion>
               <AccordionSummary
@@ -35,15 +36,46 @@ export default function CustomDataViewPop({ data }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                <Typography
+                  display="inline"
+                  sx={{ width: "33%", flexShrink: 0 }}
+                >
+                  {" "}
                   Course fee - :
                 </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  {data.courseFee}
-                </Typography>
+                {data &&
+                  (data.courseFee === 0 ? (
+                    <Chip
+                      label="  Free Of Charge"
+                      color="success"
+                      variant="filled"
+                    />
+                  ) : (
+                    <Typography
+                      align="right"
+                      display="inline"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {data.courseFee + " LKR"}
+                    </Typography>
+                  ))}
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>Free</Typography>
+                {
+                  <Typography>
+                    {data && data.courseFee === 0
+                      ? `This course will provide by us for free of charge`
+                      : ` For 6 monthes we charge ${data.courseFee} LKR as course fee `}
+                  </Typography>
+                }
+
+                {data.courseFee === 0 ? (
+                  ""
+                ) : (
+                  <Typography variant="caption" color="GrayText">
+                    TAX&VAT Applyed
+                  </Typography>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -60,10 +92,8 @@ export default function CustomDataViewPop({ data }) {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
+                <Typography sx={{ width: { md: "750px", sm: "100%" } }}>
+                  This course content will be complete within 6 months
                 </Typography>
               </AccordionDetails>
             </Accordion>

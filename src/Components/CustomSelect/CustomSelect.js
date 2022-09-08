@@ -21,7 +21,7 @@ export default function CustomSelect({
   return (
     <>
       <FormControl
-        sx={{ m: 1, minWidth: width ? width : 120 }}
+        sx={{ minWidth: width ? width : 120 }}
         error={error ? true : false}
         variant={variant ? variant : "outlined"}
       >

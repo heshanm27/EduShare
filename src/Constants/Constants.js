@@ -63,7 +63,13 @@ export const EducationLevel = [
   { value: "Graduate", label: "Graduate" },
   { value: "Master Degree", label: "Master Degree" },
 ];
-
+export const CourseDurations = [
+  { value: "3 Months", label: "3 Months" },
+  { value: "6 Months", label: "6 Months" },
+  { value: "1 Year", label: "1 Year" },
+  { value: "3 Year", label: "3 Year" },
+  { value: "4 Year", label: "4 Year" },
+];
 export const workLocationSelect = [
   { value: "Hybrid", label: "Hybrid" },
   { value: "Online", label: "Online" },
