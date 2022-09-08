@@ -11,6 +11,7 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
   query,
 } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
@@ -71,7 +72,10 @@ export default function OppertunitesAdmin() {
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(collection(db, "EduationalPost"));
+    const q = query(
+      collection(db, "EduationalPost"),
+      orderBy("createdAt", "desc")
+    );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {

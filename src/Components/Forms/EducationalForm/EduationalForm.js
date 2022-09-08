@@ -37,7 +37,7 @@ const initialValues = {
   courseFee: "0",
   closingDate: "",
   courseDuration: "",
-  contactEmail: "",
+  email: "",
   ThumbnailUrl:
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
@@ -51,7 +51,7 @@ const initialErrors = {
   courseFee: "",
   closingDate: "",
   courseDuration: "",
-  contactEmail: "",
+  email: "",
 };
 export default function EduationalForm({
   setNotify,
@@ -98,11 +98,9 @@ export default function EduationalForm({
       (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
         ? ""
         : "Please enter valid phone number");
-    temp.contactEmail =
-      (/$^|.+@.+..+/.test(values.contactEmail)
-        ? ""
-        : "Please enter valid email") ||
-      (values.contactEmail ? "" : "Please enter email ");
+    temp.email =
+      (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
+      (values.email ? "" : "Please enter email ");
     temp.educationLevel = values.educationLevel
       ? ""
       : "Please select education level";
@@ -173,7 +171,7 @@ export default function EduationalForm({
         phoneNo: values.phoneNo,
         courseDuration: values.courseDuration,
         courseFee: Number(values.courseFee),
-        contactEmail: values.contactEmail,
+        contactEmail: values.email,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
@@ -216,7 +214,7 @@ export default function EduationalForm({
         phoneNo: values.phoneNo,
         courseFee: Number(values.courseFee),
         courseDuration: values.courseDuration,
-        contactEmail: values.contactEmail,
+        contactEmail: values.email,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
@@ -329,13 +327,13 @@ export default function EduationalForm({
           {" "}
           <CustomTextField
             autoComplete="email"
-            errorsMsg={errors.contactEmail}
+            errorsMsg={errors.email}
             handleChanges={handleChanges}
             label="Contact Email Address"
             type="email"
-            value={values.contactEmail}
-            error={Boolean(errors.contactEmail)}
-            name="contactEmail"
+            value={values.email}
+            error={Boolean(errors.email)}
+            name="email"
           />
         </Grid>
         <Grid item xs={12}>
