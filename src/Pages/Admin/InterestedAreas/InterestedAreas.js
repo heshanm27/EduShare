@@ -110,7 +110,7 @@ export default function InterestedAreas() {
                     startIcon={<AddIcon />}
                     onClick={() => setOpen(true)}
                   >
-                    Add Post
+                    Add New Area
                   </Button>
                 );
               } else {
