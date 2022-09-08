@@ -10,15 +10,11 @@
 /*terst*/
 //just a testing comment//
 
-
 /*Since component logic is written in JavaScript instead of templates,
  you can easily pass rich data through your app and keep state out of the DOM.*/
 /*We don’t make assumptions about the rest of your technology stack, so you can develop new features
  in React without rewriting existing code.*/
- //React can also render on the server using Node and power mobile apps using React Native.
-
-
-
+//React can also render on the server using Node and power mobile apps using React Native.
 
 /*Comment by RBR*/
 /*Comment by RBR 2*/
@@ -27,7 +23,6 @@
 /*Comment by RBR 4*/
 //=======
 
-
 /*React components implement a render() method that takes input data and returns what to display. This example uses an XML-like syntax called JSX.
  Input data that is passed into the component can be accessed by render() via this.props.*/
 
@@ -35,8 +30,10 @@
  Try the Babel REPL to see the raw JavaScript code produced by the JSX compilation step.*/
 /*In addition to taking input data (accessed via this.props), a component can maintain internal state data (accessed via this.state). When a component’s state data changes,
  the rendered markup will be updated by re-invoking render().*/
- /*Using props and state, we can put together a small Todo application. This example uses state to track the current list of items as well as the text that the user has entered. Although event handlers appear to be rendered inline,
+/*Using props and state, we can put together a small Todo application. This example uses state to track the current list of items as well as the text that the user has entered. Although event handlers appear to be rendered inline,
   they will be collected and implemented using event delegation.*/
 
+/*Comment by RBR 5 */
 
-
+/*Using props and state, we can put together a small Todo application. This example uses state to track the current list of items as well as the text that the user has entered. Although event handlers appear to be rendered inline,
+  they will be collected and implemented using event delegation.*/
