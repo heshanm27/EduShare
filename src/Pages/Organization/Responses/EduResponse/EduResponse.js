@@ -29,42 +29,28 @@ export default function EduResponse() {
   });
   const columns = [
     { title: "Post Title", field: "title" },
-    {
-      title: "Post Description",
-      field: "details",
-      sorting: false,
-      render: (rowData) => (
-        <TextareaAutosize
-          aria-label="empty textarea"
-          disabled
-          maxRows={4}
-          value={rowData.details}
-        />
-      ),
-    },
+    { title: "Response Count", field: "responseCount" },
     {
       title: "Post Closing Date",
       field: "closingDate",
       type: "date",
       sorting: false,
     },
-    { title: "Education Level", field: "educationLevel", sorting: false },
-    {
-      title: "Course Fee",
-      field: "courseFee",
-      align: "left",
-      render: (rowData) => {
-        if (rowData.courseFee === 0) {
-          return (
-            <Chip label="Free Of Charge" color="success" variant="filled" />
-          );
-        } else {
-          return "LKR " + rowData.courseFee.toFixed(2);
-        }
-      },
-      type: "currency",
-    },
-    { title: "Course Duration", field: "courseDuration", sorting: false },
+    // {
+    //   title: "Course Fee",
+    //   field: "courseFee",
+    //   align: "left",
+    //   render: (rowData) => {
+    //     if (rowData?.courseFee === 0) {
+    //       return (
+    //         <Chip label="Free Of Charge" color="success" variant="filled" />
+    //       );
+    //     } else {
+    //       return "LKR " + rowData?.courseFee.toFixed(2);
+    //     }
+    //   },
+    //   type: "currency",
+    // },
   ];
 
   const updateOpenPopup = (data) => {
@@ -72,10 +58,7 @@ export default function EduResponse() {
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(
-      collection(db, "EduResponse"),
-      orderBy("createdAt", "desc")
-    );
+    const q = query(collection(db, "EduPostResponse"));
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {

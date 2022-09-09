@@ -13,13 +13,61 @@ import React from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  increment,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../FireBase/Config";
 
 export default function CustomDataViewPop({ data }) {
   const navigate = useNavigate();
+  const { curruntUser } = useSelector((state) => state.user);
 
-  const handleNavigate = (ViewData) => {
-    console.log(ViewData);
-    navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
+  const handleNavigate = async (ViewData) => {
+    if (curruntUser) {
+      const docRef = doc(db, "EduPostResponse", ViewData.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        const response = {
+          name: curruntUser.name,
+          email: curruntUser.email,
+          phoneNo: curruntUser.phoneNo,
+          date: Timestamp.fromDate(new Date()),
+          educationLevel: curruntUser.educationLevel,
+          userId: curruntUser.id,
+        };
+        await updateDoc(docRef, {
+          responseCount: increment(1),
+          postresponses: arrayUnion(response),
+        });
+      } else {
+        const response = {
+          postTile: ViewData.title,
+          postClosingDate: ViewData.closingDate,
+          postFee: ViewData.courseFee,
+          responseCount: 1,
+          postresponses: [
+            {
+              name: curruntUser.name,
+              email: curruntUser.email,
+              phoneNo: curruntUser.phoneNo,
+              date: Timestamp.fromDate(new Date()),
+              educationLevel: curruntUser.educationLevel,
+              userId: curruntUser.id,
+            },
+          ],
+        };
+        await setDoc(doc(db, "EduPostResponse", ViewData.id), response);
+      }
+    }
+    // navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
   };
   return (
     <Container>

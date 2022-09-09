@@ -12,19 +12,19 @@ import {
 import React, { useState, useEffect } from "react";
 import CustomTextField from "../../CustomTextField/CustomTextField";
 import { useLocation } from "react-router-dom";
-
+import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
+import { LoadingButton } from "@mui/lab";
+import CustomSelect from "../../CustomSelect/CustomSelect";
+import { EducationLevel } from "../../../Constants/Constants";
+import CustomTextArea from "../../CustomTextArea/CustomTextArea";
 const initialValues = {
   firstName: "",
   lastName: "",
+  dateOfbirth: "",
+  educationLevel: "",
+  contactNo: "",
   email: "",
-  phoneNo: "",
-  address: "",
-  city: "",
-  province: "",
-  education: "",
-  intrest: [],
-  password: "",
-  confirmPassword: "",
+  aboutMe: "",
 };
 
 export default function UserEduApplyForm() {
@@ -50,6 +50,7 @@ export default function UserEduApplyForm() {
   useEffect(() => {
     if (location.state) {
       setPassedData(location.state);
+      console.log(location.state);
     }
   }, [location.state]);
   return (
@@ -110,6 +111,19 @@ export default function UserEduApplyForm() {
                 </Grid>
                 <Grid item xs={12}>
                   {" "}
+                  <CustomDatePicker
+                    autoComplete="date"
+                    errorsMsg={errors.dateOfbirth}
+                    handleChanges={handleChanges}
+                    label="Date Of Birth"
+                    type="date"
+                    value={values.dateOfbirth}
+                    error={Boolean(errors.dateOfbirth)}
+                    name="dateOfbirth"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  {" "}
                   <CustomTextField
                     autoComplete="email"
                     errorsMsg={errors.email}
@@ -135,57 +149,41 @@ export default function UserEduApplyForm() {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  {" "}
-                  <CustomTextField
-                    autoComplete="address"
-                    errorsMsg={errors.address}
+                  <CustomSelect
+                    name="educationLevel"
+                    errorsMsg={errors.educationLevel}
                     handleChanges={handleChanges}
-                    label="Address"
-                    type="text"
-                    value={values.address}
-                    error={Boolean(errors.address)}
-                    name="address"
+                    label="Education Level"
+                    value={values.educationLevel}
+                    error={Boolean(errors.educationLevel)}
+                    options={EducationLevel}
+                    width="100%"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  {" "}
-                  <CustomTextField
-                    autoComplete="address-level2"
-                    errorsMsg={errors.city}
-                    handleChanges={handleChanges}
-                    label="City"
-                    type="text"
-                    value={values.city}
-                    error={Boolean(errors.city)}
-                    name="city"
-                  />
-                </Grid>
-                {/* <Grid item xs={12} sm={6}>
-              <CustomSelect
-                handleChanges={handleChanges}
-                errorsMsg={errors.province}
-                label="Province"
-                value={values.province}
-                error={Boolean(errors.province)}
-                name="province"
-                width="100%"
-                options={Provinces}
-              />
-            </Grid> */}
-
                 <Grid item xs={12}>
-                  {" "}
-                  {/* <LoadingButton
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3 }}
-                loading={loading}
-                size="large"
-                loadingPosition="center"
-              >
-                Sign Up
-              </LoadingButton>{" "} */}
+                  <CustomTextArea
+                    autoComplete="off"
+                    errorsMsg={errors.aboutMe}
+                    handleChanges={handleChanges}
+                    label="Give a brief description about yourself"
+                    type="text"
+                    value={values.aboutMe}
+                    error={Boolean(errors.aboutMe)}
+                    name="aboutMe"
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <LoadingButton
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3 }}
+                    loading={loading}
+                    size="large"
+                    loadingPosition="center"
+                  >
+                    Sign Up
+                  </LoadingButton>
                 </Grid>
               </Grid>
             </Stack>
@@ -208,7 +206,7 @@ export default function UserEduApplyForm() {
                     Course Fee-: {passedData && passedData.courseFee}
                   </Typography>
                   <Typography variant="body2" align="center">
-                    Course Duration-: {passedData && passedData.duration}
+                    Course Duration-: {passedData && passedData.courseDuration}
                   </Typography>
                 </Stack>
               </Box>
