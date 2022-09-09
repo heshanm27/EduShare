@@ -37,7 +37,12 @@ export default function CustomListCollapse(props) {
     color: theme.palette.secondary.main,
   };
   useEffect(() => {
-    setActive(location.pathname === path);
+    if (path.includes(location.pathname)) {
+      setActive(true);
+    }
+    return () => {
+      setActive(false);
+    };
   }, [location, path]);
   return (
     <List

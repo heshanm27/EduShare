@@ -2,9 +2,9 @@ import { Button, Chip, Container, TextareaAutosize } from "@mui/material";
 import MaterialTable, { MTableAction } from "material-table";
 import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
-import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
-import EduationalForm from "../../../Components/Forms/EducationalForm/EduationalForm";
-import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
+import CustomeDialog from "../../../../Components/CustomDialog/CustomDialog";
+import EduationalForm from "../../../../Components/Forms/EducationalForm/EduationalForm";
+import CustomSnackBar from "../../../../Components/CustomSnackBar/CustomSnakBar";
 
 import {
   collection,
@@ -14,8 +14,8 @@ import {
   orderBy,
   query,
 } from "firebase/firestore";
-import { db } from "../../../FireBase/Config";
-export default function OppertunitesAdmin() {
+import { db } from "../../../../FireBase/Config";
+export default function EduResponse() {
   const [open, setOpen] = useState(false);
   const [updateValue, setUpdateValue] = useState(null);
   const [FullData, setFullData] = useState([]);
@@ -73,12 +73,13 @@ export default function OppertunitesAdmin() {
   };
   useEffect(() => {
     const q = query(
-      collection(db, "EduationalPost"),
+      collection(db, "EduResponse"),
       orderBy("createdAt", "desc")
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
+        console.log(doc.id);
         postData.push({ ...doc.data(), id: doc.id });
       });
       setFullData(postData);

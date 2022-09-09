@@ -12,7 +12,15 @@ import {
 import React from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { useNavigate } from "react-router-dom";
+
 export default function CustomDataViewPop({ data }) {
+  const navigate = useNavigate();
+
+  const handleNavigate = (ViewData) => {
+    console.log(ViewData);
+    navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
+  };
   return (
     <Container>
       <Paper>
@@ -98,7 +106,7 @@ export default function CustomDataViewPop({ data }) {
               </AccordionDetails>
             </Accordion>
           </div>
-          <Button>Enroll now</Button>
+          <Button onClick={() => handleNavigate(data)}>Enroll now</Button>
         </Stack>
       </Paper>
     </Container>
