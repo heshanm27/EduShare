@@ -104,6 +104,7 @@ export default function UserNavBar() {
                     </Button>
                   );
                 })}
+
               <IconButton
                 aria-label="delete"
                 onClick={handleClick}
