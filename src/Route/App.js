@@ -74,7 +74,10 @@ function App() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           UserDetails.id = user.uid;
-          UserDetails.name = docSnap.data().firstName;
+          UserDetails.name =
+            docSnap.data().firstName + " " + docSnap.data().lastName;
+          UserDetails.phoneNo = docSnap.data().phoneNo;
+          UserDetails.educationLevel = docSnap.data().education;
           UserDetails.email = user.email;
           UserDetails.image = docSnap.data().img;
           UserDetails.role = docSnap.data().userRole;

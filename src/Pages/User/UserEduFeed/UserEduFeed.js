@@ -33,7 +33,8 @@ import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSke
 import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
-import UserNavBar from "../../../Components/UserNavBar/UserNavBar";
+import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
+
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -44,6 +45,14 @@ export default function UserEduFeed() {
   const theme = useTheme();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
@@ -121,7 +130,7 @@ export default function UserEduFeed() {
         sx={{ mt: 5, backgroundColor: theme.palette.background.paper }}
       >
         <Typography variant="h4" color={theme.palette.primary.main}>
-          Educationa Feed
+          Educational Feed
         </Typography>
         <Container maxWidth="lg">
           <Stack
@@ -262,8 +271,13 @@ export default function UserEduFeed() {
           title="Course Details"
           maxWidth="md"
         >
-          <CustomDataViewPop data={seletedCardData} />
+          <CustomDataViewPop
+            data={seletedCardData}
+            setOpen={setOpen}
+            setNotify={setNotify}
+          />
         </CustomeDialog>
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );
