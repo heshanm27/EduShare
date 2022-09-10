@@ -9,7 +9,7 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
@@ -25,34 +25,76 @@ import {
 } from "firebase/firestore";
 import { db } from "../../FireBase/Config";
 
-export default function CustomDataViewPop({ data }) {
+export default function CustomDataViewPop({ data, setOpen, setNotify }) {
   const navigate = useNavigate();
   const { curruntUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    async function UpdateViewCount() {
+      const docmentRef = doc(db, "EduPostResponse", data.id);
+      const docmentSnap = await getDoc(docmentRef);
+      if (docmentSnap.exists()) {
+        await updateDoc(docmentRef, {
+          postViews: increment(1),
+        });
+      }
+    }
+    UpdateViewCount();
+  }, [data.id]);
 
   const handleNavigate = async (ViewData) => {
     if (curruntUser) {
       const docRef = doc(db, "EduPostResponse", ViewData.id);
       const docSnap = await getDoc(docRef);
-
+      console.log();
       if (docSnap.exists()) {
-        const response = {
-          name: curruntUser.name,
-          email: curruntUser.email,
-          phoneNo: curruntUser.phoneNo,
-          date: Timestamp.fromDate(new Date()),
-          educationLevel: curruntUser.educationLevel,
-          userId: curruntUser.id,
-        };
-        await updateDoc(docRef, {
-          responseCount: increment(1),
-          postresponses: arrayUnion(response),
-        });
+        if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
+          const response = {
+            name: curruntUser.name,
+            email: curruntUser.email,
+            phoneNo: curruntUser.phoneNo,
+            date: Timestamp.fromDate(new Date()),
+            educationLevel: curruntUser.educationLevel,
+            userId: curruntUser.id,
+          };
+          try {
+            await updateDoc(docRef, {
+              ApplyedUserID: arrayUnion(curruntUser.id),
+              responseCount: increment(1),
+              postresponses: arrayUnion(response),
+            });
+            setOpen(false);
+            setNotify({
+              isOpen: true,
+              message: "Applied Successfully",
+              type: "success",
+              title: "Success",
+            });
+          } catch (err) {
+            console.log(err);
+            setNotify({
+              isOpen: true,
+              message: "Something went wrong",
+              type: "error",
+              title: "Error",
+            });
+          }
+        } else {
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "You have already applied",
+            type: "warning",
+            title: "Warning",
+          });
+        }
       } else {
         const response = {
           postTile: ViewData.title,
           postClosingDate: ViewData.closingDate,
           postFee: ViewData.courseFee,
           responseCount: 1,
+          postViews: 1,
           postresponses: [
             {
               name: curruntUser.name,
@@ -63,8 +105,26 @@ export default function CustomDataViewPop({ data }) {
               userId: curruntUser.id,
             },
           ],
+          ApplyedUserID: [curruntUser.id],
         };
-        await setDoc(doc(db, "EduPostResponse", ViewData.id), response);
+        try {
+          await setDoc(doc(db, "EduPostResponse", ViewData.id), response);
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "Applied Successfully",
+            type: "success",
+            title: "Success",
+          });
+        } catch (err) {
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "Something went wrong",
+            type: "error",
+            title: "Error",
+          });
+        }
       }
     }
     // navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });

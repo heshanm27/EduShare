@@ -3,7 +3,7 @@ import { Outlet, Navigate } from "react-router";
 
 import { useSelector } from "react-redux";
 export default function ProtetedRoute({ roleRequired }) {
-  const { curruntUser, isLoggedIn } = useSelector((state) => state.user);
+  const { curruntUser } = useSelector((state) => state.user);
 
   const auth = curruntUser;
   const roleType = curruntUser?.role;
