@@ -25,7 +25,8 @@ import UserEduApplyForm from "../Components/Forms/UserEduApplyForm/UserEduApplyF
 import UserNavBar from "../Components/UserNavBar/UserNavBar";
 import UserDonFeed from "../Pages/User/UserDonFeed/UserDonFeed";
 import UserVonFeed from "../Pages/User/UserVonFeed/UserVonFeed";
-
+import SignUpRole from "../Pages/SignUp.js/SignUpRole/SignUpRole";
+import EduResponse from "../Pages/Organization/Responses/EduResponse/EduResponse";
 const theme = createTheme({
   palette: {
     primary: {
@@ -33,8 +34,8 @@ const theme = createTheme({
       contrastText: "#fff",
     },
     secondary: {
-      main: "#3da9fc",
-      light: "#b3e5fc",
+      main: "#0071F2",
+      light: "#2D9CDB",
       contrastText: "#fff",
     },
     text: {},
@@ -73,7 +74,10 @@ function App() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           UserDetails.id = user.uid;
-          UserDetails.name = docSnap.data().firstName;
+          UserDetails.name =
+            docSnap.data().firstName + " " + docSnap.data().lastName;
+          UserDetails.phoneNo = docSnap.data().phoneNo;
+          UserDetails.educationLevel = docSnap.data().education;
           UserDetails.email = user.email;
           UserDetails.image = docSnap.data().img;
           UserDetails.role = docSnap.data().userRole;
@@ -95,12 +99,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/roles" element={<SignUpRole />} />
           <Route
             path="/signin"
             element={
               curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
             }
           />
+
           <Route element={<ProtetedRoute />}>
             <Route element={<ProtetedRoute roleRequired="user" />}>
               <Route element={<UserNavBar />}>
@@ -108,7 +114,10 @@ function App() {
                 <Route path="/edufeed" element={<UserEduFeed />} />
                 <Route path="/donfeed" element={<UserDonFeed />} />
                 <Route path="/vonfeed" element={<UserVonFeed />} />
-                <Route path="/eduform" element={<UserEduApplyForm />} />
+                <Route
+                  path="/edufeed/eduform/:id"
+                  element={<UserEduApplyForm />}
+                />
               </Route>
             </Route>
             {/* adminRoute */}
@@ -122,6 +131,7 @@ function App() {
               {/* Organization route */}
               <Route element={<ProtetedRoute roleRequired="org" />}>
                 <Route path="/edu" element={<EducationalOrg />} />
+                <Route path="/edu/response" element={<EduResponse />} />
                 <Route path="/don" element={<DonationOrg />} />
                 <Route path="/vol" element={<VoluntterOrg />} />
               </Route>

@@ -16,11 +16,14 @@ function NavListitem({ label, icon, activeIcon, path, onClick }) {
   const navigate = useNavigate();
   const theme = useTheme();
   const ActiveMenuIteStyle = {
-    color: theme.palette.secondary.dark,
-    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.secondary.contrastText,
+    backgroundColor: theme.palette.secondary.main,
     width: "80%",
     borderRadius: theme.spacing(1),
     marginBottom: theme.spacing(1),
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
   };
   const NormalMenuItemStyle = {
     width: "80%",
@@ -28,7 +31,10 @@ function NavListitem({ label, icon, activeIcon, path, onClick }) {
     marginBottom: theme.spacing(1),
   };
   const ActiveIconStyle = {
-    color: theme.palette.secondary.dark,
+    color: theme.palette.secondary.contrastText,
+    "&:hover": {
+      color: theme.palette.secondary.main,
+    },
   };
 
   useEffect(() => {

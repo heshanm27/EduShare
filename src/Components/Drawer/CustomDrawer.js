@@ -197,7 +197,12 @@ export default function CustomDrawer() {
       </AppBar>
       <Drawer variant={reslution ? "temporary" : "permanent"} open={open}>
         <DrawerHeader>
-          <Typography variant="h6" noWrap align="left">
+          <Typography
+            variant="h6"
+            noWrap
+            align="left"
+            color={theme.palette.secondary.main}
+          >
             EduShare
           </Typography>
           <Tooltip title="Close">
@@ -228,7 +233,7 @@ export default function CustomDrawer() {
                 ListItems={EduOpportunitiesRoutes}
                 onclicks={closeNavigation}
                 DrawerStatus={open}
-                path="/edu"
+                path={["/edu", "/edu/response", "/edu/summury"]}
               />
               <Divider />
               <Divider />
@@ -239,7 +244,7 @@ export default function CustomDrawer() {
                 ListItems={VolOpportunitiesRoutes}
                 onclicks={closeNavigation}
                 DrawerStatus={open}
-                path="/vol"
+                path={["/vol", "/vol/response", "/vol/summury"]}
               />
               <Divider />
               <Divider />
@@ -250,7 +255,7 @@ export default function CustomDrawer() {
                 ListItems={DonOpportunitiesRoutes}
                 onclicks={closeNavigation}
                 DrawerStatus={open}
-                path="/don"
+                path={["/don", "/don/response", "/don/summury"]}
               />
               <Divider />
             </>

@@ -68,6 +68,9 @@ export default function CustomNavBar() {
       case "/signup":
         setHide(true);
         break;
+      case "/roles":
+        setHide(true);
+        break;
       default:
         setHide(false);
     }
@@ -141,6 +144,7 @@ export default function CustomNavBar() {
                       <Button
                         key={index}
                         variant={hash === link.path ? "outlined" : "text"}
+                        color={hash === link.path ? "secondary" : "primary"}
                         href={link.path}
                       >
                         {link.title}

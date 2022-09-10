@@ -3,15 +3,132 @@ import {
   AccordionDetails,
   AccordionSummary,
   Button,
+  Chip,
   Container,
   Paper,
   Stack,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-export default function CustomDataViewPop({ data }) {
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  increment,
+  setDoc,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../../FireBase/Config";
+
+export default function CustomDataViewPop({ data, setOpen, setNotify }) {
+  const navigate = useNavigate();
+  const { curruntUser } = useSelector((state) => state.user);
+
+  useEffect(() => {
+    async function UpdateViewCount() {
+      const docmentRef = doc(db, "EduPostResponse", data.id);
+      const docmentSnap = await getDoc(docmentRef);
+      if (docmentSnap.exists()) {
+        await updateDoc(docmentRef, {
+          postViews: increment(1),
+        });
+      }
+    }
+    UpdateViewCount();
+  }, [data.id]);
+
+  const handleNavigate = async (ViewData) => {
+    if (curruntUser) {
+      const docRef = doc(db, "EduPostResponse", ViewData.id);
+      const docSnap = await getDoc(docRef);
+      console.log();
+      if (docSnap.exists()) {
+        if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
+          const response = {
+            name: curruntUser.name,
+            email: curruntUser.email,
+            phoneNo: curruntUser.phoneNo,
+            date: Timestamp.fromDate(new Date()),
+            educationLevel: curruntUser.educationLevel,
+            userId: curruntUser.id,
+          };
+          try {
+            await updateDoc(docRef, {
+              ApplyedUserID: arrayUnion(curruntUser.id),
+              responseCount: increment(1),
+              postresponses: arrayUnion(response),
+            });
+            setOpen(false);
+            setNotify({
+              isOpen: true,
+              message: "Applied Successfully",
+              type: "success",
+              title: "Success",
+            });
+          } catch (err) {
+            console.log(err);
+            setNotify({
+              isOpen: true,
+              message: "Something went wrong",
+              type: "error",
+              title: "Error",
+            });
+          }
+        } else {
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "You have already applied",
+            type: "warning",
+            title: "Warning",
+          });
+        }
+      } else {
+        const response = {
+          postTile: ViewData.title,
+          postClosingDate: ViewData.closingDate,
+          postFee: ViewData.courseFee,
+          responseCount: 1,
+          postViews: 1,
+          postresponses: [
+            {
+              name: curruntUser.name,
+              email: curruntUser.email,
+              phoneNo: curruntUser.phoneNo,
+              date: Timestamp.fromDate(new Date()),
+              educationLevel: curruntUser.educationLevel,
+              userId: curruntUser.id,
+            },
+          ],
+          ApplyedUserID: [curruntUser.id],
+        };
+        try {
+          await setDoc(doc(db, "EduPostResponse", ViewData.id), response);
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "Applied Successfully",
+            type: "success",
+            title: "Success",
+          });
+        } catch (err) {
+          setOpen(false);
+          setNotify({
+            isOpen: true,
+            message: "Something went wrong",
+            type: "error",
+            title: "Error",
+          });
+        }
+      }
+    }
+    // navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
+  };
   return (
     <Container>
       <Paper>
@@ -27,7 +144,7 @@ export default function CustomDataViewPop({ data }) {
             width="50%"
             loading="lazy"
           />
-          <Typography>{data.details}</Typography>
+          <Typography sx={{ p: 1 }}>{data.details}</Typography>
           <div>
             <Accordion>
               <AccordionSummary
@@ -35,15 +152,46 @@ export default function CustomDataViewPop({ data }) {
                 aria-controls="panel1a-content"
                 id="panel1a-header"
               >
-                <Typography sx={{ width: "33%", flexShrink: 0 }}>
+                <Typography
+                  display="inline"
+                  sx={{ width: "33%", flexShrink: 0 }}
+                >
+                  {" "}
                   Course fee - :
                 </Typography>
-                <Typography sx={{ color: "text.secondary" }}>
-                  {data.courseFee}
-                </Typography>
+                {data &&
+                  (data.courseFee === 0 ? (
+                    <Chip
+                      label="  Free Of Charge"
+                      color="success"
+                      variant="filled"
+                    />
+                  ) : (
+                    <Typography
+                      align="right"
+                      display="inline"
+                      sx={{ color: "text.secondary" }}
+                    >
+                      {data.courseFee + " LKR"}
+                    </Typography>
+                  ))}
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>Free</Typography>
+                {
+                  <Typography>
+                    {data && data.courseFee === 0
+                      ? `This course will provide by us for free of charge`
+                      : ` For 6 monthes we charge ${data.courseFee} LKR as course fee `}
+                  </Typography>
+                }
+
+                {data.courseFee === 0 ? (
+                  ""
+                ) : (
+                  <Typography variant="caption" color="GrayText">
+                    TAX&VAT Applyed
+                  </Typography>
+                )}
               </AccordionDetails>
             </Accordion>
             <Accordion>
@@ -60,15 +208,13 @@ export default function CustomDataViewPop({ data }) {
                 </Typography>
               </AccordionSummary>
               <AccordionDetails>
-                <Typography>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse malesuada lacus ex, sit amet blandit leo lobortis
-                  eget.
+                <Typography sx={{ width: { md: "750px", sm: "100%" } }}>
+                  This course content will be complete within 6 months
                 </Typography>
               </AccordionDetails>
             </Accordion>
           </div>
-          <Button>Enroll now</Button>
+          <Button onClick={() => handleNavigate(data)}>Enroll now</Button>
         </Stack>
       </Paper>
     </Container>

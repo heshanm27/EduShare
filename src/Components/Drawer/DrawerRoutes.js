@@ -2,6 +2,8 @@ import AssessmentIcon from "@mui/icons-material/Assessment";
 import AssessmentOutlinedIcon from "@mui/icons-material/AssessmentOutlined";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import SettingsApplicationsOutlinedIcon from "@mui/icons-material/SettingsApplicationsOutlined";
+import InboxIcon from "@mui/icons-material/Inbox";
+import InboxOutlinedIcon from "@mui/icons-material/InboxOutlined";
 export const EduOpportunitiesRoutes = [
   {
     label: "Manage",
@@ -11,8 +13,14 @@ export const EduOpportunitiesRoutes = [
     component: "Warrenty",
   },
   {
+    label: "Response",
+    path: "/edu/response",
+    icon: <InboxOutlinedIcon />,
+    activeIcon: <InboxIcon />,
+  },
+  {
     label: "Summury",
-    path: "/edusummury",
+    path: "/edu/summury",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",
@@ -29,7 +37,7 @@ export const DonOpportunitiesRoutes = [
   },
   {
     label: "Summury",
-    path: "/donsummury",
+    path: "/don/summury",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",
@@ -46,7 +54,7 @@ export const VolOpportunitiesRoutes = [
   },
   {
     label: "Summury",
-    path: "/volsummury",
+    path: "/vol/summury",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",

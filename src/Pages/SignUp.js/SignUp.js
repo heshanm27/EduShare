@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Avatar from "@mui/material/Avatar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Link from "@mui/material/Link";
@@ -7,7 +7,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import {
-  Button,
   Chip,
   IconButton,
   Paper,
@@ -18,17 +17,16 @@ import {
 import LoadingButton from "@mui/lab/LoadingButton";
 import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import CustomNavBar from "../../Components/NavBar/CustomNavBar";
-import { useEffect } from "react";
 import { collection, getDocs, setDoc, doc } from "firebase/firestore";
 import { auth, db } from "../../FireBase/Config";
 import CustomPasswordInput from "../../Components/CustomPasswordInput/CustomePasswordInput";
 import CustomSelect from "../../Components/CustomSelect/CustomSelect";
-
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
 import { uploadImage } from "../../utility/UploadImage";
 import DoneIcon from "@mui/icons-material/Done";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { EducationLevel } from "../../Constants/Constants";
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -53,13 +51,6 @@ const Provinces = [
   { value: "uva", label: "Uva" },
   { value: "southern", label: "Southern" },
   { value: "western", label: "Western" },
-];
-
-const Education = [
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
-  { value: "primary", label: "Primary" },
 ];
 
 export default function SignUp() {
@@ -358,7 +349,7 @@ export default function SignUp() {
                   label="Education"
                   value={values.education}
                   error={Boolean(errors.education)}
-                  options={Education}
+                  options={EducationLevel}
                   width="100%"
                 />
               </Grid>

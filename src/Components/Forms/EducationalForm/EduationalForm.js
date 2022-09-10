@@ -19,7 +19,7 @@ import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import CustomTextField from "../../CustomTextField/CustomTextField";
-import { EducationLevel } from "../../../Constants/Constants";
+import { EducationLevel, CourseDurations } from "../../../Constants/Constants";
 import CustomIntrestedArea from "../../CustomIntrestedArea/CustomIntrestedArea";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
@@ -36,6 +36,8 @@ const initialValues = {
   phoneNo: "",
   courseFee: "0",
   closingDate: "",
+  courseDuration: "",
+  email: "",
   ThumbnailUrl:
     "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5",
 };
@@ -48,6 +50,8 @@ const initialErrors = {
   phoneNo: "",
   courseFee: "",
   closingDate: "",
+  courseDuration: "",
+  email: "",
 };
 export default function EduationalForm({
   setNotify,
@@ -94,9 +98,15 @@ export default function EduationalForm({
       (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
         ? ""
         : "Please enter valid phone number");
+    temp.email =
+      (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
+      (values.email ? "" : "Please enter email ");
     temp.educationLevel = values.educationLevel
       ? ""
       : "Please select education level";
+    temp.courseDuration = values.courseDuration
+      ? ""
+      : "Please select course duration ";
     temp.closingDate = values.closingDate ? "" : "Please select closing date";
     temp.courseFee =
       (Number(values.courseFee) >= 0 ? "" : "Please enter 1 course fee") ||
@@ -159,7 +169,9 @@ export default function EduationalForm({
         educationLevel: values.educationLevel,
         intrest: values.intrest,
         phoneNo: values.phoneNo,
+        courseDuration: values.courseDuration,
         courseFee: Number(values.courseFee),
+        contactEmail: values.email,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
@@ -201,6 +213,8 @@ export default function EduationalForm({
         intrest: values.intrest,
         phoneNo: values.phoneNo,
         courseFee: Number(values.courseFee),
+        courseDuration: values.courseDuration,
+        contactEmail: values.email,
         closingDate: values.closingDate,
         ThumbnailUrl: Url ? Url : values.ThumbnailUrl,
         searchTags: values.title.toLowerCase(),
@@ -309,6 +323,31 @@ export default function EduationalForm({
           />
         </Grid>
 
+        <Grid item xs={12}>
+          {" "}
+          <CustomTextField
+            autoComplete="email"
+            errorsMsg={errors.email}
+            handleChanges={handleChanges}
+            label="Contact Email Address"
+            type="email"
+            value={values.email}
+            error={Boolean(errors.email)}
+            name="email"
+          />
+        </Grid>
+        <Grid item xs={12}>
+          <CustomSelect
+            name="courseDuration"
+            errorsMsg={errors.courseDuration}
+            handleChanges={handleChanges}
+            label="Course Duration"
+            value={values.courseDuration}
+            error={Boolean(errors.courseDuration)}
+            options={CourseDurations}
+            width="100%"
+          />
+        </Grid>
         <Grid item xs={12}>
           {" "}
           <CustomTextField
