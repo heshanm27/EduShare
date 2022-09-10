@@ -39,3 +39,11 @@
   they will be collected and implemented using event delegation.*/
 
 /*lorem ipsum*/
+
+/*
+
+Rashmitha is a graduate who's working as a software engineer in well reputed company. He seeks for 
+career advancements and salary increments by continously updating his knowledge and also looking for 
+foreign woking opportunities to build a good career protfoloio.
+
+*/
