@@ -38,7 +38,6 @@
 /*Using props and state, we can put together a small Todo application. This example uses state to track the current list of items as well as the text that the user has entered. Although event handlers appear to be rendered inline,
   they will be collected and implemented using event delegation.*/
 
-
 /*lorem ipsum*/
 
 /*
@@ -49,13 +48,22 @@ foreign woking opportunities to build a good career protfoloio.
 
 */
 
-  /*Using props and state, we can put together a small Todo application.
+/*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
-   /*React is a JavaScript library for building user interfaces.
+/*React is a JavaScript library for building user interfaces.
 
     React is used to build single-page applications.
 
     React allows us to create reusable UI components.*/
 
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+/*React is a JavaScript library for building user interfaces.
+
+    React is used to build single-page applications.
+
+    React allows us to create reusable UI components.*/
