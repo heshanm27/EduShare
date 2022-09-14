@@ -214,7 +214,9 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
               </AccordionDetails>
             </Accordion>
           </div>
-          <Button onClick={() => handleNavigate(data)}>Enroll now</Button>
+          <Button variant="contained" onClick={() => handleNavigate(data)}>
+            Enroll now
+          </Button>
         </Stack>
       </Paper>
     </Container>

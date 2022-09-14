@@ -123,17 +123,28 @@ export default function CustomNavBar() {
 
                       case true:
                         return (
-                          <IconButton
-                            aria-label="delete"
-                            onClick={handleClick}
-                            size="large"
-                            key={index}
-                          >
-                            <Avatar
-                              alt="Remy Sharp"
-                              src={curruntUser.image ? curruntUser.image : ""}
-                            />
-                          </IconButton>
+                          <>
+                            <Button
+                              variant="text"
+                              color="primary"
+                              component="a"
+                              href="/edufeed"
+                            >
+                              User Feed
+                            </Button>
+
+                            <IconButton
+                              aria-label="delete"
+                              onClick={handleClick}
+                              size="large"
+                              key={index}
+                            >
+                              <Avatar
+                                alt="Remy Sharp"
+                                src={curruntUser.image ? curruntUser.image : ""}
+                              />
+                            </IconButton>
+                          </>
                         );
 
                       default:
@@ -157,6 +168,7 @@ export default function CustomNavBar() {
                   Home
                 </Button>
               )}
+
               <IconButton aria-label="delete" size="large"></IconButton>
             </Stack>
           </Stack>

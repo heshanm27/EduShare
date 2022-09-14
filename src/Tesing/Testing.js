@@ -88,10 +88,6 @@ foreign woking opportunities to build a good career protfoloio.
 
     React allows us to create reusable UI components.*/
 
-/*Using props and state, we can put together a small Todo application.
-   This example uses state to track the current list of items as well as the text that the user has entered.
-   Although event handlers appear to be rendered inline,
-   they will be collected and implemented using event delegation.*/
 
 /*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
@@ -117,3 +113,13 @@ foreign woking opportunities to build a good career protfoloio.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
