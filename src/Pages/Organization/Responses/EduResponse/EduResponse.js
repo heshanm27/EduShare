@@ -128,8 +128,8 @@ export default function EduResponse() {
           }}
           actions={[
             {
-              icon: "visibility",
-              tooltip: "Edit Post",
+              icon: "tableview",
+              tooltip: "Applicants List",
               onClick: (event, rowData) => {
                 console.log(rowData.postresponses);
                 updateOpenPopup(rowData.postresponses);
