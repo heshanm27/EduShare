@@ -9,7 +9,6 @@ import DonationOrg from "../Pages/Organization/Donation/Donation";
 import VoluntterOrg from "../Pages/Organization/Voluntter/Voluntter";
 import SignIn from "../Pages/SignIn/SignIn";
 import SignUp from "../Pages/SignUp.js/SignUp";
-import UserProfile from "../Pages/UserProfile/UserProfile";
 import ProtetedRoute from "./ProtetedRoute";
 import UserManage from "../Pages/Admin/UserManage/UserManage";
 import InterestedAreas from "../Pages/Admin/InterestedAreas/InterestedAreas";
@@ -28,6 +27,7 @@ import UserVonFeed from "../Pages/User/UserVonFeed/UserVonFeed";
 import SignUpRole from "../Pages/SignUp.js/SignUpRole/SignUpRole";
 import EduResponse from "../Pages/Organization/Responses/EduResponse/EduResponse";
 import EduSummary from "../Pages/Organization/Summary/EduSummary/EduSummary";
+import UserProfile from "../Pages/UserProfile/UserProfile";
 const theme = createTheme({
   palette: {
     primary: {
@@ -107,11 +107,10 @@ function App() {
               curruntUser ? <Navigate to={routeChangeToUSer()} /> : <SignIn />
             }
           />
-
+          <Route path="/userprofile" element={<UserProfile />} />
           <Route element={<ProtetedRoute />}>
             <Route element={<ProtetedRoute roleRequired="user" />}>
               <Route element={<UserNavBar />}>
-                <Route path="/user" element={<UserProfile />} />
                 <Route path="/edufeed" element={<UserEduFeed />} />
                 <Route path="/donfeed" element={<UserDonFeed />} />
                 <Route path="/vonfeed" element={<UserVonFeed />} />

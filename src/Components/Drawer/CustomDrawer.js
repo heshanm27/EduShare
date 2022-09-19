@@ -313,7 +313,7 @@ export default function CustomDrawer() {
           onClose={handleClose}
         >
           {curruntUser?.role != "admin" && (
-            <MenuItem onClick={() => handleClose("/profile")}>
+            <MenuItem onClick={() => handleClose("/userprofile")}>
               My account
             </MenuItem>
           )}
