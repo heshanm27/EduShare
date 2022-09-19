@@ -38,12 +38,164 @@
 /*Using props and state, we can put together a small Todo application. This example uses state to track the current list of items as well as the text that the user has entered. Although event handlers appear to be rendered inline,
   they will be collected and implemented using event delegation.*/
 
-  /*Using props and state, we can put together a small Todo application.
+/*lorem ipsum*/
+
+/*
+
+Rashmitha is a graduate who's working as a software engineer in well reputed company. He seeks for 
+career advancements and salary increments by continously updating his knowledge and also looking for 
+foreign woking opportunities to build a good career protfoloio.
+
+*/
+
+/*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
-   /*React is a JavaScript library for building user interfaces.
+/*React is a JavaScript library for building user interfaces.
 
     React is used to build single-page applications.
 
     React allows us to create reusable UI components.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+/*React is a JavaScript library for building user interfaces.
+
+    React is used to build single-page applications.
+
+    React allows us to create reusable UI components.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+/*React is a JavaScript library for building user interfaces.
+
+    React is used to build single-page applications.
+
+    React allows us to create reusable UI components.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+/*React is a JavaScript library for building user interfaces.
+
+    React is used to build single-page applications.
+
+    React allows us to create reusable UI components.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+// // MUI offers a comprehensive suite of UI tools
+// to help you ship new features faster. Start with Material UI,
+// our fully-loaded component library,
+// or bring your own design system to our production-ready components.
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+  /*Using props and state, we can put together a small Todo application.
+   This example uses state to track the current list of items as well as the text that the user has entered.
+   Although event handlers appear to be rendered inline,
+   they will be collected and implemented using event delegation.*/
