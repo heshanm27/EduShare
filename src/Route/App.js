@@ -39,7 +39,12 @@ const theme = createTheme({
       light: "#2D9CDB",
       contrastText: "#fff",
     },
-    text: {},
+  },
+  typography: {
+    fontFamily: "Roboto",
+    fontWeightLight: 400,
+    fontWeightBold: 700,
+    fontWeightRegular: 400,
   },
 });
 
