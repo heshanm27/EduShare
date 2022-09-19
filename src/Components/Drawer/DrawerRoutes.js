@@ -19,8 +19,8 @@ export const EduOpportunitiesRoutes = [
     activeIcon: <InboxIcon />,
   },
   {
-    label: "Summury",
-    path: "/edu/summury",
+    label: "Summary",
+    path: "/edu/summary",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",
@@ -36,8 +36,8 @@ export const DonOpportunitiesRoutes = [
     component: "Spare Parts",
   },
   {
-    label: "Summury",
-    path: "/don/summury",
+    label: "Summary",
+    path: "/don/summary",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",
@@ -53,8 +53,8 @@ export const VolOpportunitiesRoutes = [
     component: "vehicle",
   },
   {
-    label: "Summury",
-    path: "/vol/summury",
+    label: "Summary",
+    path: "/vol/summary",
     icon: <AssessmentOutlinedIcon />,
     activeIcon: <AssessmentIcon />,
     component: "Reports",

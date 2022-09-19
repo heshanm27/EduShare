@@ -93,7 +93,9 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
           postTile: ViewData.title,
           postClosingDate: ViewData.closingDate,
           postFee: ViewData.courseFee,
+          postCreatedAt: ViewData.createdAt,
           responseCount: 1,
+          postCreatedBy: ViewData.createdBy.id,
           postViews: 1,
           postresponses: [
             {

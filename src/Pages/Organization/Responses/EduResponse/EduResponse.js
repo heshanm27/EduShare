@@ -5,7 +5,8 @@ import AddIcon from "@mui/icons-material/Add";
 import CustomeDialog from "../../../../Components/CustomDialog/CustomDialog";
 import EduationalForm from "../../../../Components/Forms/EducationalForm/EduationalForm";
 import CustomSnackBar from "../../../../Components/CustomSnackBar/CustomSnakBar";
-
+import { useSelector } from "react-redux";
+import { isInThePast } from "../../../../utility/UtilityFuntion,";
 import {
   collection,
   deleteDoc,
@@ -13,13 +14,18 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { db } from "../../../../FireBase/Config";
+import TableViewIcon from "@mui/icons-material/TableView";
+import CustomResponsDataView from "../../../../Components/CustomResponsDataView/CustomResponsDataView";
 export default function EduResponse() {
   const [open, setOpen] = useState(false);
-  const [updateValue, setUpdateValue] = useState(null);
+  const [responsesData, setResponsesData] = useState(null);
   const [FullData, setFullData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { curruntUser } = useSelector((state) => state.user);
+  const [selectedRow, setSelectedRow] = useState(null);
   //customer snackbar props
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -28,37 +34,39 @@ export default function EduResponse() {
     title: "",
   });
   const columns = [
-    { title: "Post Title", field: "title" },
+    { title: "Post Title", field: "postTile" },
     { title: "Response Count", field: "responseCount" },
+    { title: "Post Views", field: "postViews" },
     {
       title: "Post Closing Date",
-      field: "closingDate",
+      field: "postClosingDate",
       type: "date",
       sorting: false,
     },
-    // {
-    //   title: "Course Fee",
-    //   field: "courseFee",
-    //   align: "left",
-    //   render: (rowData) => {
-    //     if (rowData?.courseFee === 0) {
-    //       return (
-    //         <Chip label="Free Of Charge" color="success" variant="filled" />
-    //       );
-    //     } else {
-    //       return "LKR " + rowData?.courseFee.toFixed(2);
-    //     }
-    //   },
-    //   type: "currency",
-    // },
+    {
+      title: "Closing Date",
+      field: "courseFee",
+      align: "left",
+      render: (rowData) => {
+        if (isInThePast(rowData.postClosingDate)) {
+          return <Chip label="Expired" color="error" variant="outlined" />;
+        } else {
+          return <Chip label="Active" color="success" variant="outlined" />;
+        }
+      },
+    },
   ];
 
   const updateOpenPopup = (data) => {
-    setUpdateValue(data);
+    setResponsesData(data);
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(collection(db, "EduPostResponse"));
+    console.log(curruntUser?.id);
+    const q = query(
+      collection(db, "EduPostResponse"),
+      where("postCreatedBy", "==", curruntUser?.id)
+    );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
@@ -78,11 +86,19 @@ export default function EduResponse() {
     <>
       <Container maxWidth="xl">
         <MaterialTable
-          title="EDUCATIONAL OPPORTUNITIES"
+          title="Posts Responses"
           isLoading={loading}
+          onRowSelected={(evt, selectedRow) =>
+            setSelectedRow(selectedRow.tableData.id)
+          }
           options={{
             actionsColumnIndex: -1,
             addRowPosition: "first",
+
+            rowStyle: (rowData) => ({
+              backgroundColor:
+                selectedRow === rowData.tableData.id ? "#EEE" : "#FFF",
+            }),
           }}
           localization={{ toolbar: { searchPlaceholder: "Post title" } }}
           columns={columns}
@@ -112,56 +128,23 @@ export default function EduResponse() {
           }}
           actions={[
             {
-              icon: "add",
-              tooltip: "Add User",
-              isFreeAction: true,
-              onClick: () => {},
-            },
-            {
-              icon: "edit",
+              icon: "visibility",
               tooltip: "Edit Post",
               onClick: (event, rowData) => {
-                const data = {
-                  ...rowData,
-                  email: rowData.contactEmail,
-                  courseFee: String(rowData.courseFee),
-                };
-                updateOpenPopup(data);
+                console.log(rowData.postresponses);
+                updateOpenPopup(rowData.postresponses);
               },
             },
           ]}
-          components={{
-            Action: (props) => {
-              if (props.action.icon === "add") {
-                return (
-                  <Button
-                    size="large"
-                    variant="contained"
-                    startIcon={<AddIcon />}
-                    onClick={() => setOpen(true)}
-                    sx={{ margin: "0px 20px" }}
-                  >
-                    Add Post
-                  </Button>
-                );
-              } else {
-                return <MTableAction {...props} />;
-              }
-            },
-          }}
         />
       </Container>
       <CustomeDialog
         open={open}
         setOpen={setOpen}
-        title="Post new eduational opportunity"
+        title="Applicants Details"
+        maxWidth="md"
       >
-        <EduationalForm
-          setNotify={setNotify}
-          setOpen={setOpen}
-          updateValue={updateValue}
-          setUpdateValue={setUpdateValue}
-        />
+        <CustomResponsDataView data={responsesData} />
       </CustomeDialog>
       <CustomSnackBar notify={notify} setNotify={setNotify} />
     </>

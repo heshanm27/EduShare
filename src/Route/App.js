@@ -27,6 +27,7 @@ import UserDonFeed from "../Pages/User/UserDonFeed/UserDonFeed";
 import UserVonFeed from "../Pages/User/UserVonFeed/UserVonFeed";
 import SignUpRole from "../Pages/SignUp.js/SignUpRole/SignUpRole";
 import EduResponse from "../Pages/Organization/Responses/EduResponse/EduResponse";
+import EduSummary from "../Pages/Organization/Summary/EduSummary/EduSummary";
 const theme = createTheme({
   palette: {
     primary: {
@@ -132,8 +133,13 @@ function App() {
               <Route element={<ProtetedRoute roleRequired="org" />}>
                 <Route path="/edu" element={<EducationalOrg />} />
                 <Route path="/edu/response" element={<EduResponse />} />
+                <Route path="/edu/summary" element={<EduSummary />} />
                 <Route path="/don" element={<DonationOrg />} />
+                <Route path="/don/response" element={<DonationOrg />} />
+                <Route path="/don/summary" element={<DonationOrg />} />
                 <Route path="/vol" element={<VoluntterOrg />} />
+                <Route path="/vol/response" element={<VoluntterOrg />} />
+                <Route path="/vol/summary" element={<VoluntterOrg />} />
               </Route>
             </Route>
           </Route>

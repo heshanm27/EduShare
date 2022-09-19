@@ -156,7 +156,7 @@ export default function CustomDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" color="secondary" open={open}>
         <Toolbar>
           <Tooltip title="Open">
             <IconButton
