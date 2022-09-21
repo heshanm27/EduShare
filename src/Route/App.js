@@ -1,5 +1,5 @@
 import { Box, createTheme, ThemeProvider } from "@mui/material";
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import CustomDrawer from "../Components/Drawer/CustomDrawer";
 
 import Landing from "../Pages/Landing/Landing";
@@ -28,6 +28,7 @@ import SignUpRole from "../Pages/SignUp.js/SignUpRole/SignUpRole";
 import EduResponse from "../Pages/Organization/Responses/EduResponse/EduResponse";
 import EduSummary from "../Pages/Organization/Summary/EduSummary/EduSummary";
 import UserProfile from "../Pages/UserProfile/UserProfile";
+import EduReport from "../Pages/Organization/Report/EduReport/EduReport";
 const theme = createTheme({
   palette: {
     primary: {
@@ -52,7 +53,6 @@ function App() {
   const loader = document.querySelector(".centerdiv");
   const dispatch = useDispatch();
   const { curruntUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
   const hideLoader = () => {
     console.log(loader);
     loader.style.display = "none";
@@ -138,6 +138,8 @@ function App() {
                 <Route path="/edu" element={<EducationalOrg />} />
                 <Route path="/edu/response" element={<EduResponse />} />
                 <Route path="/edu/summary" element={<EduSummary />} />
+                <Route path="/edu/summary/report" element={<EduReport />} />
+
                 <Route path="/don" element={<DonationOrg />} />
                 <Route path="/don/response" element={<DonationOrg />} />
                 <Route path="/don/summary" element={<DonationOrg />} />

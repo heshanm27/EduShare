@@ -1,4 +1,4 @@
-import { Button, Chip, Container, TextareaAutosize } from "@mui/material";
+import { Button, Container } from "@mui/material";
 import MaterialTable, { MTableAction } from "material-table";
 import React, { useState, useEffect } from "react";
 import AddIcon from "@mui/icons-material/Add";
@@ -11,11 +11,12 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
-  orderBy,
   query,
 } from "firebase/firestore";
 import { db } from "../../../../FireBase/Config";
+import { useNavigate } from "react-router-dom";
 export default function EduSummary() {
+  const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [updateValue, setUpdateValue] = useState(null);
   const [FullData, setFullData] = useState([]);
@@ -139,7 +140,7 @@ export default function EduSummary() {
                     size="large"
                     variant="contained"
                     startIcon={<AddIcon />}
-                    onClick={() => setOpen(true)}
+                    onClick={() => navigate("/edu/summary/report")}
                     sx={{ margin: "0px 20px" }}
                   >
                     Add Post
