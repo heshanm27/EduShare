@@ -6,7 +6,7 @@ import CustomeDialog from "../../../../Components/CustomDialog/CustomDialog";
 import EduationalForm from "../../../../Components/Forms/EducationalForm/EduationalForm";
 import CustomSnackBar from "../../../../Components/CustomSnackBar/CustomSnakBar";
 import { useSelector } from "react-redux";
-import { isInThePast } from "../../../../utility/UtilityFuntion,";
+import { isInThePast } from "../../../../utility/UtilityFuntion";
 import {
   collection,
   deleteDoc,

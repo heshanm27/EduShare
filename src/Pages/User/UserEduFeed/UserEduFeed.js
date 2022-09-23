@@ -34,6 +34,7 @@ import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
+import { useSelector } from "react-redux";
 
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
@@ -45,7 +46,7 @@ export default function UserEduFeed() {
   const theme = useTheme();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-
+  const { curruntUser } = useSelector((state) => state.user);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -104,6 +105,7 @@ export default function UserEduFeed() {
       console.log(filter, filterSelect, orderDirections);
       q = query(
         collection(db, "EduationalPost"),
+        where("intrest", "array-contains-any", ["Computing", "Engineering"]),
         orderBy(filter, orderDirections)
       );
     }

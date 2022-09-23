@@ -320,7 +320,7 @@ export default function CustomDrawer() {
           <MenuItem onClick={() => handleClose("logout")}>Logout</MenuItem>
         </Menu>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 10 }}>
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}

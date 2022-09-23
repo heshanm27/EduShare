@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Container,
   Grid,
   Skeleton,
@@ -12,14 +13,25 @@ import {
   TableHead,
   TableRow,
   Typography,
+  useTheme,
 } from "@mui/material";
-import Paper from "@mui/material/Paper";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
 import DoneIcon from "@mui/icons-material/Done";
 import { useNavigate } from "react-router-dom";
-
-import { LoadingButton } from "@mui/lab";
+import {
+  calLastMonthe,
+  calTimePeriode,
+  dateFormatter,
+  idGenarator,
+  timeFormatter,
+} from "../../../../utility/UtilityFuntion";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../../FireBase/Config";
+import { useSelector } from "react-redux";
+import * as XLSX from "xlsx";
+import Logo from "../../../../Assets/images/Logo.png";
+import { useReactToPrint } from "react-to-print";
 
 const userStyle = makeStyles((theme) => ({
   roots: {
@@ -41,198 +53,217 @@ const userStyle = makeStyles((theme) => ({
 }));
 export default function EduReport() {
   const classes = userStyle();
-  let TotalNoPays = 0;
-  let TotalAttendence = 0;
-  let TotalApplyLeaves = 0;
-
-  const curruntData = [];
-  // const [reportDate, setReportDate] = useState(dateFormatter(new Date()));
-  // const [reportTime, setReportTime] = useState(timeFormatter(new Date()));
-  // const [reportID, setreportID] = useState(Genrator("GMRF"));
-  // const [periode, setperiode] = useState(getMonthe());
-  const [isEmpty, setisEmpty] = useState(true);
-  const [isload, setisload] = useState(false);
-  const [rows, setRows] = useState([{}]);
-  const [basic, setBasic] = useState([{}]);
-
+  const theme = useTheme();
+  const { curruntUser } = useSelector((state) => state.user);
+  const [reportDate, setReportDate] = useState(dateFormatter(new Date()));
+  const [reportTime, setReportTime] = useState(timeFormatter(new Date()));
+  const [loading, setLoading] = useState(true);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [data, setData] = useState([]);
+  const [reportID, setreportID] = useState(idGenarator("REDU"));
+  const [TotlaPostViews, setTotlaPostViews] = useState(0);
+  const [TotlaPostResponses, setTotlaPostResponses] = useState(0);
+  const pdfRef = useRef(null);
+  const [reportData, setReportData] = useState([]);
   const navigate = useNavigate();
+  const handlePrint = useReactToPrint({
+    content: () => pdfRef.current,
+  });
 
-  //Api Calls
-  //add data
-
-  //funtions
-  const calTotalAttendees = (val) => {
-    TotalAttendence += val;
-    return val;
+  const downloadExcel = () => {
+    console.log(reportData);
+    const workSheet = XLSX.utils.json_to_sheet(reportData);
+    const workBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workBook, workSheet, "Report");
+    //Buffer
+    let buf = XLSX.write(workBook, { bookType: "xlsx", type: "buffer" });
+    //Binary string
+    XLSX.write(workBook, { bookType: "xlsx", type: "binary" });
+    //Download
+    XLSX.writeFile(workBook, `${reportID}Report.xlsx`);
   };
 
-  const calTotalNoPay = (val) => {
-    TotalNoPays += val;
-    return val;
-  };
-
-  const calTotalApplyLeaves = (val) => {
-    TotalApplyLeaves += val;
-    return val;
-  };
+  useEffect(() => {
+    setLoading(true);
+    const q = query(
+      collection(db, "EduPostResponse"),
+      where("postCreatedAt", ">", calLastMonthe()),
+      where("postCreatedAt", "<=", new Date()),
+      where("postCreatedBy", "==", curruntUser.id)
+    );
+    const retriveData = async () => {
+      const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        setIsEmpty(false);
+      } else {
+        setIsEmpty(true);
+      }
+      setData(querySnapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+      querySnapshot.docs.forEach((doc) => {
+        setTotlaPostViews((prev) => prev + doc.data().postViews);
+        setTotlaPostResponses((prev) => prev + doc.data().responseCount);
+        console.log(doc.data());
+        setReportData((prev) => [
+          ...prev,
+          {
+            PostID: doc.id,
+            PostTitle: doc.data().postTile,
+            PostViews: doc.data().postViews,
+            PostResponses: doc.data().responseCount,
+          },
+        ]);
+      });
+    };
+    setLoading(false);
+    retriveData();
+  }, []);
 
   return (
-    <div className={classes.roots}>
-      <Container maxWidth="lg" className={classes.container}>
+    <div>
+      <Container maxWidth="lg" ref={pdfRef}>
         <Box className={classes.box}>
           <Stack direction="row" spacing={2} justifyContent="center">
-            {/* <Avatar src={Logo} sx={{ width: 75, height: 75 }}></Avatar> */}
+            <Avatar src={Logo} sx={{ width: 75, height: 75 }}></Avatar>
           </Stack>
           <Stack
             direction="column"
             justifyContent="center"
             sx={{ margin: "20px" }}
           >
-            <Typography component="h2" variant="h5">
-              Gallage Moters (pvt) Ltd.
+            <Typography
+              component="h2"
+              variant="h3"
+              color={theme.palette.primary.main}
+              align="center"
+            >
+              EduShare
             </Typography>
-            <Typography>
-              Contact:0771423837 Email: GallageMotors@gmail.com
+            <Typography align="center">
+              Contact:0771423837 / Email: Edushare@gmail.com
             </Typography>
-            <Typography>Monthly Employee Attendence Report</Typography>
+            <Typography align="center">Monthly activity summary</Typography>
           </Stack>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <Grid container spacing={1}>
-              {/* <Grid item xs={12} sm={6}>
-                  <Stack
-                    direction="column"
-                    spacing={2}
-                    justifyContent="flex-start"
-                  >
-                    <Typography>Time Duration: {periode} </Typography>
-                    <Typography> Generated Date: {reportDate}</Typography>
-                  </Stack>
-                </Grid>
-  
-                <Grid item xs={12} sm={6}>
-                  <Stack
-                    direction="column"
-                    spacing={2}
-                    justifyContent="flex-start"
-                  >
-                    <Typography> Report ID: {reportID} </Typography>
-                    <Typography> Generated Time: {reportTime} </Typography>
-                  </Stack>
-                </Grid> */}
+          <Stack direction="row">
+            <Grid container>
+              <Grid item xs={12} sm={6}>
+                <Stack
+                  direction="column"
+                  spacing={2}
+                  justifyContent="flex-start"
+                >
+                  <Typography sx={{ fontSize: "16px" }} align="left">
+                    {" "}
+                    Generated Time Period: {calTimePeriode()}
+                  </Typography>
+                  <Typography sx={{ fontSize: "16px" }} align="left">
+                    {" "}
+                    Generated Date: {reportDate}
+                  </Typography>
+                </Stack>
+              </Grid>
+
+              <Grid item xs={12} sm={6}>
+                <Stack
+                  direction="column"
+                  spacing={2}
+                  justifyContent="flex-start"
+                >
+                  <Typography align="right" sx={{ fontSize: "16px" }}>
+                    {" "}
+                    Report ID: {reportID}{" "}
+                  </Typography>
+                  <Typography align="right" sx={{ fontSize: "16px" }}>
+                    {" "}
+                    Generated Time: {reportTime}{" "}
+                  </Typography>
+                </Stack>
+              </Grid>
             </Grid>
           </Stack>
         </Box>
         <Box>
-          <TableContainer component={Paper} sx={{ marginTop: "30px" }}>
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableContainer sx={{ marginTop: "30px" }}>
+            <Table
+              sx={{ minWidth: 650, backgroundColor: "transparent" }}
+              aria-label="simple table"
+            >
               <TableHead>
                 <TableRow>
-                  <TableCell>Post Title</TableCell>
-                  <TableCell>Post Views</TableCell>
-                  <TableCell>Post responses </TableCell>
-                  <TableCell>OTHours</TableCell>
-                  <TableCell>With no pay leaves</TableCell>
-                  <TableCell>With leaves</TableCell>
+                  <TableCell align="center">Post Title</TableCell>
+                  <TableCell align="center">Post Views</TableCell>
+                  <TableCell align="center"> Post Responses</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-                {/* {isLoading ||
-                    (isEmpty &&
-                      [1, 2, 3, 4, 5, 6].map((item) => {
-                        return (
-                          <TableRow
-                            key={item}
-                            sx={{
-                              "&:last-child td, &:last-child th": { border: 0 },
-                            }}
-                          >
-                            <TableCell align="right">
-                              <Skeleton animation="wave" />
-                            </TableCell>
-                            <TableCell align="right">
-                              <Skeleton animation="wave" />
-                            </TableCell>
-                            <TableCell align="right">
-                              <Skeleton animation="wave" />
-                            </TableCell>
-                            <TableCell align="right">
-                              <Skeleton animation="wave" />
-                            </TableCell>
-                          </TableRow>
-                        );
-                      }))} */}
-
-                {/* {isSuccess &&
-                    !isEmpty &&
-                    rows.map((row, index) => (
+                {loading &&
+                  [1, 2, 3, 4, 5, 6].map((item) => {
+                    return (
                       <TableRow
-                        key={row.EmployeeID}
-                        sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                        key={item}
+                        sx={{
+                          "&:last-child td, &:last-child th": { border: 0 },
+                        }}
                       >
-                        <TableCell>{row.EmployeeID}</TableCell>
-                        <TableCell>
-                          {calTotalApplyLeaves(row.Appliedleaves)}
+                        <TableCell align="right">
+                          <Skeleton animation="wave" />
                         </TableCell>
-                        <TableCell>{calTotalNoPay(row.Nopaylevaves)}</TableCell>
-                        <TableCell>{row.OTHours}</TableCell>
-                        <TableCell>{row.Withleaves}</TableCell>
-                        <TableCell>
-                          {calTotalAttendees(row.TotalAttendence)}
+                        <TableCell align="right">
+                          <Skeleton animation="wave" />
+                        </TableCell>
+                        <TableCell align="right">
+                          <Skeleton animation="wave" />
                         </TableCell>
                       </TableRow>
-                    ))} */}
+                    );
+                  })}
+
+                {!loading &&
+                  data?.map((doc) => (
+                    <TableRow
+                      key={doc.id}
+                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                    >
+                      <TableCell>{doc.postTile}</TableCell>
+                      <TableCell align="center">{doc.postViews}</TableCell>
+                      <TableCell align="center">{doc.responseCount}</TableCell>
+                    </TableRow>
+                  ))}
 
                 <TableRow>
-                  <TableCell rowSpan={1} />
-                  <TableCell rowSpan={1} />
-
-                  <TableCell colSpan={3}>Total Attendence -: </TableCell>
-                  <TableCell>
-                    <Typography>{TotalAttendence}</Typography>
-                  </TableCell>
+                  <TableCell rowSpan={3} />
+                  <TableCell colSpan={1}> Total Post Views</TableCell>
+                  <TableCell align="center">{TotlaPostViews}</TableCell>
                 </TableRow>
 
                 <TableRow>
-                  <TableCell rowSpan={1} />
-                  <TableCell rowSpan={1} />
-
-                  <TableCell colSpan={3}>Total No Pays -: </TableCell>
-                  <TableCell>
-                    <Typography>{TotalNoPays}</Typography>
-                  </TableCell>
-                </TableRow>
-
-                <TableRow>
-                  <TableCell rowSpan={1} />
-                  <TableCell rowSpan={1} />
-
-                  <TableCell colSpan={3}>Total Apply Leaves -: </TableCell>
-                  <TableCell>
-                    <Typography>{TotalApplyLeaves}</Typography>
-                  </TableCell>
+                  <TableCell colSpan={1}>Total Post Responses</TableCell>
+                  <TableCell align="center">{TotlaPostResponses}</TableCell>
                 </TableRow>
               </TableBody>
             </Table>
           </TableContainer>
         </Box>
-        <Box sx={{ margin: "20px" }}>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <LoadingButton
-              loading={isload}
-              loadingPosition="start"
-              startIcon={<DoneIcon />}
-              variant="contained"
-              type="submit"
-              style={{ margin: "20px" }}
-              // onClick={handleSubmit}
-            >
-              generate
-            </LoadingButton>
-          </Stack>
-        </Box>
       </Container>
-
-      {/* <Notification notify={notify} setNotify={setNotify} /> */}
+      <Box sx={{ margin: "20px" }}>
+        <Stack direction="row" spacing={2} justifyContent="center">
+          <Button
+            startIcon={<DoneIcon />}
+            variant="contained"
+            type="submit"
+            onClick={handlePrint}
+          >
+            Print As PDF
+          </Button>
+          <Button
+            startIcon={<DoneIcon />}
+            variant="contained"
+            type="submit"
+            onClick={downloadExcel}
+          >
+            Download Excel File
+          </Button>
+        </Stack>
+      </Box>
     </div>
   );
 }

@@ -32,7 +32,7 @@ import EduReport from "../Pages/Organization/Report/EduReport/EduReport";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#094067",
+      main: "#0071F2",
       contrastText: "#fff",
     },
     secondary: {
@@ -87,6 +87,7 @@ function App() {
           UserDetails.email = user.email;
           UserDetails.image = docSnap.data().img;
           UserDetails.role = docSnap.data().userRole;
+          UserDetails.intrest = docSnap.data().intrest;
         }
 
         dispatch(setCurruentUser(UserDetails));

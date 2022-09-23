@@ -34,6 +34,8 @@ import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
 import UserNavBar from "../../../Components/UserNavBar/UserNavBar";
+import { useSelector } from "react-redux";
+
 export default function UserDonFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -41,6 +43,7 @@ export default function UserDonFeed() {
   const [filterSelect, setfilterSelect] = useState("new");
   const [orderDirections, setOrderDirections] = useState("desc");
   const [seletedCardData, setSelectedCardData] = useState(null);
+  const { curruntUser } = useSelector((state) => state.user);
   const theme = useTheme();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
