@@ -28,25 +28,34 @@ import { db } from "../../../FireBase/Config";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomSelect from "../../../Components/CustomSelect/CustomSelect";
-import { FilterTypes } from "../../../Constants/Constants";
+import { FilterTypes, VolunteerType } from "../../../Constants/Constants";
 import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSkeletonCard";
 import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
-import UserNavBar from "../../../Components/UserNavBar/UserNavBar";
+import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
 import { useSelector } from "react-redux";
+import VolunteerCard from "../../../Components/CustomCard/VolunteerCard/VolunteerCard";
+import DonCard from "../../../Components/CustomCard/DonCard/DonCard";
 
-export default function UserDonFeed() {
+export default function UserVonFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("createdAt");
   const [filterSelect, setfilterSelect] = useState("new");
   const [orderDirections, setOrderDirections] = useState("desc");
   const [seletedCardData, setSelectedCardData] = useState(null);
-  const { curruntUser } = useSelector((state) => state.user);
   const theme = useTheme();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
+  const { curruntUser } = useSelector((state) => state.user);
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
@@ -57,16 +66,6 @@ export default function UserDonFeed() {
         setfilterSelect("old");
         setOrderDirections("asc");
         setFilter("createdAt");
-        break;
-      case "lowprice":
-        setfilterSelect("lowprice");
-        setOrderDirections("asc");
-        setFilter("courseFee");
-        break;
-      case "highprice":
-        setfilterSelect("highprice");
-        setOrderDirections("desc");
-        setFilter("courseFee");
         break;
       default:
         setfilterSelect("new");
@@ -89,15 +88,16 @@ export default function UserDonFeed() {
     let q;
     if (search) {
       q = query(
-        collection(db, "EduationalPost"),
+        collection(db, "DonationPost"),
         orderBy("searchTags"),
         startAt(search),
         endAt(search + "\uf8ff")
       );
     } else {
-      console.log(filter, filterSelect, orderDirections);
+      console.log(filter, filterSelect, orderDirections, curruntUser.intrest);
       q = query(
-        collection(db, "EduationalPost"),
+        collection(db, "DonationPost"),
+        // where("intrest", "array-contains-any", curruntUser.intrest),
         orderBy(filter, orderDirections)
       );
     }
@@ -108,7 +108,11 @@ export default function UserDonFeed() {
         let newPost = { ...doc.data(), id: doc.id };
         postData.push(newPost);
       });
-      setEduPosts(postData);
+      setEduPosts(
+        postData.filter((post) =>
+          post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+        )
+      );
       setLoading(false);
     });
 
@@ -119,9 +123,12 @@ export default function UserDonFeed() {
   console.log(eduPosts);
   return (
     <>
-      <Container maxWidth="xl" sx={{ mt: 5 }}>
+      <Container
+        maxWidth="xl"
+        sx={{ mt: 5, backgroundColor: theme.palette.background.paper }}
+      >
         <Typography variant="h4" color={theme.palette.primary.main}>
-          Donation Feed
+          Volunteer Feed
         </Typography>
         <Container maxWidth="lg">
           <Stack
@@ -152,7 +159,6 @@ export default function UserDonFeed() {
                       Search
                     </InputLabel>
                     <Input
-                      sx={{ p: 1 }}
                       id="standard-adornment-search"
                       placeholder="Search by Title"
                       value={search}
@@ -185,7 +191,7 @@ export default function UserDonFeed() {
                     value={filterSelect}
                     name="filter"
                     width="100%"
-                    options={FilterTypes}
+                    options={VolunteerType}
                     variant="standard"
                   />
                 </Grid>
@@ -212,7 +218,7 @@ export default function UserDonFeed() {
                   sx={{ mt: { xs: 5, sm: 5 } }}
                 >
                   <Stack justifyContent="center" alignItems="center">
-                    <CustomCard
+                    <DonCard
                       data={item}
                       handleCardClick={() => handleCardClick(item)}
                     />
@@ -223,8 +229,8 @@ export default function UserDonFeed() {
 
           {!loading && eduPosts && eduPosts.length === 0 && (
             <Typography
-              sx={{ mt: 5 }}
-              variant="body2"
+              sx={{ mb: 5, p: 5 }}
+              variant="h5"
               align="center"
               color="info"
             >
@@ -262,8 +268,13 @@ export default function UserDonFeed() {
           title="Course Details"
           maxWidth="md"
         >
-          <CustomDataViewPop data={seletedCardData} />
+          <CustomDataViewPop
+            data={seletedCardData}
+            setOpen={setOpen}
+            setNotify={setNotify}
+          />
         </CustomeDialog>
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );

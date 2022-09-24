@@ -243,8 +243,8 @@ export default function UserEduFeed() {
 
           {!loading && eduPosts && eduPosts.length === 0 && (
             <Typography
-              sx={{ mt: 5 }}
-              variant="body2"
+              sx={{ mb: 5, p: 5 }}
+              variant="h5"
               align="center"
               color="info"
             >

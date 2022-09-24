@@ -42,6 +42,7 @@ export const UserNavLinks = [
     path: "/donfeed",
   },
 ];
+
 export const AboutVision = [
   {
     title: "For Individuals",
@@ -80,4 +81,9 @@ export const FilterTypes = [
   { value: "old", label: "Oldest" },
   { value: "lowprice", label: "Low Price" },
   { value: "highprice", label: "High Price" },
+];
+
+export const VolunteerType = [
+  { value: "new", label: "Newest" },
+  { value: "old", label: "Oldest" },
 ];
