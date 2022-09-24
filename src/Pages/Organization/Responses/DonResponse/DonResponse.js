@@ -37,24 +37,6 @@ export default function DonResponse() {
     { title: "Post Title", field: "postTile" },
     { title: "Response Count", field: "responseCount" },
     { title: "Post Views", field: "postViews" },
-    {
-      title: "Post Closing Date",
-      field: "postClosingDate",
-      type: "date",
-      sorting: false,
-    },
-    {
-      title: "Closing Date",
-      field: "courseFee",
-      align: "left",
-      render: (rowData) => {
-        if (isInThePast(rowData.postClosingDate)) {
-          return <Chip label="Expired" color="error" variant="outlined" />;
-        } else {
-          return <Chip label="Active" color="success" variant="outlined" />;
-        }
-      },
-    },
   ];
 
   const updateOpenPopup = (data) => {
@@ -64,7 +46,7 @@ export default function DonResponse() {
   useEffect(() => {
     console.log(curruntUser?.id);
     const q = query(
-      collection(db, "EduPostResponse"),
+      collection(db, "DonPostResponse"),
       where("postCreatedBy", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {

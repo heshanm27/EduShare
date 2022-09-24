@@ -64,7 +64,7 @@ export default function VolResponse() {
   useEffect(() => {
     console.log(curruntUser?.id);
     const q = query(
-      collection(db, "EduPostResponse"),
+      collection(db, "VolPostResponse"),
       where("postCreatedBy", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
