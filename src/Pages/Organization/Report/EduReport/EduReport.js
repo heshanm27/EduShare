@@ -120,7 +120,7 @@ export default function EduReport() {
 
   return (
     <div>
-      <Container maxWidth="lg" ref={pdfRef}>
+      <Container maxWidth="lg" ref={pdfRef} sx={{ border: "1px solid black" }}>
         <Box className={classes.box}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Avatar src={Logo} sx={{ width: 75, height: 75 }}></Avatar>
@@ -128,7 +128,7 @@ export default function EduReport() {
           <Stack
             direction="column"
             justifyContent="center"
-            sx={{ margin: "20px" }}
+            sx={{ margin: "10px" }}
           >
             <Typography
               component="h2"

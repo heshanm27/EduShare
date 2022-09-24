@@ -102,10 +102,10 @@ export default function UserEduFeed() {
         endAt(search + "\uf8ff")
       );
     } else {
-      console.log(filter, filterSelect, orderDirections);
+      console.log(filter, filterSelect, orderDirections, curruntUser.intrest);
       q = query(
         collection(db, "EduationalPost"),
-        where("intrest", "array-contains-any", ["Computing", "Engineering"]),
+        // where("intrest", "array-contains-any", curruntUser.intrest),
         orderBy(filter, orderDirections)
       );
     }
@@ -116,7 +116,17 @@ export default function UserEduFeed() {
         let newPost = { ...doc.data(), id: doc.id };
         postData.push(newPost);
       });
-      setEduPosts(postData);
+      console.log(
+        "s",
+        postData.filter((post) =>
+          post.intrest.some((intrest) => ["Engineering"].includes(intrest))
+        )
+      );
+      setEduPosts(
+        postData.filter((post) =>
+          post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+        )
+      );
       setLoading(false);
     });
 
@@ -163,7 +173,6 @@ export default function UserEduFeed() {
                       Search
                     </InputLabel>
                     <Input
-                      sx={{ p: 1 }}
                       id="standard-adornment-search"
                       placeholder="Search by Title"
                       value={search}
