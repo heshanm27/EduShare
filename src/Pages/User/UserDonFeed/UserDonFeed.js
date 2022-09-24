@@ -37,6 +37,7 @@ import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
 import { useSelector } from "react-redux";
 import VolunteerCard from "../../../Components/CustomCard/VolunteerCard/VolunteerCard";
 import DonCard from "../../../Components/CustomCard/DonCard/DonCard";
+import DonDataViewPopUp from "../../../Components/CustomDataViewPop/DonDataViewPopUp/DonDataViewPopUp";
 
 export default function UserVonFeed() {
   const [eduPosts, setEduPosts] = useState([]);
@@ -268,7 +269,7 @@ export default function UserVonFeed() {
           title="Course Details"
           maxWidth="md"
         >
-          <CustomDataViewPop
+          <DonDataViewPopUp
             data={seletedCardData}
             setOpen={setOpen}
             setNotify={setNotify}
