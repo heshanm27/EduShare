@@ -29,6 +29,12 @@ import EduResponse from "../Pages/Organization/Responses/EduResponse/EduResponse
 import EduSummary from "../Pages/Organization/Summary/EduSummary/EduSummary";
 import UserProfile from "../Pages/UserProfile/UserProfile";
 import EduReport from "../Pages/Organization/Report/EduReport/EduReport";
+import DonResponse from "../Pages/Organization/Responses/DonResponse/DonResponse";
+import DonSummary from "../Pages/Organization/Summary/DonSummary/DonSummary";
+import DonReport from "../Pages/Organization/Report/DonReport/DonReport";
+import VolResponse from "../Pages/Organization/Responses/VolResponse/VolResponse";
+import VolSummary from "../Pages/Organization/Summary/VolSummary/VolSummary";
+import VolReport from "../Pages/Organization/Report/VolReport/VolReport";
 const theme = createTheme({
   palette: {
     primary: {
@@ -142,11 +148,14 @@ function App() {
                 <Route path="/edu/summary/report" element={<EduReport />} />
 
                 <Route path="/don" element={<DonationOrg />} />
-                <Route path="/don/response" element={<DonationOrg />} />
-                <Route path="/don/summary" element={<DonationOrg />} />
+                <Route path="/don/response" element={<DonResponse />} />
+                <Route path="/don/summary" element={<DonSummary />} />
+                <Route path="/don/summary/report" element={<DonReport />} />
+
                 <Route path="/vol" element={<VoluntterOrg />} />
-                <Route path="/vol/response" element={<VoluntterOrg />} />
-                <Route path="/vol/summary" element={<VoluntterOrg />} />
+                <Route path="/vol/response" element={<VolResponse />} />
+                <Route path="/vol/summary" element={<VolSummary />} />
+                <Route path="/vol/summary/report" element={<VolReport />} />
               </Route>
             </Route>
           </Route>

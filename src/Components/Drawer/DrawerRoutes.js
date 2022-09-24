@@ -36,6 +36,12 @@ export const DonOpportunitiesRoutes = [
     component: "Spare Parts",
   },
   {
+    label: "Response",
+    path: "/don/response",
+    icon: <InboxOutlinedIcon />,
+    activeIcon: <InboxIcon />,
+  },
+  {
     label: "Summary",
     path: "/don/summary",
     icon: <AssessmentOutlinedIcon />,
@@ -51,6 +57,12 @@ export const VolOpportunitiesRoutes = [
     icon: <SettingsApplicationsOutlinedIcon />,
     activeIcon: <SettingsApplicationsIcon />,
     component: "vehicle",
+  },
+  {
+    label: "Response",
+    path: "/vol/response",
+    icon: <InboxOutlinedIcon />,
+    activeIcon: <InboxIcon />,
   },
   {
     label: "Summary",
