@@ -7,6 +7,7 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   Paper,
   Stack,
   Tooltip,
@@ -43,6 +44,7 @@ import { useSelector } from "react-redux";
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadExtra, setLoadExtra] = useState(false);
   const [filter, setFilter] = useState("createdAt");
   const [filterSelect, setfilterSelect] = useState("new");
   const [orderDirections, setOrderDirections] = useState("desc");
@@ -99,11 +101,12 @@ export default function UserEduFeed() {
   };
 
   const getData = async (data) => {
+    setLoadExtra(true);
     const q = query(
       collection(db, "EduationalPost"),
       orderBy(filter, orderDirections),
       startAfter(latestDoc ? latestDoc : 0),
-      limit(3)
+      limit(5)
     );
 
     const postData = [];
@@ -123,7 +126,7 @@ export default function UserEduFeed() {
       post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
     );
     setEduPosts((prev) => [...prev, ...filteredData]);
-    setLoading(false);
+    setLoadExtra(false);
   };
 
   window.onscroll = function (event) {
@@ -148,7 +151,7 @@ export default function UserEduFeed() {
         collection(db, "EduationalPost"),
         orderBy(filter, orderDirections),
         // startAfter(latestDoc ? latestDoc : 0),
-        limit(3)
+        limit(10)
       );
     }
 
@@ -306,6 +309,9 @@ export default function UserEduFeed() {
                   </Stack>
                 </Grid>
               ))}
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              {loadExtra && <LinearProgress color="primary" />}
+            </Grid>
           </Grid>
 
           {!loading && eduPosts && eduPosts.length === 0 && (

@@ -6,6 +6,7 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   Paper,
   Stack,
   Tooltip,
@@ -16,9 +17,12 @@ import {
   collection,
   endAt,
   getDoc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
+  startAfter,
   startAt,
   where,
 } from "firebase/firestore";
@@ -50,6 +54,10 @@ export default function UserVonFeed() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const { curruntUser } = useSelector((state) => state.user);
+  const [loadMore, setLoadMore] = useState(false);
+  const [loadExtra, setLoadExtra] = useState(false);
+  const [latestDoc, setLatestDoc] = useState(null);
+  const [disableLoadMore, setDisableLoadMore] = useState(false);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -83,7 +91,41 @@ export default function UserVonFeed() {
     setOpen(true);
     setSelectedCardData(data);
   };
+  const getData = async (data) => {
+    setLoadExtra(true);
+    const q = query(
+      collection(db, "DonationPost"),
+      orderBy(filter, orderDirections),
+      startAfter(latestDoc ? latestDoc : 0),
+      limit(5)
+    );
 
+    const postData = [];
+    const querySnapshot = await getDocs(q);
+    setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    if (querySnapshot.empty) {
+      setDisableLoadMore(true);
+    } else {
+      setDisableLoadMore(false);
+    }
+    querySnapshot.forEach((doc) => {
+      let newPost = { ...doc.data(), id: doc.id };
+      postData.push(newPost);
+    });
+
+    const filteredData = postData.filter((post) =>
+      post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+    );
+    setEduPosts((prev) => [...prev, ...filteredData]);
+    setLoadExtra(false);
+  };
+
+  window.onscroll = function (event) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      setLoadMore(true);
+      getData();
+    }
+  };
   useEffect(() => {
     setLoading(true);
     let q;
@@ -99,26 +141,35 @@ export default function UserVonFeed() {
       q = query(
         collection(db, "DonationPost"),
         // where("intrest", "array-contains-any", curruntUser.intrest),
-        orderBy(filter, orderDirections)
+        orderBy(filter, orderDirections),
+        limit(10)
       );
     }
-
-    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+    const getData = async (data) => {
       const postData = [];
-      querySnapshot.forEach(async (doc) => {
+      const querySnapshot = await getDocs(q);
+      setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      if (querySnapshot.empty) {
+        setDisableLoadMore(true);
+      } else {
+        setDisableLoadMore(false);
+      }
+      querySnapshot.forEach((doc) => {
         let newPost = { ...doc.data(), id: doc.id };
         postData.push(newPost);
       });
+
       setEduPosts(
         postData.filter((post) =>
           post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
         )
       );
       setLoading(false);
-    });
+    };
 
+    getData();
     return () => {
-      unsubscribe();
+      // unsubscribe();
     };
   }, [filter, orderDirections, search]);
   console.log(eduPosts);
@@ -226,6 +277,9 @@ export default function UserVonFeed() {
                   </Stack>
                 </Grid>
               ))}
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              {loadExtra && <LinearProgress color="primary" />}
+            </Grid>
           </Grid>
 
           {!loading && eduPosts && eduPosts.length === 0 && (

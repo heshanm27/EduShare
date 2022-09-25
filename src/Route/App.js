@@ -35,6 +35,7 @@ import DonReport from "../Pages/Organization/Report/DonReport/DonReport";
 import VolResponse from "../Pages/Organization/Responses/VolResponse/VolResponse";
 import VolSummary from "../Pages/Organization/Summary/VolSummary/VolSummary";
 import VolReport from "../Pages/Organization/Report/VolReport/VolReport";
+import OrganizationSignUp from "../Pages/OrganizationSignUp/OrganizationSignUp";
 const theme = createTheme({
   palette: {
     primary: {
@@ -78,6 +79,13 @@ function App() {
     }
   };
 
+  const changeNameToRole = (firstName, lastName, role) => {
+    if (role === "org") {
+      return `${firstName}`;
+    } else {
+      return `${firstName} ${lastName}`;
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       const UserDetails = {};
@@ -86,8 +94,13 @@ function App() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           UserDetails.id = user.uid;
-          UserDetails.name =
-            docSnap.data().firstName + " " + docSnap.data().lastName;
+          UserDetails.name = changeNameToRole(
+            docSnap.data().firstName,
+            docSnap.data().lastName,
+            docSnap.data().userRole
+          );
+          UserDetails.shortFrom =
+            docSnap.data().userRole === "org" ? docSnap.data().lastName : null;
           UserDetails.phoneNo = docSnap.data().phoneNo;
           UserDetails.educationLevel = docSnap.data().education;
           UserDetails.email = user.email;
@@ -112,6 +125,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/orgsignup" element={<OrganizationSignUp />} />
           <Route path="/roles" element={<SignUpRole />} />
           <Route
             path="/signin"
