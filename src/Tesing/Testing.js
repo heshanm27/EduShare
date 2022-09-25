@@ -194,3 +194,43 @@ foreign woking opportunities to build a good career protfoloio.
 /*Design simple views for each state in your application,
  and React will efficiently update and render just the right
   components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right*/
+/* <component 1> */
