@@ -13,13 +13,16 @@ import {
   onSnapshot,
   orderBy,
   query,
+  where,
 } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
+import { useSelector } from "react-redux";
 export default function OppertunitesAdmin() {
   const [open, setOpen] = useState(false);
   const [updateValue, setUpdateValue] = useState(null);
   const [FullData, setFullData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { curruntUser } = useSelector((state) => state.user);
   //customer snackbar props
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -32,6 +35,7 @@ export default function OppertunitesAdmin() {
     {
       title: "Post Description",
       field: "details",
+      searchable: false,
       sorting: false,
       render: (rowData) => (
         <TextareaAutosize
@@ -47,12 +51,19 @@ export default function OppertunitesAdmin() {
       field: "closingDate",
       type: "date",
       sorting: false,
+      searchable: false,
     },
-    { title: "Education Level", field: "educationLevel", sorting: false },
+    {
+      title: "Education Level",
+      field: "educationLevel",
+      sorting: false,
+      searchable: false,
+    },
     {
       title: "Course Fee",
       field: "courseFee",
       align: "left",
+      searchable: false,
       render: (rowData) => {
         if (rowData.courseFee === 0) {
           return (
@@ -64,7 +75,12 @@ export default function OppertunitesAdmin() {
       },
       type: "currency",
     },
-    { title: "Course Duration", field: "courseDuration", sorting: false },
+    {
+      title: "Course Duration",
+      field: "courseDuration",
+      sorting: false,
+      searchable: false,
+    },
   ];
 
   const updateOpenPopup = (data) => {
@@ -74,7 +90,7 @@ export default function OppertunitesAdmin() {
   useEffect(() => {
     const q = query(
       collection(db, "EduationalPost"),
-      orderBy("createdAt", "desc")
+      where("createdBy.id", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];

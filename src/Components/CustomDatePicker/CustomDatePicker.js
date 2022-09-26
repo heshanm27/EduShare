@@ -11,6 +11,7 @@ export default function CustomDatePicker({
   autoComplete,
   handleChanges,
   helptext,
+  notrestricted,
 }) {
   return (
     <>
@@ -29,7 +30,10 @@ export default function CustomDatePicker({
         error={error}
         helperText={errorsMsg ? errorsMsg : helptext}
         inputProps={{
-          min: new Date().toISOString().split("T")[0],
+          min:
+            notrestricted === true
+              ? null
+              : new Date().toISOString().split("T")[0],
         }}
       />
     </>

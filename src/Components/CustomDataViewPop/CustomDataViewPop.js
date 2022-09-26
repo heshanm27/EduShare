@@ -83,7 +83,7 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
           setOpen(false);
           setNotify({
             isOpen: true,
-            message: "You have already applied",
+            message: "You have already applied for this opportunity",
             type: "warning",
             title: "Warning",
           });
@@ -93,7 +93,9 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
           postTile: ViewData.title,
           postClosingDate: ViewData.closingDate,
           postFee: ViewData.courseFee,
+          postCreatedAt: ViewData.createdAt,
           responseCount: 1,
+          postCreatedBy: ViewData.createdBy.id,
           postViews: 1,
           postresponses: [
             {

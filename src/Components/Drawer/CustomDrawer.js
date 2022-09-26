@@ -156,7 +156,7 @@ export default function CustomDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar position="fixed" color="secondary" open={open}>
         <Toolbar>
           <Tooltip title="Open">
             <IconButton
@@ -313,14 +313,14 @@ export default function CustomDrawer() {
           onClose={handleClose}
         >
           {curruntUser?.role != "admin" && (
-            <MenuItem onClick={() => handleClose("/profile")}>
+            <MenuItem onClick={() => handleClose("/userprofile")}>
               My account
             </MenuItem>
           )}
           <MenuItem onClick={() => handleClose("logout")}>Logout</MenuItem>
         </Menu>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 20 }}>
+      <Box component="main" sx={{ flexGrow: 1, p: 3, marginTop: 10 }}>
         <motion.div
           initial={{ opacity: 0, x: 100 }}
           animate={{ opacity: 1, x: 0 }}

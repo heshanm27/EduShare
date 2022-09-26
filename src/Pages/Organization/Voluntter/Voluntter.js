@@ -13,13 +13,16 @@ import {
   doc,
   onSnapshot,
   query,
+  where,
 } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
+import { useSelector } from "react-redux";
 export default function Voluntter() {
   const [open, setOpen] = useState(false);
   const [updateValue, setUpdateValue] = useState(null);
   const [FullData, setFullData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { curruntUser } = useSelector((state) => state.user);
   //customer snackbar props
   const [notify, setNotify] = useState({
     isOpen: false,
@@ -66,7 +69,10 @@ export default function Voluntter() {
     setOpen(true);
   };
   useEffect(() => {
-    const q = query(collection(db, "VolunteerPost"));
+    const q = query(
+      collection(db, "VolunteerPost"),
+      where("createdBy.id", "==", curruntUser?.id)
+    );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
       querySnapshot.forEach((doc) => {
