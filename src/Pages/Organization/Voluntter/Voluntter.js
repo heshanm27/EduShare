@@ -71,7 +71,7 @@ export default function Voluntter() {
   useEffect(() => {
     const q = query(
       collection(db, "VolunteerPost"),
-      where("postCreatedBy", "==", curruntUser?.id)
+      where("createdBy.id", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];

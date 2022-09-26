@@ -58,7 +58,7 @@ export default function Donation() {
   useEffect(() => {
     const q = query(
       collection(db, "DonationPost"),
-      where("postCreatedBy", "==", curruntUser?.id)
+      where("createdBy.id", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];

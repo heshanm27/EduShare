@@ -192,7 +192,7 @@ export default function UserVonFeed() {
         sx={{ mt: 5, backgroundColor: theme.palette.background.paper }}
       >
         <Typography variant="h4" color={theme.palette.primary.main}>
-          Volunteer Feed
+          Donation Feed
         </Typography>
         <Container maxWidth="lg">
           <Stack

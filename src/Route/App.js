@@ -163,18 +163,18 @@ function App() {
               <Route element={<ProtetedRoute roleRequired="org" />}>
                 <Route path="/edu" element={<EducationalOrg />} />
                 <Route path="/edu/response" element={<EduResponse />} />
-                <Route path="/edu/summary" element={<EduSummary />} />
-                <Route path="/edu/summary/report" element={<EduReport />} />
+                {/* <Route path="/edu/summary" element={<EduSummary />} /> */}
+                <Route path="/edu/summary" element={<EduReport />} />
 
                 <Route path="/don" element={<DonationOrg />} />
                 <Route path="/don/response" element={<DonResponse />} />
-                <Route path="/don/summary" element={<DonSummary />} />
-                <Route path="/don/summary/report" element={<DonReport />} />
+                {/* <Route path="/don/summary" element={<DonSummary />} /> */}
+                <Route path="/don/summary" element={<DonReport />} />
 
                 <Route path="/vol" element={<VoluntterOrg />} />
                 <Route path="/vol/response" element={<VolResponse />} />
-                <Route path="/vol/summary" element={<VolSummary />} />
-                <Route path="/vol/summary/report" element={<VolReport />} />
+                {/* <Route path="/vol/summary" element={<VolSummary />} /> */}
+                <Route path="/vol/summary" element={<VolReport />} />
               </Route>
             </Route>
           </Route>

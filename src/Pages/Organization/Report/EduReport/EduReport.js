@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
-import DoneIcon from "@mui/icons-material/Done";
+import PrintIcon from "@mui/icons-material/Print";
+import ArticleIcon from "@mui/icons-material/Article";
 import { useNavigate } from "react-router-dom";
 import {
   calLastMonthe,
@@ -247,7 +248,7 @@ export default function EduReport() {
       <Box sx={{ margin: "20px" }}>
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<PrintIcon />}
             variant="contained"
             type="submit"
             onClick={handlePrint}
@@ -255,7 +256,7 @@ export default function EduReport() {
             Print As PDF
           </Button>
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<ArticleIcon />}
             variant="contained"
             type="submit"
             onClick={downloadExcel}

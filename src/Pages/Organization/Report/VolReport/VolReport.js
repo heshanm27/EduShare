@@ -32,7 +32,8 @@ import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import Logo from "../../../../Assets/images/Logo.png";
 import { useReactToPrint } from "react-to-print";
-
+import PrintIcon from "@mui/icons-material/Print";
+import ArticleIcon from "@mui/icons-material/Article";
 const userStyle = makeStyles((theme) => ({
   roots: {
     marginTop: "50px",
@@ -247,15 +248,16 @@ export default function VolReport() {
       <Box sx={{ margin: "20px" }}>
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<PrintIcon />}
             variant="contained"
             type="submit"
             onClick={handlePrint}
           >
             Print As PDF
           </Button>
+
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<ArticleIcon />}
             variant="contained"
             type="submit"
             onClick={downloadExcel}

@@ -90,7 +90,7 @@ export default function OppertunitesAdmin() {
   useEffect(() => {
     const q = query(
       collection(db, "EduationalPost"),
-      where("postCreatedBy", "==", curruntUser?.id)
+      where("createdBy.id", "==", curruntUser?.id)
     );
     const unsubscribe = onSnapshot(q, (querySnapshot) => {
       const postData = [];
