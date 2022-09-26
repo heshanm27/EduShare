@@ -7,7 +7,13 @@ import { useNavigate } from "react-router-dom";
 import CustomCard from "../../../Components/CustomCard/CustomCard";
 import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSkeletonCard";
 import { db } from "../../../FireBase/Config";
-
+import { motion } from "framer-motion";
+import {
+  container,
+  item,
+  itemBtn,
+  itemOpp,
+} from "../../../Components/Animations/Animations";
 export default function NewOpportunities() {
   const [data, setData] = useState([]);
   const theme = useTheme();
@@ -36,44 +42,33 @@ export default function NewOpportunities() {
     getData();
   }, []);
   return (
-    <Container id="opportunities" maxWidth="xl" sx={{ pt: 2 }}>
-      <Typography
-        variant="h3"
-        color={theme.palette.primary.main}
-        align="center"
-        sx={{
-          marginTop: "1rem",
-        }}
+    <Container id="opportunities" maxWidth="xl" sx={{ pt: 5, mt: 10 }}>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        whileInView={"show"}
+        viewport={{ once: true, amount: 0.5 }}
+        exit="exit"
       >
-        Our Newest Opprtunities
-      </Typography>
-      <Grid
-        container
-        direction="row"
-        justifyContent="center"
-        alignItems="center"
-      >
-        {data &&
-          data.map((item, index) => (
-            <Grid item sm={12} md={4} key={index} sx={{ mt: { xs: 5, sm: 5 } }}>
-              <Stack justifyContent="center" alignItems="center">
-                <CustomCard
-                  data={item}
-                  handleCardClick={() => handleCardClick(item)}
-                />
-              </Stack>
-            </Grid>
-          ))}
+        <Typography
+          variant="h3"
+          color={theme.palette.primary.main}
+          align="center"
+          sx={{
+            marginTop: "1rem",
+          }}
+        >
+          Our Newest Opprtunities
+        </Typography>
 
-        {loading && (
-          <Grid
-            container
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ p: 5 }}
-          >
-            {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
+        <Grid
+          container
+          direction="row"
+          justifyContent="center"
+          alignItems="center"
+        >
+          {data &&
+            data.map((item, index) => (
               <Grid
                 item
                 sm={12}
@@ -82,13 +77,38 @@ export default function NewOpportunities() {
                 sx={{ mt: { xs: 5, sm: 5 } }}
               >
                 <Stack justifyContent="center" alignItems="center">
-                  <CustomSkeletonCard />
+                  <CustomCard
+                    data={item}
+                    handleCardClick={() => handleCardClick(item)}
+                  />
                 </Stack>
               </Grid>
             ))}
-          </Grid>
-        )}
-      </Grid>
+          {loading && (
+            <Grid
+              container
+              direction="row"
+              justifyContent="center"
+              alignItems="center"
+              sx={{ p: 5 }}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((item, index) => (
+                <Grid
+                  item
+                  sm={12}
+                  md={4}
+                  key={index}
+                  sx={{ mt: { xs: 5, sm: 5 } }}
+                >
+                  <Stack justifyContent="center" alignItems="center">
+                    <CustomSkeletonCard />
+                  </Stack>
+                </Grid>
+              ))}
+            </Grid>
+          )}
+        </Grid>
+      </motion.div>
     </Container>
   );
 }

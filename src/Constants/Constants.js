@@ -87,3 +87,36 @@ export const VolunteerType = [
   { value: "new", label: "Newest" },
   { value: "old", label: "Oldest" },
 ];
+
+export const partneredDetails = [
+  {
+    name: "SLIIT",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FSLIIT.png?alt=media&token=ce3e4049-7d62-4077-b449-6478be04b899",
+  },
+  {
+    name: "IIT",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FIIT1.jpg?alt=media&token=9f864d86-c41d-4fc6-9725-a1c694fbcfb9",
+  },
+  {
+    name: "SLIIT",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FSLIIT.png?alt=media&token=ce3e4049-7d62-4077-b449-6478be04b899",
+  },
+  {
+    name: "UOM",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FUoM.jpg?alt=media&token=e6ee5493-ff4f-403d-9fcf-86f5318066ec",
+  },
+  {
+    name: "CASAB",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2F1649490057292.jpg?alt=media&token=19a20f6a-fcc9-4df8-bb65-ba79592c84f8",
+  },
+  {
+    name: "UOJ",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2Fpng-clipart-university-of-sri-jayewardenepura-sri-jayawardenapura-kotte-university-of-colombo-vidyodaya-pirivena-university-of-moratuwa-campus-miscellaneous-logo-thumbnail.png?alt=media&token=88b0735a-b2fc-43f2-9203-a99868bc0068",
+  },
+];

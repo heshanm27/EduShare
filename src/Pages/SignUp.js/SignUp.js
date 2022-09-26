@@ -56,6 +56,14 @@ const Provinces = [
 
 const Avatars = [
   "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2FUntitled-2.png?alt=media&token=66e81b60-cfbc-48a4-8eee-4377ec447496",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar2.png?alt=media&token=b4542313-7ae1-432f-bc51-5eceb54defeb",
+
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar3.png?alt=media&token=f2e02360-c39d-43e7-b7c3-eab95196b998",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar4.png?alt=media&token=1be8a609-5835-4f95-8379-70b2e140164d",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar5.png?alt=media&token=c31e0c64-be9e-4178-af1d-986c16991849",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar6.png?alt=media&token=a1be3d45-3398-412d-8150-2dba279f583b",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar7.png?alt=media&token=f4a6e2b7-9dea-4ad2-a5ee-a587cac99496",
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2Favatar8.png?alt=media&token=7eacf992-ebaf-46cb-81d0-0e1ad30cd2dd",
 ];
 const randomId = Math.floor(Math.random() * Avatars.length);
 export default function SignUp() {
