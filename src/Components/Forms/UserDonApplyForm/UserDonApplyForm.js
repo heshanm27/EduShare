@@ -6,6 +6,7 @@ import {
   Grid,
   Paper,
   Stack,
+  TextField,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
@@ -30,14 +31,13 @@ import {
 import CustomSnackBar from "../../CustomSnackBar/CustomSnakBar";
 const initialValues = {
   firstName: "",
-  dateOfbirth: "",
-  educationLevel: "",
   phoneNo: "",
   email: "",
-  aboutMe: "",
+  expreDate: "",
+  donationMsg: "",
 };
 
-export default function UserEduApplyForm() {
+export default function UserDonApplyForm() {
   const theme = useTheme();
   const screenSize = useMediaQuery(theme.breakpoints.down("md"));
   const [errors, setErrors] = useState(initialValues);
@@ -62,16 +62,14 @@ export default function UserEduApplyForm() {
       (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
       (values.email ? "" : "Please enter email ");
     temp.firstName = values.firstName ? "" : "Please enter first name";
-    temp.aboutMe = values.aboutMe ? "" : "Please enter your introduction";
+    temp.donationMsg = values.donationMsg
+      ? ""
+      : "Please enter your introduction";
     temp.phoneNo =
       (values.phoneNo ? "" : "Please enter phone number") ||
       (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
         ? ""
         : "Please enter valid phone number");
-    temp.dateOfbirth = values.dateOfbirth ? "" : "Please enter date Of birth";
-    temp.educationLevel = values.educationLevel
-      ? ""
-      : "Please select education status";
     setErrors({
       ...temp,
     });
@@ -93,50 +91,56 @@ export default function UserEduApplyForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (validate()) {
-      const docRef = doc(db, "VolPostResponse", params.id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
-          const response = {
-            name: values.firstName,
-            email: values.email,
-            phoneNo: values.phoneNo,
-            date: Timestamp.fromDate(new Date()),
-            educationLevel: values.educationLevel,
-            aboutMe: values.aboutMe,
-            userId: curruntUser.id,
-          };
-          try {
-            await updateDoc(docRef, {
-              ApplyedUserID: arrayUnion(curruntUser.id),
-              responseCount: increment(1),
-              postresponses: arrayUnion(response),
-            });
-            navigate(
-              "/vonfeed",
 
-              {
-                state: {
-                  message: "Applied Successfully",
-                  type: "success",
-                  title: "Success",
-                },
-              }
-            );
-          } catch (err) {
-            console.log(err);
-          }
-        } else {
-          console.log("already applied");
-          navigate("/vonfeed", {
-            state: {
-              message: "You have already applied for this opportunity ",
-              type: "warning",
-              title: "Warning",
-            },
+    if (validate()) {
+      const docRef = doc(db, "DonPostResponse", params.id);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("submit2", docSnap.data().ApplyedUserID);
+        console.log("submit3");
+        const response = {
+          name: values.firstName,
+          email: values.email,
+          phoneNo: values.phoneNo,
+          date: Timestamp.fromDate(new Date()),
+          donationMsg: values.donationMsg,
+          expreDate: values.expreDate,
+          userId: curruntUser.id,
+        };
+        try {
+          await updateDoc(docRef, {
+            DonatedUserID: arrayUnion(curruntUser.id),
+            responseCount: increment(1),
+            postresponses: arrayUnion(response),
           });
+          navigate(
+            "/donfeed",
+
+            {
+              state: {
+                message: "Donated Successfully",
+                type: "success",
+                title: "Thanks For Your Donation",
+              },
+            }
+          );
+        } catch (err) {
+          console.log(err);
         }
+      } else {
+        console.log("No such document!");
+        navigate(
+          "/donfeed",
+
+          {
+            state: {
+              message: "Something went wrong",
+              type: "error",
+              title: "Error",
+            },
+          }
+        );
       }
     }
   };
@@ -150,7 +154,6 @@ export default function UserEduApplyForm() {
       firstName: curruntUser?.name,
       email: curruntUser?.email,
       phoneNo: curruntUser?.phoneNo,
-      educationLevel: curruntUser?.educationLevel,
     });
   }, [location.state]);
   return (
@@ -167,7 +170,7 @@ export default function UserEduApplyForm() {
               }}
             >
               <Typography variant="h5" color="primary">
-                Application Form
+                Donation Form
               </Typography>
             </Box>
 
@@ -201,20 +204,6 @@ export default function UserEduApplyForm() {
 
                 <Grid item xs={12}>
                   {" "}
-                  <CustomDatePicker
-                    autoComplete="date"
-                    errorsMsg={errors.dateOfbirth}
-                    handleChanges={handleChanges}
-                    label="Date Of Birth"
-                    type="date"
-                    value={values.dateOfbirth}
-                    error={Boolean(errors.dateOfbirth)}
-                    name="dateOfbirth"
-                    notrestricted={true}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  {" "}
                   <CustomTextField
                     autoComplete="email"
                     errorsMsg={errors.email}
@@ -239,28 +228,36 @@ export default function UserEduApplyForm() {
                     name="phoneNo"
                   />
                 </Grid>
+
                 <Grid item xs={12}>
-                  <CustomSelect
-                    name="educationLevel"
-                    errorsMsg={errors.educationLevel}
-                    handleChanges={handleChanges}
-                    label="Education Level"
-                    value={values.educationLevel}
-                    error={Boolean(errors.educationLevel)}
-                    options={EducationLevel}
-                    width="100%"
+                  <TextField
+                    required
+                    fullWidth
+                    variant="standard"
+                    id="expreDate"
+                    onChange={handleChanges}
+                    label="Expire Date"
+                    name="expreDate"
+                    type="month"
+                    value={values.expreDate}
+                    focused
+                    error={Boolean(errors.expreDate)}
+                    helperText={errors.expreDate}
+                    inputProps={{
+                      min: new Date().toISOString().split("T")[0],
+                    }}
                   />
                 </Grid>
                 <Grid item xs={12}>
                   <CustomTextArea
                     autoComplete="off"
-                    errorsMsg={errors.aboutMe}
+                    errorsMsg={errors.donationMsg}
                     handleChanges={handleChanges}
-                    label="Give a brief description about yourself"
+                    label="Donataion Message"
                     type="text"
-                    value={values.aboutMe}
-                    error={Boolean(errors.aboutMe)}
-                    name="aboutMe"
+                    value={values.donationMsg}
+                    error={Boolean(errors.donationMsg)}
+                    name="donationMsg"
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -273,7 +270,7 @@ export default function UserEduApplyForm() {
                     size="large"
                     loadingPosition="center"
                   >
-                    Apply
+                    Donate
                   </LoadingButton>
                 </Grid>
               </Grid>

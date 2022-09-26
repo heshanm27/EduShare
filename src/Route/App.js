@@ -36,6 +36,7 @@ import VolResponse from "../Pages/Organization/Responses/VolResponse/VolResponse
 import VolSummary from "../Pages/Organization/Summary/VolSummary/VolSummary";
 import VolReport from "../Pages/Organization/Report/VolReport/VolReport";
 import OrganizationSignUp from "../Pages/OrganizationSignUp/OrganizationSignUp";
+import UserDonApplyForm from "../Components/Forms/UserDonApplyForm/UserDonApplyForm";
 const theme = createTheme({
   palette: {
     primary: {
@@ -141,8 +142,12 @@ function App() {
                 <Route path="/donfeed" element={<UserDonFeed />} />
                 <Route path="/vonfeed" element={<UserVonFeed />} />
                 <Route
-                  path="/edufeed/eduform/:id"
+                  path="/edufeed/vonform/:id"
                   element={<UserEduApplyForm />}
+                />
+                <Route
+                  path="/donfeed/donform/:id"
+                  element={<UserDonApplyForm />}
                 />
               </Route>
             </Route>

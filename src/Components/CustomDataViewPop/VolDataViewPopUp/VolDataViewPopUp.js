@@ -129,7 +129,7 @@ export default function VolDataViewPopUp({ data, setOpen, setNotify }) {
     //     }
     //   }
     // }
-    navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
+    navigate(`/edufeed/vonform/${ViewData.id}`, { state: ViewData });
   };
   return (
     <Container>
