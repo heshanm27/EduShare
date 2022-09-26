@@ -34,7 +34,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import CustomSelect from "../../../Components/CustomSelect/CustomSelect";
 import { FilterTypes, VolunteerType } from "../../../Constants/Constants";
 import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSkeletonCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
@@ -57,6 +57,7 @@ export default function UserVonFeed() {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const { curruntUser } = useSelector((state) => state.user);
+  const location = useLocation();
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -126,6 +127,16 @@ export default function UserVonFeed() {
     }
   };
   useEffect(() => {
+    if (location.state) {
+      console.log(location.state);
+      setNotify({
+        isOpen: true,
+        message: location.state.message,
+        type: location.state.type,
+        title: location.state.title,
+      });
+      window.history.replaceState({}, document.title);
+    }
     setLoading(true);
     let q;
     if (search) {

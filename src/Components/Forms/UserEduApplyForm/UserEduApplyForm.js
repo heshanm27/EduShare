@@ -11,18 +11,28 @@ import {
 } from "@mui/material";
 import React, { useState, useEffect } from "react";
 import CustomTextField from "../../CustomTextField/CustomTextField";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CustomDatePicker from "../../CustomDatePicker/CustomDatePicker";
 import { LoadingButton } from "@mui/lab";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import { EducationLevel } from "../../../Constants/Constants";
 import CustomTextArea from "../../CustomTextArea/CustomTextArea";
+import { useSelector } from "react-redux";
+import { db } from "../../../FireBase/Config";
+import {
+  arrayUnion,
+  doc,
+  getDoc,
+  increment,
+  Timestamp,
+  updateDoc,
+} from "firebase/firestore";
+import CustomSnackBar from "../../CustomSnackBar/CustomSnakBar";
 const initialValues = {
   firstName: "",
-  lastName: "",
   dateOfbirth: "",
   educationLevel: "",
-  contactNo: "",
+  phoneNo: "",
   email: "",
   aboutMe: "",
 };
@@ -34,7 +44,41 @@ export default function UserEduApplyForm() {
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState(initialValues);
   const [passedData, setPassedData] = useState(null);
+  const { curruntUser } = useSelector((state) => state.user);
   const location = useLocation();
+  const params = useParams();
+  const navigate = useNavigate();
+
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
+  function validate() {
+    let temp = {};
+    temp.email =
+      (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
+      (values.email ? "" : "Please enter email ");
+    temp.firstName = values.firstName ? "" : "Please enter first name";
+    temp.aboutMe = values.aboutMe ? "" : "Please enter your introduction";
+    temp.phoneNo =
+      (values.phoneNo ? "" : "Please enter phone number") ||
+      (/^\(?(\d{3})\)?[- ]?(\d{3})[- ]?(\d{4})$/.test(values.phoneNo)
+        ? ""
+        : "Please enter valid phone number");
+    temp.dateOfbirth = values.dateOfbirth ? "" : "Please enter date Of birth";
+    temp.educationLevel = values.educationLevel
+      ? ""
+      : "Please select education status";
+    setErrors({
+      ...temp,
+    });
+    // //if all the proprties valid to the function that provide in every() it will return true  or if one fail it return false
+    return Object.values(temp).every((x) => x === "");
+  }
+
   /**
    *@description this function is used to handle the change of the input fields
    * @param Event  default event object
@@ -47,15 +91,71 @@ export default function UserEduApplyForm() {
     });
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validate()) {
+      const docRef = doc(db, "VolPostResponse", params.id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
+          const response = {
+            name: values.firstName,
+            email: values.email,
+            phoneNo: values.phoneNo,
+            date: Timestamp.fromDate(new Date()),
+            educationLevel: values.educationLevel,
+            aboutMe: values.aboutMe,
+            userId: curruntUser.id,
+          };
+          try {
+            await updateDoc(docRef, {
+              ApplyedUserID: arrayUnion(curruntUser.id),
+              responseCount: increment(1),
+              postresponses: arrayUnion(response),
+            });
+            navigate(
+              "/vonfeed",
+
+              {
+                state: {
+                  message: "Applied Successfully",
+                  type: "success",
+                  title: "Success",
+                },
+              }
+            );
+          } catch (err) {
+            console.log(err);
+          }
+        } else {
+          console.log("already applied");
+          navigate("/vonfeed", {
+            state: {
+              message: "You have already applied for this opportunity ",
+              type: "warning",
+              title: "Warning",
+            },
+          });
+        }
+      }
+    }
+  };
   useEffect(() => {
     if (location.state) {
       setPassedData(location.state);
       console.log(location.state);
     }
+    setValues({
+      ...values,
+      firstName: curruntUser?.name,
+      email: curruntUser?.email,
+      phoneNo: curruntUser?.phoneNo,
+      educationLevel: curruntUser?.educationLevel,
+    });
   }, [location.state]);
   return (
     <>
-      <Container component="main" maxWidth="lg">
+      <Container component="main" maxWidth="sm">
         <CssBaseline />
         <Stack direction={screenSize ? "column-reverse" : "row"} spacing={2}>
           <Paper sx={{ mt: 5 }}>
@@ -66,7 +166,9 @@ export default function UserEduApplyForm() {
                 alignItems: "center",
               }}
             >
-              <Typography variant="h5">Application Form</Typography>
+              <Typography variant="h5" color="primary">
+                Application Form
+              </Typography>
             </Box>
 
             <Stack
@@ -75,7 +177,7 @@ export default function UserEduApplyForm() {
               alignItems="center"
               component="form"
               noValidate
-              //   onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
             >
               <Grid container spacing={2} sx={{ p: 2 }}>
                 <Grid item xs={12} sm={12}>
@@ -83,7 +185,7 @@ export default function UserEduApplyForm() {
                     Course-: {passedData && passedData.title}
                   </Typography>
                 </Grid>
-                <Grid item xs={12} sm={6}>
+                <Grid item xs={12}>
                   {" "}
                   <CustomTextField
                     autoComplete="First Name"
@@ -96,19 +198,7 @@ export default function UserEduApplyForm() {
                     name="firstName"
                   />
                 </Grid>
-                <Grid item xs={12} sm={6}>
-                  {" "}
-                  <CustomTextField
-                    autoComplete="Last Name"
-                    errorsMsg={errors.lastName}
-                    handleChanges={handleChanges}
-                    label="Last Name"
-                    type="text"
-                    value={values.lastName}
-                    error={Boolean(errors.lastName)}
-                    name="lastName"
-                  />
-                </Grid>
+
                 <Grid item xs={12}>
                   {" "}
                   <CustomDatePicker
@@ -120,6 +210,7 @@ export default function UserEduApplyForm() {
                     value={values.dateOfbirth}
                     error={Boolean(errors.dateOfbirth)}
                     name="dateOfbirth"
+                    notrestricted={true}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -182,13 +273,13 @@ export default function UserEduApplyForm() {
                     size="large"
                     loadingPosition="center"
                   >
-                    Sign Up
+                    Apply
                   </LoadingButton>
                 </Grid>
               </Grid>
             </Stack>
           </Paper>
-          <Container maxWidth="md">
+          {/* <Container maxWidth="md">
             <Paper sx={{ mt: 5 }}>
               <Box height="400px">
                 <Typography variant="h5" align="center" color="textSecondary">
@@ -211,9 +302,9 @@ export default function UserEduApplyForm() {
                 </Stack>
               </Box>
             </Paper>
-          </Container>
+          </Container> */}
         </Stack>
-        {/* <CustomSnackBar notify={notify} setNotify={setNotify} /> */}
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );

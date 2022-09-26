@@ -7,14 +7,16 @@ import {
   CardHeader,
   CardMedia,
   Chip,
+  Skeleton,
   Typography,
   useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import moment from "moment";
-import React from "react";
+import React, { useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
 export default function CustomCard({ data, handleCardClick }) {
+  const [loading, setLoading] = useState(true);
   const theme = useTheme();
   const typo = (text) => {
     return <Typography color="text.secondary">{text}</Typography>;
@@ -45,16 +47,29 @@ export default function CustomCard({ data, handleCardClick }) {
                 : "posted " + "September 14, 2016"
             }
           />
+
           <CardMedia
-            component="img"
+            component={"img"}
             height="194"
+            width="400px"
+            onLoad={() => setLoading((prev) => !prev)}
             image={
               data
                 ? data.ThumbnailUrl
                 : "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/ExampleImages%2FEduShareThumbnail.jpg?alt=media&token=53f60981-928a-40e4-9389-1e47df3191c5"
             }
             alt="Paella dish"
+            sx={{ display: loading ? "none" : "block" }}
           />
+
+          {loading && (
+            <Skeleton
+              variant="rectangular"
+              width={400}
+              height={194}
+              animation="wave"
+            />
+          )}
           <CardContent sx={{ height: 200 }}>
             <Typography gutterBottom variant="button" component="div">
               {data.title}

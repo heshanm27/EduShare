@@ -83,7 +83,7 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
           setOpen(false);
           setNotify({
             isOpen: true,
-            message: "You have already applied",
+            message: "You have already applied for this opportunity",
             type: "warning",
             title: "Warning",
           });
