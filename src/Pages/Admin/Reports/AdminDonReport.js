@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
+import DoneIcon from "@mui/icons-material/Done";
 import { useNavigate } from "react-router-dom";
 import {
   calLastMonthe,
@@ -51,7 +52,7 @@ const userStyle = makeStyles((theme) => ({
     marginTop: "20px",
   },
 }));
-export default function AdminReports() {
+export default function AdminDonReport() {
   const classes = userStyle();
   const theme = useTheme();
   const { curruntUser } = useSelector((state) => state.user);
@@ -86,7 +87,7 @@ export default function AdminReports() {
   useEffect(() => {
     setLoading(true);
     const q = query(
-      collection(db, "VolPostResponse"),
+      collection(db, "DonPostResponse"),
       where("postCreatedAt", ">", calLastMonthe()),
       where("postCreatedAt", "<=", new Date())
     );

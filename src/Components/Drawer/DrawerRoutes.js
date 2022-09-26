@@ -94,8 +94,22 @@ export const AdminUserRoutes = [
 ];
 export const AdminReportRoutes = [
   {
-    label: "Reports",
-    path: "/report",
+    label: "Volunteer",
+    path: "/adminvolreport",
+    icon: <SettingsApplicationsOutlinedIcon />,
+    activeIcon: <SettingsApplicationsIcon />,
+    component: "vehicle",
+  },
+  {
+    label: "Education",
+    path: "/adminedureport",
+    icon: <SettingsApplicationsOutlinedIcon />,
+    activeIcon: <SettingsApplicationsIcon />,
+    component: "vehicle",
+  },
+  {
+    label: "Donation",
+    path: "/admindonreport",
     icon: <SettingsApplicationsOutlinedIcon />,
     activeIcon: <SettingsApplicationsIcon />,
     component: "vehicle",

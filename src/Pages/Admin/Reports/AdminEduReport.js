@@ -17,6 +17,8 @@ import {
 } from "@mui/material";
 import React, { useEffect, useRef, useState } from "react";
 import makeStyles from "@mui/styles/makeStyles";
+import PrintIcon from "@mui/icons-material/Print";
+import ArticleIcon from "@mui/icons-material/Article";
 import { useNavigate } from "react-router-dom";
 import {
   calLastMonthe,
@@ -31,8 +33,7 @@ import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import Logo from "../../../Assets/images/Logo.png";
 import { useReactToPrint } from "react-to-print";
-import PrintIcon from "@mui/icons-material/Print";
-import ArticleIcon from "@mui/icons-material/Article";
+
 const userStyle = makeStyles((theme) => ({
   roots: {
     marginTop: "50px",
@@ -51,7 +52,7 @@ const userStyle = makeStyles((theme) => ({
     marginTop: "20px",
   },
 }));
-export default function AdminReports() {
+export default function AdminEduReport() {
   const classes = userStyle();
   const theme = useTheme();
   const { curruntUser } = useSelector((state) => state.user);
@@ -86,7 +87,7 @@ export default function AdminReports() {
   useEffect(() => {
     setLoading(true);
     const q = query(
-      collection(db, "VolPostResponse"),
+      collection(db, "EduPostResponse"),
       where("postCreatedAt", ">", calLastMonthe()),
       where("postCreatedAt", "<=", new Date())
     );
@@ -127,7 +128,7 @@ export default function AdminReports() {
           <Stack
             direction="column"
             justifyContent="center"
-            sx={{ margin: "20px" }}
+            sx={{ margin: "10px" }}
           >
             <Typography
               component="h2"
@@ -253,7 +254,6 @@ export default function AdminReports() {
           >
             Print As PDF
           </Button>
-
           <Button
             startIcon={<ArticleIcon />}
             variant="contained"

@@ -87,7 +87,7 @@ export default function VolReport() {
   useEffect(() => {
     setLoading(true);
     const q = query(
-      collection(db, "EduPostResponse"),
+      collection(db, "VolPostResponse"),
       where("postCreatedAt", ">", calLastMonthe()),
       where("postCreatedAt", "<=", new Date()),
       where("postCreatedBy", "==", curruntUser.id)
@@ -121,7 +121,7 @@ export default function VolReport() {
 
   return (
     <div>
-      <Container maxWidth="lg" ref={pdfRef}>
+      <Container maxWidth="lg" ref={pdfRef} sx={{ border: "1px solid black" }}>
         <Box className={classes.box}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Avatar src={Logo} sx={{ width: 75, height: 75 }}></Avatar>
