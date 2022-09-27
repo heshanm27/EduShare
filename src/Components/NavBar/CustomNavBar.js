@@ -74,6 +74,9 @@ export default function CustomNavBar() {
       case "/orgsignup":
         setHide(true);
         break;
+      case "/resetpassword":
+        setHide(true);
+        break;
       default:
         setHide(false);
     }
@@ -118,7 +121,7 @@ export default function CustomNavBar() {
                             color="secondary"
                             variant="contained"
                             startIcon={link?.icon}
-                            href="/signin"
+                            onClick={() => navigate("signin")}
                           >
                             Sign In
                           </Button>

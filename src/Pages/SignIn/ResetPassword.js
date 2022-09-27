@@ -14,13 +14,15 @@ import CustomTextField from "../../Components/CustomTextField/CustomTextField";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../FireBase/Config";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  getAuth,
+  sendPasswordResetEmail,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
 
 const initialValues = {
   email: "",
-  password: "",
-  showPassword: false,
 };
 const TextStyle = {
   "&:hover": {
@@ -29,7 +31,7 @@ const TextStyle = {
   },
 };
 
-export default function SignIn() {
+export default function ResetPassword() {
   const [errors, setErrors] = useState(initialValues);
   const [values, setValues] = useState(initialValues);
   const [loading, setLoading] = useState(false);
@@ -50,7 +52,6 @@ export default function SignIn() {
     temp.email =
       (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
       (values.email ? "" : "Please enter email ");
-    temp.password = values.password ? "" : "Please enter password";
 
     setErrors({
       ...temp,
@@ -72,30 +73,34 @@ export default function SignIn() {
     });
   };
 
-  const handleReset = () => {};
   //handle submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
     setLoading(true);
     //validate values
     if (validate()) {
-      //dispatch action to sign in user
-      try {
-        console.log("before signin" + isLoading);
-        await signInWithEmailAndPassword(auth, values.email, values.password);
-
-        console.log("sign in success");
-        navigate("/edu", { replace: true });
-        setLoading(false);
-      } catch (error) {
-        setNotify({
-          isOpen: true,
-          message: error.message,
-          type: "error",
-          title: "Error",
+      console.log(values.email);
+      const auth = getAuth();
+      sendPasswordResetEmail(auth, values.email)
+        .then(() => {
+          setNotify({
+            isOpen: true,
+            message: "Check your mail for further instructions",
+            type: "success",
+            title: "Success",
+          });
+          setValues(initialValues);
+          setLoading(false);
+        })
+        .catch((error) => {
+          setNotify({
+            isOpen: true,
+            message: error.message,
+            type: "error",
+            title: "Error",
+          });
+          setLoading(false);
         });
-        setLoading(false);
-      }
     } else {
       setLoading(false);
     }
@@ -128,7 +133,7 @@ export default function SignIn() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5" color="#094067">
-              Sign in
+              Reset Password
             </Typography>
             <Stack
               direction="column"
@@ -150,13 +155,7 @@ export default function SignIn() {
                 error={Boolean(errors.email)}
                 name="email"
               />
-              <CustomPasswordInput
-                values={values}
-                error={Boolean(errors.password)}
-                errorsMsg={errors.password}
-                setValues={setValues}
-                handleChanges={handleChanges}
-              />
+
               <LoadingButton
                 type="submit"
                 fullWidth
@@ -168,26 +167,8 @@ export default function SignIn() {
                 loadingPosition="center"
                 onClick={handleSubmit}
               >
-                Sign In
+                Reset Password
               </LoadingButton>
-              <Grid container>
-                <Grid item xs={6}>
-                  <Typography
-                    variant="body2"
-                    color={theme.palette.primary.main}
-                    sx={TextStyle}
-                    onClick={() => navigate("/resetpassword")}
-                  >
-                    Reset Password ?
-                  </Typography>
-                </Grid>
-
-                <Grid item xs={6}>
-                  <Link href="/roles" variant="body2">
-                    {"Don't have an account? Sign Up"}
-                  </Link>
-                </Grid>
-              </Grid>
             </Stack>
           </Paper>
           <CustomSnackBar notify={notify} setNotify={setNotify} />

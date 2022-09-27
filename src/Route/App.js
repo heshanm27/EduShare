@@ -39,6 +39,7 @@ import OrganizationSignUp from "../Pages/OrganizationSignUp/OrganizationSignUp";
 import UserDonApplyForm from "../Components/Forms/UserDonApplyForm/UserDonApplyForm";
 import AdminDonReport from "../Pages/Admin/Reports/AdminDonReport";
 import AdminEduReport from "../Pages/Admin/Reports/AdminEduReport";
+import ResetPassword from "../Pages/SignIn/ResetPassword";
 const theme = createTheme({
   palette: {
     primary: {
@@ -130,6 +131,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/orgsignup" element={<OrganizationSignUp />} />
           <Route path="/roles" element={<SignUpRole />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route
             path="/signin"
             element={

@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -9,7 +8,6 @@ import {
   Chip,
   Skeleton,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import moment from "moment";
@@ -17,10 +15,7 @@ import React, { useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
 export default function CustomCard({ data, handleCardClick }) {
   const [loading, setLoading] = useState(true);
-  const theme = useTheme();
-  const typo = (text) => {
-    return <Typography color="text.secondary">{text}</Typography>;
-  };
+
   const truncate = (input) =>
     input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;
   return (

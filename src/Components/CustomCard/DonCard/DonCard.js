@@ -1,6 +1,5 @@
 import {
   Avatar,
-  Button,
   Card,
   CardActionArea,
   CardContent,
@@ -9,14 +8,12 @@ import {
   Chip,
   Skeleton,
   Typography,
-  useTheme,
 } from "@mui/material";
 import { motion } from "framer-motion";
 import moment from "moment";
 import React, { useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
 export default function DonCard({ data, handleCardClick }) {
-  const theme = useTheme();
   const [loading, setLoading] = useState(true);
   const truncate = (input) =>
     input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;

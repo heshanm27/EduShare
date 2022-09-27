@@ -194,6 +194,11 @@ export default function SignUp() {
         await addNewUser(userData.user.uid);
         setLoading(false);
         setValues(initialValues);
+        setNotify({
+          isOpen: true,
+          message: "Successfully Registered",
+          type: "success",
+        });
       } catch (err) {
         console.log(err);
         setLoading(false);
