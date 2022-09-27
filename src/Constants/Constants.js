@@ -100,9 +100,9 @@ export const partneredDetails = [
       "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FIIT1.jpg?alt=media&token=9f864d86-c41d-4fc6-9725-a1c694fbcfb9",
   },
   {
-    name: "SLIIT",
+    name: "NSBM",
     image:
-      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FSLIIT.png?alt=media&token=ce3e4049-7d62-4077-b449-6478be04b899",
+      "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/PartnerdImg%2FNSBM_Green_University_seal.png?alt=media&token=e639d3fb-a2f4-4cdd-83d8-f6da89ada20b",
   },
   {
     name: "UOM",

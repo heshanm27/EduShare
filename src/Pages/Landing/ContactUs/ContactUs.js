@@ -131,9 +131,9 @@ export default function ContactUs() {
             alignItems="center"
             spacing={2}
           >
-            <Typography
+            {/* <Typography
               variant="h3"
-              color={theme.palette.primary.light}
+              color={theme.palette.primary.main}
               align="center"
               sx={{
                 marginBottom: "5rem",
@@ -141,9 +141,23 @@ export default function ContactUs() {
               }}
             >
               Contact Us
-            </Typography>
+            </Typography> */}
+            <p
+              style={{
+                marginBottom: "2rem",
+                color: "#0071F2",
+                fontFamily: "Roboto",
+                fontWeightBold: 700,
+                fontSize: "3rem",
+              }}
+            >
+              Contact Us
+            </p>
 
-            <Box width={"50%"} sx={{ paddingBottom: "20px" }}>
+            <Box
+              width={matches ? "100%" : "50%"}
+              sx={{ paddingBottom: "20px" }}
+            >
               <motion.div variants={item}>
                 <form ref={form} onSubmit={handleonSubmit}>
                   <Stack direction="column" spacing={5} sx={{ color: "white" }}>

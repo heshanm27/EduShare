@@ -44,6 +44,7 @@ import { auth } from "../../FireBase/Config";
 import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import { motion } from "framer-motion";
+import Logo from "../../Assets/images/Logo.png";
 const drawerWidth = 240;
 
 const openedMixin = (theme) => ({
@@ -197,14 +198,16 @@ export default function CustomDrawer() {
       </AppBar>
       <Drawer variant={reslution ? "temporary" : "permanent"} open={open}>
         <DrawerHeader>
-          <Typography
-            variant="h6"
-            noWrap
-            align="left"
-            color={theme.palette.secondary.main}
-          >
-            EduShare
-          </Typography>
+          <Stack direction="row" justifyContent="center" alignItems="center">
+            <Avatar alt="Logo" src={Logo} sx={{ width: 46, height: 46 }} />
+            <Typography
+              variant="h5"
+              color={theme.palette.primary.main}
+              component="div"
+            >
+              EduShare
+            </Typography>
+          </Stack>
           <Tooltip title="Close">
             <IconButton onClick={handleDrawerClose}>
               {theme.direction === "rtl" ? (

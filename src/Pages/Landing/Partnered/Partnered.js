@@ -81,7 +81,7 @@ export default function Partnered() {
       <Box
         sx={{
           backgroundColor: "#fff",
-          padding: { sm: "50px" },
+          padding: { xs: "50px" },
         }}
       >
         <Slider {...settings}>
