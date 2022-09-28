@@ -72,7 +72,6 @@ export default function SignIn() {
     });
   };
 
-  const handleReset = () => {};
   //handle submit form
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -183,9 +182,14 @@ export default function SignIn() {
                 </Grid>
 
                 <Grid item xs={6}>
-                  <Link href="/roles" variant="body2">
+                  <Typography
+                    variant="body2"
+                    color={theme.palette.primary.main}
+                    sx={TextStyle}
+                    onClick={() => navigate("/roles")}
+                  >
                     {"Don't have an account? Sign Up"}
-                  </Link>
+                  </Typography>
                 </Grid>
               </Grid>
             </Stack>

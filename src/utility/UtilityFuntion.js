@@ -18,14 +18,14 @@ function dateFormatter(value) {
 
 function timeFormatter(value) {
   const date = new Date(value);
-  date.toLocaleString("en-us", {
-    year: "numeric",
-    month: "numeric",
-    day: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  });
+  // const fixedDate = date.toLocaleString("en-us", {
+  //   year: "numeric",
+  //   month: "numeric",
+  //   day: "numeric",
+  //   hour: "2-digit",
+  //   minute: "2-digit",
+  //   second: "2-digit",
+  // });
   let h = date.getHours();
   let min = date.getMinutes();
   return [h, min].join(":");

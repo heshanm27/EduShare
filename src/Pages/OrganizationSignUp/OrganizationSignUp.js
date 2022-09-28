@@ -28,6 +28,7 @@ import VerifiedIcon from "@mui/icons-material/Verified";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { EducationLevel } from "../../Constants/Constants";
 import PhotoCamera from "@mui/icons-material/PhotoCamera";
+import { useNavigate } from "react-router-dom";
 const initialValues = {
   organizationName: "",
   shortFormName: "",
@@ -52,7 +53,7 @@ export default function OrganizationSignUp() {
   const [ProfileImage, setProfileImage] = useState(null);
   const [intrestedAreas, setIntrestedAreas] = useState([]);
   const intrestedAreasColletionRef = collection(db, "intrestedAreas");
-
+  const navigate = useNavigate();
   const onImageChange = (e) => {
     const [file] = e.target.files;
     setProfileImage(e.target.files[0]);
@@ -167,6 +168,7 @@ export default function OrganizationSignUp() {
         await addNewUser(userData.user.uid);
         setLoading(false);
         setValues(initialValues);
+        navigate("/edu");
       } catch (err) {
         console.log(err);
         setLoading(false);

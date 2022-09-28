@@ -20,7 +20,7 @@ export default function CustomCard({ data, handleCardClick }) {
     input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;
   return (
     <motion.div whileHover={{ scale: 1.1 }}>
-      <Card sx={{ maxWidth: 400, maxHeight: 645 }}>
+      <Card sx={{ maxWidth: 400 }}>
         <CardActionArea onClick={handleCardClick}>
           <CardHeader
             avatar={

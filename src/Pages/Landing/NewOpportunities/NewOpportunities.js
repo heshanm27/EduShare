@@ -79,7 +79,7 @@ export default function NewOpportunities() {
                 <Stack justifyContent="center" alignItems="center">
                   <CustomCard
                     data={item}
-                    handleCardClick={() => handleCardClick(item)}
+                    handleCardClick={() => handleCardClick()}
                   />
                 </Stack>
               </Grid>
