@@ -27,6 +27,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { EducationLevel } from "../../Constants/Constants";
+import PhotoCamera from "@mui/icons-material/PhotoCamera";
 const initialValues = {
   firstName: "",
   lastName: "",
@@ -53,6 +54,10 @@ const Provinces = [
   { value: "western", label: "Western" },
 ];
 
+const Avatars = [
+  "https://firebasestorage.googleapis.com/v0/b/edushare-7bb58.appspot.com/o/defaultAvatrs%2FUntitled-2.png?alt=media&token=66e81b60-cfbc-48a4-8eee-4377ec447496",
+];
+const randomId = Math.floor(Math.random() * Avatars.length);
 export default function SignUp() {
   const theme = useTheme();
   const [errors, setErrors] = useState(initialValues);
@@ -158,8 +163,8 @@ export default function SignUp() {
         province: values.province,
         education: values.education,
         intrest: values.intrest,
-        img: Url,
-        userRole: "admin",
+        img: Url !== "" ? Url : Avatars[randomId],
+        userRole: "user",
         email: values.email,
       };
       setDoc(doc(db, "users", userid), userObj, { merge: true });
@@ -210,7 +215,7 @@ export default function SignUp() {
       <CustomNavBar />
       <Container component="main" maxWidth="sm">
         <CssBaseline />
-        <Paper sx={{ mt: 5 }}>
+        <Paper sx={{ mt: 5, mb: 5, p: 1 }}>
           <Box
             sx={{
               display: "flex",
@@ -218,28 +223,35 @@ export default function SignUp() {
               alignItems: "center",
             }}
           >
-            <Typography component="h1" variant="h4">
+            <Typography
+              component="h1"
+              variant="h4"
+              color={theme.palette.primary.main}
+            >
               Sign up
             </Typography>
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-            >
-              <Avatar sx={{ width: 100, height: 100 }}>
-                <img
-                  src={img}
-                  alt="userlogo"
-                  style={{ width: 100, height: 100 }}
+            <Tooltip title="Upload User Avatar">
+              <IconButton
+                color="primary"
+                aria-label="upload picture"
+                component="label"
+              >
+                <Avatar sx={{ width: 100, height: 100 }}>
+                  <img
+                    src={img ? img : Avatars[randomId]}
+                    alt="userlogo"
+                    style={{ width: 100, height: 100, position: "absolute" }}
+                  />
+                  <PhotoCamera sx={{ zIndex: 10 }} />
+                </Avatar>
+                <input
+                  hidden
+                  accept="image/*"
+                  type="file"
+                  onChange={onImageChange}
                 />
-              </Avatar>
-              <input
-                hidden
-                accept="image/*"
-                type="file"
-                onChange={onImageChange}
-              />
-            </IconButton>
+              </IconButton>
+            </Tooltip>
           </Box>
 
           <Stack

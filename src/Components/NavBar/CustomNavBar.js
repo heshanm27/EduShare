@@ -71,6 +71,9 @@ export default function CustomNavBar() {
       case "/roles":
         setHide(true);
         break;
+      case "/orgsignup":
+        setHide(true);
+        break;
       default:
         setHide(false);
     }
@@ -78,12 +81,12 @@ export default function CustomNavBar() {
   return (
     <>
       <AppBar
-        elevation={0}
+        elevation={hide ? 1 : 0}
         sx={{
           backgroundColor: "#fff",
           display: { xs: "none", sm: "none", md: "block" },
         }}
-        position="sticky"
+        position={hide ? "static" : "sticky"}
       >
         <Container maxWidth="xl">
           <Stack

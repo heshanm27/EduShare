@@ -39,7 +39,7 @@ export default function Home() {
                 Let's explore!
               </Typography>
               <Typography
-                color={theme.palette.primary.main}
+                color={theme.palette.primary.dark}
                 variant="h3"
                 align={ScreenSize ? "center" : "left"}
               >

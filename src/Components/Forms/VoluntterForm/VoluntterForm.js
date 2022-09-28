@@ -14,6 +14,7 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
@@ -137,6 +138,19 @@ export default function VoluntterForm({
     setThumbnailImage(e.target.files[0]);
     setImg(URL.createObjectURL(file));
   };
+  const CreateRespone = async (docId) => {
+    const response = {
+      postTile: values.title,
+      postClosingDate: values.closingDate,
+      postCreatedAt: Timestamp.fromDate(new Date()),
+      responseCount: 0,
+      postCreatedBy: curruntUser.id,
+      postViews: 0,
+      postresponses: [],
+      ApplyedUserID: [],
+    };
+    await setDoc(doc(db, "VolPostResponse", docId), response);
+  };
 
   const hanldeInsert = async (curruntUserDetails) => {
     try {
@@ -158,7 +172,8 @@ export default function VoluntterForm({
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "VolunteerPost"), PostObj);
+      const doRef = await addDoc(collection(db, "VolunteerPost"), PostObj);
+      CreateRespone(doRef.id);
       setLoading(false);
       setOpen(false);
       setNotify({

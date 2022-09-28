@@ -14,6 +14,7 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
@@ -156,6 +157,20 @@ export default function EduationalForm({
     setImg(URL.createObjectURL(file));
   };
 
+  const CreateRespone = async (docId) => {
+    const response = {
+      postTile: values.title,
+      postClosingDate: values.closingDate,
+      postFee: values.courseFee,
+      postCreatedAt: Timestamp.fromDate(new Date()),
+      responseCount: 0,
+      postCreatedBy: curruntUser.id,
+      postViews: 0,
+      postresponses: [],
+      ApplyedUserID: [],
+    };
+    await setDoc(doc(db, "EduPostResponse", docId), response);
+  };
   const hanldeInsert = async (curruntUserDetails) => {
     try {
       let Url = "";
@@ -178,7 +193,8 @@ export default function EduationalForm({
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "EduationalPost"), PostObj);
+      const docRef = await addDoc(collection(db, "EduationalPost"), PostObj);
+      CreateRespone(docRef.id);
       setLoading(false);
       setOpen(false);
       setNotify({

@@ -14,6 +14,7 @@ import {
   Timestamp,
   doc,
   updateDoc,
+  setDoc,
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { db } from "../../../FireBase/Config";
@@ -124,6 +125,18 @@ export default function DonationForm({
     setThumbnailImage(e.target.files[0]);
     setImg(URL.createObjectURL(file));
   };
+  const CreateRespone = async (docId) => {
+    const response = {
+      postTile: values.title,
+      postCreatedAt: Timestamp.fromDate(new Date()),
+      responseCount: 0,
+      postCreatedBy: curruntUser.id,
+      postViews: 0,
+      postresponses: [],
+      DonatedUserID: [],
+    };
+    await setDoc(doc(db, "DonPostResponse", docId), response);
+  };
 
   const hanldeInsert = async (curruntUserDetails) => {
     try {
@@ -142,7 +155,8 @@ export default function DonationForm({
         createdAt: Timestamp.fromDate(new Date()),
         createdBy: curruntUserDetails,
       };
-      await addDoc(collection(db, "DonationPost"), PostObj);
+      const docRef = await addDoc(collection(db, "DonationPost"), PostObj);
+      CreateRespone(docRef.id);
       setLoading(false);
       setOpen(false);
       setNotify({

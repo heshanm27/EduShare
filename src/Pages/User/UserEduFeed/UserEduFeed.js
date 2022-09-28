@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   FormControl,
   Grid,
@@ -6,6 +7,7 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   Paper,
   Stack,
   Tooltip,
@@ -16,9 +18,12 @@ import {
   collection,
   endAt,
   getDoc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
+  startAfter,
   startAt,
   where,
 } from "firebase/firestore";
@@ -34,18 +39,23 @@ import { useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
 import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
+import { useSelector } from "react-redux";
 
 export default function UserEduFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [loadExtra, setLoadExtra] = useState(false);
   const [filter, setFilter] = useState("createdAt");
   const [filterSelect, setfilterSelect] = useState("new");
   const [orderDirections, setOrderDirections] = useState("desc");
   const [seletedCardData, setSelectedCardData] = useState(null);
+  const [latestDoc, setLatestDoc] = useState(null);
+  const [loadMore, setLoadMore] = useState(false);
+  const [disableLoadMore, setDisableLoadMore] = useState(false);
   const theme = useTheme();
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
-
+  const { curruntUser } = useSelector((state) => state.user);
   const [notify, setNotify] = useState({
     isOpen: false,
     message: "",
@@ -90,6 +100,41 @@ export default function UserEduFeed() {
     setSelectedCardData(data);
   };
 
+  const getData = async (data) => {
+    setLoadExtra(true);
+    const q = query(
+      collection(db, "EduationalPost"),
+      orderBy(filter, orderDirections),
+      startAfter(latestDoc ? latestDoc : 0),
+      limit(5)
+    );
+
+    const postData = [];
+    const querySnapshot = await getDocs(q);
+    setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    if (querySnapshot.empty) {
+      setDisableLoadMore(true);
+    } else {
+      setDisableLoadMore(false);
+    }
+    querySnapshot.forEach((doc) => {
+      let newPost = { ...doc.data(), id: doc.id };
+      postData.push(newPost);
+    });
+
+    const filteredData = postData.filter((post) =>
+      post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+    );
+    setEduPosts((prev) => [...prev, ...filteredData]);
+    setLoadExtra(false);
+  };
+
+  window.onscroll = function (event) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      setLoadMore(true);
+      getData();
+    }
+  };
   useEffect(() => {
     setLoading(true);
     let q;
@@ -101,27 +146,64 @@ export default function UserEduFeed() {
         endAt(search + "\uf8ff")
       );
     } else {
-      console.log(filter, filterSelect, orderDirections);
+      console.log(filter, filterSelect, orderDirections, curruntUser.intrest);
       q = query(
         collection(db, "EduationalPost"),
-        orderBy(filter, orderDirections)
+        orderBy(filter, orderDirections),
+        // startAfter(latestDoc ? latestDoc : 0),
+        limit(10)
       );
     }
 
-    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+    // const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+    //   setLoadMore(false);
+    //   const postData = [];
+    //   setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    //   if (querySnapshot.empty) {
+    //     setDisableLoadMore(true);
+    //   } else {
+    //     setDisableLoadMore(false);
+    //   }
+    //   querySnapshot.forEach((doc) => {
+    //     let newPost = { ...doc.data(), id: doc.id };
+    //     postData.push(newPost);
+    //   });
+
+    //   setEduPosts(
+    //     postData.filter((post) =>
+    //       post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+    //     )
+    //   );
+    //   setLoading(false);
+    // });
+
+    const getData = async (data) => {
       const postData = [];
-      querySnapshot.forEach(async (doc) => {
+      const querySnapshot = await getDocs(q);
+      setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      if (querySnapshot.empty) {
+        setDisableLoadMore(true);
+      } else {
+        setDisableLoadMore(false);
+      }
+      querySnapshot.forEach((doc) => {
         let newPost = { ...doc.data(), id: doc.id };
         postData.push(newPost);
       });
-      setEduPosts(postData);
-      setLoading(false);
-    });
 
-    return () => {
-      unsubscribe();
+      setEduPosts(
+        postData.filter((post) =>
+          post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+        )
+      );
+      setLoading(false);
     };
-  }, [filter, orderDirections, search]);
+
+    getData();
+    return () => {
+      // unsubscribe();
+    };
+  }, [filter, orderDirections, search, loadMore]);
   console.log(eduPosts);
   return (
     <>
@@ -161,7 +243,6 @@ export default function UserEduFeed() {
                       Search
                     </InputLabel>
                     <Input
-                      sx={{ p: 1 }}
                       id="standard-adornment-search"
                       placeholder="Search by Title"
                       value={search}
@@ -228,12 +309,15 @@ export default function UserEduFeed() {
                   </Stack>
                 </Grid>
               ))}
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              {loadExtra && <LinearProgress color="primary" />}
+            </Grid>
           </Grid>
 
           {!loading && eduPosts && eduPosts.length === 0 && (
             <Typography
-              sx={{ mt: 5 }}
-              variant="body2"
+              sx={{ mb: 5, p: 5 }}
+              variant="h5"
               align="center"
               color="info"
             >
