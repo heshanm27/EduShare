@@ -6,6 +6,7 @@ import {
   Input,
   InputAdornment,
   InputLabel,
+  LinearProgress,
   Paper,
   Stack,
   Tooltip,
@@ -16,9 +17,12 @@ import {
   collection,
   endAt,
   getDoc,
+  getDocs,
+  limit,
   onSnapshot,
   orderBy,
   query,
+  startAfter,
   startAt,
   where,
 } from "firebase/firestore";
@@ -28,12 +32,16 @@ import { db } from "../../../FireBase/Config";
 import SearchIcon from "@mui/icons-material/Search";
 import CloseIcon from "@mui/icons-material/Close";
 import CustomSelect from "../../../Components/CustomSelect/CustomSelect";
-import { FilterTypes } from "../../../Constants/Constants";
+import { FilterTypes, VolunteerType } from "../../../Constants/Constants";
 import CustomSkeletonCard from "../../../Components/CustomSkeletonCard/CustomSkeletonCard";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import CustomeDialog from "../../../Components/CustomDialog/CustomDialog";
 import CustomDataViewPop from "../../../Components/CustomDataViewPop/CustomDataViewPop";
-import UserNavBar from "../../../Components/UserNavBar/UserNavBar";
+import CustomSnackBar from "../../../Components/CustomSnackBar/CustomSnakBar";
+import { useSelector } from "react-redux";
+import VolunteerCard from "../../../Components/CustomCard/VolunteerCard/VolunteerCard";
+import VolDataViewPopUp from "../../../Components/CustomDataViewPop/VolDataViewPopUp/VolDataViewPopUp";
+
 export default function UserVonFeed() {
   const [eduPosts, setEduPosts] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -42,8 +50,21 @@ export default function UserVonFeed() {
   const [orderDirections, setOrderDirections] = useState("desc");
   const [seletedCardData, setSelectedCardData] = useState(null);
   const theme = useTheme();
+  const [loadMore, setLoadMore] = useState(false);
+  const [loadExtra, setLoadExtra] = useState(false);
+  const [latestDoc, setLatestDoc] = useState(null);
+  const [disableLoadMore, setDisableLoadMore] = useState(false);
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
+  const { curruntUser } = useSelector((state) => state.user);
+  const location = useLocation();
+  const [notify, setNotify] = useState({
+    isOpen: false,
+    message: "",
+    type: "error",
+    title: "",
+  });
+
   const navigate = useNavigate();
 
   const handleChanges = (e) => {
@@ -54,16 +75,6 @@ export default function UserVonFeed() {
         setfilterSelect("old");
         setOrderDirections("asc");
         setFilter("createdAt");
-        break;
-      case "lowprice":
-        setfilterSelect("lowprice");
-        setOrderDirections("asc");
-        setFilter("courseFee");
-        break;
-      case "highprice":
-        setfilterSelect("highprice");
-        setOrderDirections("desc");
-        setFilter("courseFee");
         break;
       default:
         setfilterSelect("new");
@@ -80,43 +91,105 @@ export default function UserVonFeed() {
     setOpen(true);
     setSelectedCardData(data);
   };
+  const getData = async (data) => {
+    setLoadExtra(true);
+    const q = query(
+      collection(db, "VolunteerPost"),
+      orderBy(filter, orderDirections),
+      startAfter(latestDoc ? latestDoc : 0),
+      limit(5)
+    );
 
+    const postData = [];
+    const querySnapshot = await getDocs(q);
+    setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+    if (querySnapshot.empty) {
+      setDisableLoadMore(true);
+    } else {
+      setDisableLoadMore(false);
+    }
+    querySnapshot.forEach((doc) => {
+      let newPost = { ...doc.data(), id: doc.id };
+      postData.push(newPost);
+    });
+
+    const filteredData = postData.filter((post) =>
+      post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+    );
+    setEduPosts((prev) => [...prev, ...filteredData]);
+    setLoadExtra(false);
+  };
+
+  window.onscroll = function (event) {
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
+      setLoadMore(true);
+      getData();
+    }
+  };
   useEffect(() => {
+    if (location.state) {
+      console.log(location.state);
+      setNotify({
+        isOpen: true,
+        message: location.state.message,
+        type: location.state.type,
+        title: location.state.title,
+      });
+      window.history.replaceState({}, document.title);
+    }
     setLoading(true);
     let q;
     if (search) {
       q = query(
-        collection(db, "EduationalPost"),
+        collection(db, "VolunteerPost"),
         orderBy("searchTags"),
         startAt(search),
         endAt(search + "\uf8ff")
       );
     } else {
-      console.log(filter, filterSelect, orderDirections);
+      console.log(filter, filterSelect, orderDirections, curruntUser.intrest);
       q = query(
-        collection(db, "EduationalPost"),
-        orderBy(filter, orderDirections)
+        collection(db, "VolunteerPost"),
+        // where("intrest", "array-contains-any", curruntUser.intrest),
+        orderBy(filter, orderDirections),
+        limit(10)
       );
     }
 
-    const unsubscribe = onSnapshot(q, async (querySnapshot) => {
+    const getData = async (data) => {
       const postData = [];
-      querySnapshot.forEach(async (doc) => {
+      const querySnapshot = await getDocs(q);
+      setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
+      if (querySnapshot.empty) {
+        setDisableLoadMore(true);
+      } else {
+        setDisableLoadMore(false);
+      }
+      querySnapshot.forEach((doc) => {
         let newPost = { ...doc.data(), id: doc.id };
         postData.push(newPost);
       });
-      setEduPosts(postData);
-      setLoading(false);
-    });
 
+      setEduPosts(
+        postData.filter((post) =>
+          post.intrest.some((intrest) => curruntUser.intrest.includes(intrest))
+        )
+      );
+      setLoading(false);
+    };
+
+    getData();
     return () => {
-      unsubscribe();
+      // unsubscribe();
     };
   }, [filter, orderDirections, search]);
   console.log(eduPosts);
   return (
     <>
-      <Container maxWidth="xl" sx={{ mt: 5 }}>
+      <Container
+        maxWidth="xl"
+        sx={{ mt: 5, backgroundColor: theme.palette.background.paper }}
+      >
         <Typography variant="h4" color={theme.palette.primary.main}>
           Volunteer Feed
         </Typography>
@@ -149,7 +222,6 @@ export default function UserVonFeed() {
                       Search
                     </InputLabel>
                     <Input
-                      sx={{ p: 1 }}
                       id="standard-adornment-search"
                       placeholder="Search by Title"
                       value={search}
@@ -182,7 +254,7 @@ export default function UserVonFeed() {
                     value={filterSelect}
                     name="filter"
                     width="100%"
-                    options={FilterTypes}
+                    options={VolunteerType}
                     variant="standard"
                   />
                 </Grid>
@@ -209,19 +281,23 @@ export default function UserVonFeed() {
                   sx={{ mt: { xs: 5, sm: 5 } }}
                 >
                   <Stack justifyContent="center" alignItems="center">
-                    <CustomCard
+                    <VolunteerCard
                       data={item}
                       handleCardClick={() => handleCardClick(item)}
                     />
                   </Stack>
                 </Grid>
               ))}
+
+            <Grid item xs={12} sx={{ mt: 2 }}>
+              {loadExtra && <LinearProgress color="primary" />}
+            </Grid>
           </Grid>
 
           {!loading && eduPosts && eduPosts.length === 0 && (
             <Typography
-              sx={{ mt: 5 }}
-              variant="body2"
+              sx={{ mb: 5, p: 5 }}
+              variant="h5"
               align="center"
               color="info"
             >
@@ -259,8 +335,13 @@ export default function UserVonFeed() {
           title="Course Details"
           maxWidth="md"
         >
-          <CustomDataViewPop data={seletedCardData} />
+          <VolDataViewPopUp
+            data={seletedCardData}
+            setOpen={setOpen}
+            setNotify={setNotify}
+          />
         </CustomeDialog>
+        <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
     </>
   );

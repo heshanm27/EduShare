@@ -13,14 +13,13 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import React, { useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
-export default function CustomCard({ data, handleCardClick }) {
+export default function DonCard({ data, handleCardClick }) {
   const [loading, setLoading] = useState(true);
-
   const truncate = (input) =>
     input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;
   return (
     <motion.div whileHover={{ scale: 1.1 }}>
-      <Card sx={{ maxWidth: 400 }}>
+      <Card sx={{ maxWidth: 400, maxHeight: 645 }}>
         <CardActionArea onClick={handleCardClick}>
           <CardHeader
             avatar={
@@ -42,9 +41,8 @@ export default function CustomCard({ data, handleCardClick }) {
                 : "posted " + "September 14, 2016"
             }
           />
-
           <CardMedia
-            component={"img"}
+            component="img"
             height="194"
             width="400px"
             onLoad={() => setLoading((prev) => !prev)}
@@ -56,7 +54,6 @@ export default function CustomCard({ data, handleCardClick }) {
             alt="Paella dish"
             sx={{ display: loading ? "none" : "block" }}
           />
-
           {loading && (
             <Skeleton
               variant="rectangular"
@@ -79,28 +76,6 @@ export default function CustomCard({ data, handleCardClick }) {
             </Typography>
           </CardContent>
           <CardContent>
-            Course fee - :
-            {data && data.courseFee > 0 ? (
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                align="justify"
-                gutterBottom
-                display={"inline"}
-                sx={{ p: 1 }}
-              >
-                {data.courseFee + " LKR"}
-              </Typography>
-            ) : (
-              <Chip
-                color="success"
-                label="Free Of Charge"
-                size="small"
-                sx={{ p: 1, m: 0.5 }}
-              />
-            )}
-            <br />
-            <br />
             {data &&
               data.intrest.map((intrest) => {
                 return (

@@ -35,6 +35,11 @@ import DonReport from "../Pages/Organization/Report/DonReport/DonReport";
 import VolResponse from "../Pages/Organization/Responses/VolResponse/VolResponse";
 import VolSummary from "../Pages/Organization/Summary/VolSummary/VolSummary";
 import VolReport from "../Pages/Organization/Report/VolReport/VolReport";
+import OrganizationSignUp from "../Pages/OrganizationSignUp/OrganizationSignUp";
+import UserDonApplyForm from "../Components/Forms/UserDonApplyForm/UserDonApplyForm";
+import AdminDonReport from "../Pages/Admin/Reports/AdminDonReport";
+import AdminEduReport from "../Pages/Admin/Reports/AdminEduReport";
+import ResetPassword from "../Pages/SignIn/ResetPassword";
 const theme = createTheme({
   palette: {
     primary: {
@@ -78,6 +83,13 @@ function App() {
     }
   };
 
+  const changeNameToRole = (firstName, lastName, role) => {
+    if (role === "org") {
+      return `${firstName}`;
+    } else {
+      return `${firstName} ${lastName}`;
+    }
+  };
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       const UserDetails = {};
@@ -86,8 +98,13 @@ function App() {
         const docSnap = await getDoc(docRef);
         if (docSnap.exists) {
           UserDetails.id = user.uid;
-          UserDetails.name =
-            docSnap.data().firstName + " " + docSnap.data().lastName;
+          UserDetails.name = changeNameToRole(
+            docSnap.data().firstName,
+            docSnap.data().lastName,
+            docSnap.data().userRole
+          );
+          UserDetails.shortFrom =
+            docSnap.data().userRole === "org" ? docSnap.data().lastName : null;
           UserDetails.phoneNo = docSnap.data().phoneNo;
           UserDetails.educationLevel = docSnap.data().education;
           UserDetails.email = user.email;
@@ -112,7 +129,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/signup" element={<SignUp />} />
+          <Route path="/orgsignup" element={<OrganizationSignUp />} />
           <Route path="/roles" element={<SignUpRole />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route
             path="/signin"
             element={
@@ -127,8 +146,12 @@ function App() {
                 <Route path="/donfeed" element={<UserDonFeed />} />
                 <Route path="/vonfeed" element={<UserVonFeed />} />
                 <Route
-                  path="/edufeed/eduform/:id"
+                  path="/edufeed/vonform/:id"
                   element={<UserEduApplyForm />}
+                />
+                <Route
+                  path="/donfeed/donform/:id"
+                  element={<UserDonApplyForm />}
                 />
               </Route>
             </Route>
@@ -137,25 +160,27 @@ function App() {
               <Route element={<ProtetedRoute roleRequired="admin" />}>
                 <Route path="/usercontrol" element={<UserManage />} />
                 <Route path="/interested" element={<InterestedAreas />} />
-                <Route path="/report" element={<AdminReports />} />
+                <Route path="/adminvolreport" element={<AdminReports />} />
+                <Route path="/adminedureport" element={<AdminEduReport />} />
+                <Route path="/admindonreport" element={<AdminDonReport />} />
               </Route>
 
               {/* Organization route */}
               <Route element={<ProtetedRoute roleRequired="org" />}>
                 <Route path="/edu" element={<EducationalOrg />} />
                 <Route path="/edu/response" element={<EduResponse />} />
-                <Route path="/edu/summary" element={<EduSummary />} />
-                <Route path="/edu/summary/report" element={<EduReport />} />
+                {/* <Route path="/edu/summary" element={<EduSummary />} /> */}
+                <Route path="/edu/summary" element={<EduReport />} />
 
                 <Route path="/don" element={<DonationOrg />} />
                 <Route path="/don/response" element={<DonResponse />} />
-                <Route path="/don/summary" element={<DonSummary />} />
-                <Route path="/don/summary/report" element={<DonReport />} />
+                {/* <Route path="/don/summary" element={<DonSummary />} /> */}
+                <Route path="/don/summary" element={<DonReport />} />
 
                 <Route path="/vol" element={<VoluntterOrg />} />
                 <Route path="/vol/response" element={<VolResponse />} />
-                <Route path="/vol/summary" element={<VolSummary />} />
-                <Route path="/vol/summary/report" element={<VolReport />} />
+                {/* <Route path="/vol/summary" element={<VolSummary />} /> */}
+                <Route path="/vol/summary" element={<VolReport />} />
               </Route>
             </Route>
           </Route>

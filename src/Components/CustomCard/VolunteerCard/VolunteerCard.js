@@ -13,14 +13,14 @@ import { motion } from "framer-motion";
 import moment from "moment";
 import React, { useState } from "react";
 import TagIcon from "@mui/icons-material/Tag";
-export default function CustomCard({ data, handleCardClick }) {
+export default function VolunteerCard({ data, handleCardClick }) {
   const [loading, setLoading] = useState(true);
 
   const truncate = (input) =>
     input.length > 450 ? `${input.substring(0, 450)}...Read More` : input;
   return (
     <motion.div whileHover={{ scale: 1.1 }}>
-      <Card sx={{ maxWidth: 400 }}>
+      <Card sx={{ maxWidth: 400, maxHeight: 645 }}>
         <CardActionArea onClick={handleCardClick}>
           <CardHeader
             avatar={
@@ -42,9 +42,8 @@ export default function CustomCard({ data, handleCardClick }) {
                 : "posted " + "September 14, 2016"
             }
           />
-
           <CardMedia
-            component={"img"}
+            component="img"
             height="194"
             width="400px"
             onLoad={() => setLoading((prev) => !prev)}
@@ -79,8 +78,8 @@ export default function CustomCard({ data, handleCardClick }) {
             </Typography>
           </CardContent>
           <CardContent>
-            Course fee - :
-            {data && data.courseFee > 0 ? (
+            Closing Date - :
+            {data && data.closingDate !== null ? (
               <Typography
                 variant="body2"
                 color="text.secondary"
@@ -89,15 +88,27 @@ export default function CustomCard({ data, handleCardClick }) {
                 display={"inline"}
                 sx={{ p: 1 }}
               >
-                {data.courseFee + " LKR"}
+                {data.closingDate}
               </Typography>
             ) : (
-              <Chip
-                color="success"
-                label="Free Of Charge"
-                size="small"
-                sx={{ p: 1, m: 0.5 }}
-              />
+              <></>
+            )}
+            <br />
+            <br />
+            Work Location - :
+            {data && data.workLocation !== null ? (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                align="justify"
+                gutterBottom
+                display={"inline"}
+                sx={{ p: 1 }}
+              >
+                {data.workLocation}
+              </Typography>
+            ) : (
+              <></>
             )}
             <br />
             <br />

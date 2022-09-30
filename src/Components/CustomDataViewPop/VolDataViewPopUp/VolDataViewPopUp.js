@@ -23,15 +23,15 @@ import {
   Timestamp,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../../FireBase/Config";
+import { db } from "../../../FireBase/Config";
 
-export default function CustomDataViewPop({ data, setOpen, setNotify }) {
+export default function VolDataViewPopUp({ data, setOpen, setNotify }) {
   const navigate = useNavigate();
   const { curruntUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     async function UpdateViewCount() {
-      const docmentRef = doc(db, "EduPostResponse", data.id);
+      const docmentRef = doc(db, "VolPostResponse", data.id);
       const docmentSnap = await getDoc(docmentRef);
       if (docmentSnap.exists()) {
         await updateDoc(docmentRef, {
@@ -43,93 +43,93 @@ export default function CustomDataViewPop({ data, setOpen, setNotify }) {
   }, [data.id]);
 
   const handleNavigate = async (ViewData) => {
-    if (curruntUser) {
-      const docRef = doc(db, "EduPostResponse", ViewData.id);
-      const docSnap = await getDoc(docRef);
-      console.log();
-      if (docSnap.exists()) {
-        if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
-          const response = {
-            name: curruntUser.name,
-            email: curruntUser.email,
-            phoneNo: curruntUser.phoneNo,
-            date: Timestamp.fromDate(new Date()),
-            educationLevel: curruntUser.educationLevel,
-            userId: curruntUser.id,
-          };
-          try {
-            await updateDoc(docRef, {
-              ApplyedUserID: arrayUnion(curruntUser.id),
-              responseCount: increment(1),
-              postresponses: arrayUnion(response),
-            });
-            setOpen(false);
-            setNotify({
-              isOpen: true,
-              message: "Applied Successfully",
-              type: "success",
-              title: "Success",
-            });
-          } catch (err) {
-            console.log(err);
-            setNotify({
-              isOpen: true,
-              message: "Something went wrong",
-              type: "error",
-              title: "Error",
-            });
-          }
-        } else {
-          setOpen(false);
-          setNotify({
-            isOpen: true,
-            message: "You have already applied for this opportunity",
-            type: "warning",
-            title: "Warning",
-          });
-        }
-      } else {
-        const response = {
-          postTile: ViewData.title,
-          postClosingDate: ViewData.closingDate,
-          postFee: ViewData.courseFee,
-          postCreatedAt: ViewData.createdAt,
-          responseCount: 1,
-          postCreatedBy: ViewData.createdBy.id,
-          postViews: 1,
-          postresponses: [
-            {
-              name: curruntUser.name,
-              email: curruntUser.email,
-              phoneNo: curruntUser.phoneNo,
-              date: Timestamp.fromDate(new Date()),
-              educationLevel: curruntUser.educationLevel,
-              userId: curruntUser.id,
-            },
-          ],
-          ApplyedUserID: [curruntUser.id],
-        };
-        try {
-          await setDoc(doc(db, "EduPostResponse", ViewData.id), response);
-          setOpen(false);
-          setNotify({
-            isOpen: true,
-            message: "Applied Successfully",
-            type: "success",
-            title: "Success",
-          });
-        } catch (err) {
-          setOpen(false);
-          setNotify({
-            isOpen: true,
-            message: "Something went wrong",
-            type: "error",
-            title: "Error",
-          });
-        }
-      }
-    }
-    // navigate(`/edufeed/eduform/${ViewData.id}`, { state: ViewData });
+    // if (curruntUser) {
+    //   const docRef = doc(db, "VolPostResponse", ViewData.id);
+    //   const docSnap = await getDoc(docRef);
+    //   console.log();
+    //   if (docSnap.exists()) {
+    //     if (!docSnap.data().ApplyedUserID.includes(curruntUser.id)) {
+    //       const response = {
+    //         name: curruntUser.name,
+    //         email: curruntUser.email,
+    //         phoneNo: curruntUser.phoneNo,
+    //         date: Timestamp.fromDate(new Date()),
+    //         educationLevel: curruntUser.educationLevel,
+    //         userId: curruntUser.id,
+    //       };
+    //       try {
+    //         await updateDoc(docRef, {
+    //           ApplyedUserID: arrayUnion(curruntUser.id),
+    //           responseCount: increment(1),
+    //           postresponses: arrayUnion(response),
+    //         });
+    //         setOpen(false);
+    //         setNotify({
+    //           isOpen: true,
+    //           message: "Applied Successfully",
+    //           type: "success",
+    //           title: "Success",
+    //         });
+    //       } catch (err) {
+    //         console.log(err);
+    //         setNotify({
+    //           isOpen: true,
+    //           message: "Something went wrong",
+    //           type: "error",
+    //           title: "Error",
+    //         });
+    //       }
+    //     } else {
+    //       setOpen(false);
+    //       setNotify({
+    //         isOpen: true,
+    //         message: "You have already applied",
+    //         type: "warning",
+    //         title: "Warning",
+    //       });
+    //     }
+    //   } else {
+    //     const response = {
+    //       postTile: ViewData.title,
+    //       postClosingDate: ViewData.closingDate,
+    //       postFee: ViewData.courseFee,
+    //       postCreatedAt: ViewData.createdAt,
+    //       responseCount: 1,
+    //       postCreatedBy: ViewData.createdBy.id,
+    //       postViews: 1,
+    //       postresponses: [
+    //         {
+    //           name: curruntUser.name,
+    //           email: curruntUser.email,
+    //           phoneNo: curruntUser.phoneNo,
+    //           date: Timestamp.fromDate(new Date()),
+    //           educationLevel: curruntUser.educationLevel,
+    //           userId: curruntUser.id,
+    //         },
+    //       ],
+    //       ApplyedUserID: [curruntUser.id],
+    //     };
+    //     try {
+    //       await setDoc(doc(db, "VolPostResponse", ViewData.id), response);
+    //       setOpen(false);
+    //       setNotify({
+    //         isOpen: true,
+    //         message: "Applied Successfully",
+    //         type: "success",
+    //         title: "Success",
+    //       });
+    //     } catch (err) {
+    //       setOpen(false);
+    //       setNotify({
+    //         isOpen: true,
+    //         message: "Something went wrong",
+    //         type: "error",
+    //         title: "Error",
+    //       });
+    //     }
+    //   }
+    // }
+    navigate(`/edufeed/vonform/${ViewData.id}`, { state: ViewData });
   };
   return (
     <Container>

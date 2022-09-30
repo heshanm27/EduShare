@@ -103,29 +103,29 @@ export default function EduResponse() {
           localization={{ toolbar: { searchPlaceholder: "Post title" } }}
           columns={columns}
           data={FullData}
-          editable={{
-            onRowDelete: (oldData) =>
-              new Promise(async (resolve, reject) => {
-                try {
-                  await deleteDoc(doc(db, "EduationalPost", oldData.id));
-                  setNotify({
-                    isOpen: true,
-                    message: "Post deleted successfully",
-                    type: "success",
-                    title: "Deleted",
-                  });
-                  resolve();
-                } catch (error) {
-                  setNotify({
-                    isOpen: true,
-                    message: error.message,
-                    type: "error",
-                    title: "Error",
-                  });
-                  reject();
-                }
-              }),
-          }}
+          // editable={{
+          //   onRowDelete: (oldData) =>
+          //     new Promise(async (resolve, reject) => {
+          //       try {
+          //         await deleteDoc(doc(db, "EduationalPost", oldData.id));
+          //         setNotify({
+          //           isOpen: true,
+          //           message: "Post deleted successfully",
+          //           type: "success",
+          //           title: "Deleted",
+          //         });
+          //         resolve();
+          //       } catch (error) {
+          //         setNotify({
+          //           isOpen: true,
+          //           message: error.message,
+          //           type: "error",
+          //           title: "Error",
+          //         });
+          //         reject();
+          //       }
+          //     }),
+          // }}
           actions={[
             {
               icon: "tableview",
