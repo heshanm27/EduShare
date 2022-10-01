@@ -55,3 +55,8 @@
   // to help you ship new features faster. Start with Material UI, 
   // our fully-loaded component library, 
   // or bring your own design system to our production-ready components.
+
+  //React allows us to create reusable UI components.*/
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right
+  components when your data changes.*/
