@@ -180,6 +180,7 @@ export default function UserEduFeed() {
     const getData = async (data) => {
       const postData = [];
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs);
       setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
       if (querySnapshot.empty) {
         setDisableLoadMore(true);

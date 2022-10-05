@@ -199,7 +199,7 @@ export default function CustomNavBar() {
         onClose={handleClose}
       >
         {curruntUser?.role != "admin" && (
-          <MenuItem onClick={() => handleClose("/profile")}>
+          <MenuItem onClick={() => handleClose("/userprofile")}>
             My account
           </MenuItem>
         )}
