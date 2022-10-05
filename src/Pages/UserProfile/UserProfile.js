@@ -242,7 +242,11 @@ export default function UserProfile() {
           setOpen={setOpen}
           title="Update Your Details"
         >
-          <ProfileUpdateForm setNotify={setNotify} setOpen={setOpen} />
+          <ProfileUpdateForm
+            data={userData}
+            setNotify={setNotify}
+            setOpen={setOpen}
+          />
         </CustomeDialog>
         <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>

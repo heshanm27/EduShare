@@ -12,25 +12,26 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CustomSelect from "../../CustomSelect/CustomSelect";
 import CustomTextField from "../../CustomTextField/CustomTextField";
 import { uploadImage } from "../../../utility/UploadImage";
 import DoneIcon from "@mui/icons-material/Done";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { EducationLevel } from "../../../Constants/Constants";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { db } from "../../../FireBase/Config";
+import { useSelector } from "react-redux";
 const initialValues = {
   firstName: "",
   lastName: "",
-  email: "",
   phoneNo: "",
   address: "",
   city: "",
   province: "",
   education: "",
   intrest: [],
-  password: "",
-  confirmPassword: "",
+  img: "",
 };
 
 const Provinces = [
@@ -45,15 +46,16 @@ const Provinces = [
   { value: "western", label: "Western" },
 ];
 
-export default function ProfileUpdateForm() {
+export default function ProfileUpdateForm({ data, setNotify, setOpen }) {
   const [errors, setErrors] = useState(initialValues);
   const [loading, setLoading] = useState(false);
-  const [values, setValues] = useState(initialValues);
-  const [img, setImg] = useState(null);
+  const [values, setValues] = useState(data);
+  const [img, setImg] = useState(data.img);
   const [ProfileImage, setProfileImage] = useState(null);
-  const [intrestedAreas, setIntrestedAreas] = useState([]);
+  const [intrestedAreas, setIntrestedAreas] = useState(data.intrest);
+  const intrestedAreasColletionRef = collection(db, "intrestedAreas");
   const theme = useTheme();
-
+  const { curruntUser } = useSelector((state) => state.user);
   const onImageChange = (e) => {
     const [file] = e.target.files;
     setProfileImage(e.target.files[0]);
@@ -63,22 +65,9 @@ export default function ProfileUpdateForm() {
   //validate email
   function validate() {
     let temp = {};
-    temp.email =
-      (/$^|.+@.+..+/.test(values.email) ? "" : "Please enter valid email") ||
-      (values.email ? "" : "Please enter email ");
     temp.intrest =
       (values.intrest.length !== 0 ? "" : "Please select intrest") ||
       (values.intrest.length >= 3 ? "" : "Please select more than 3 intrest");
-    temp.password =
-      (values.password ? "" : "Please enter password") ||
-      (values.password.length >= 6
-        ? ""
-        : "Password must be atleast 6 characters");
-    temp.confirmPassword =
-      (values.confirmPassword ? "" : "Please enter confirm password") ||
-      (values.confirmPassword === values.password
-        ? ""
-        : "Password does not match");
     temp.firstName = values.firstName ? "" : "Please enter first name";
     temp.lastName = values.lastName ? "" : "Please enter last name";
     temp.phoneNo =
@@ -119,6 +108,64 @@ export default function ProfileUpdateForm() {
       });
     }
   };
+  const handleUpdate = async () => {
+    try {
+      let Url = "";
+      if (ProfileImage != null) {
+        Url = await uploadImage(ProfileImage, "UsersAvatar");
+      }
+
+      const userObj = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNo: values.phoneNo,
+        address: values.address,
+        city: values.city,
+        province: values.province,
+        education: values.education,
+        intrest: values.intrest,
+        img: Url !== "" ? Url : values.img,
+      };
+      await updateDoc(doc(db, "users", curruntUser.id), userObj);
+      setLoading(false);
+      setOpen(false);
+      setNotify({
+        isOpen: true,
+        message: "Post updated successfully",
+        type: "success",
+        title: "Success",
+      });
+    } catch (error) {
+      console.log(error);
+      setNotify({
+        isOpen: true,
+        message: error.message,
+        type: "error",
+        title: "Error",
+      });
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    //validate values
+    if (validate()) {
+      await handleUpdate();
+    } else {
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
+    const getIntrestedArea = async () => {
+      const data = await getDocs(intrestedAreasColletionRef);
+      setIntrestedAreas(
+        data.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      );
+    };
+    getIntrestedArea();
+  }, []);
 
   return (
     <Paper>
@@ -139,7 +186,11 @@ export default function ProfileUpdateForm() {
               <img
                 src={img}
                 alt="userlogo"
-                style={{ width: 100, height: 100, position: "absolute" }}
+                style={{
+                  width: 100,
+                  height: 100,
+                  position: "absolute",
+                }}
               />
               <PhotoCamera sx={{ zIndex: 10 }} />
             </Avatar>
@@ -159,7 +210,7 @@ export default function ProfileUpdateForm() {
         alignItems="center"
         component="form"
         noValidate
-        //   onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
       >
         <Grid container spacing={2} sx={{ p: 2 }}>
           <Grid item xs={12} sm={6}>
@@ -298,7 +349,7 @@ export default function ProfileUpdateForm() {
               size="large"
               loadingPosition="center"
             >
-              Sign Up
+              UPDATE
             </LoadingButton>{" "}
           </Grid>
         </Grid>
