@@ -91,7 +91,7 @@ export default function UserVonFeed() {
     setOpen(true);
     setSelectedCardData(data);
   };
-  const getData = async (data) => {
+  const getData = async () => {
     setLoadExtra(true);
     const q = query(
       collection(db, "VolunteerPost"),

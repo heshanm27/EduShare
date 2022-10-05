@@ -127,11 +127,12 @@ export default function ProfileUpdateForm({ data, setNotify, setOpen }) {
         img: Url !== "" ? Url : values.img,
       };
       await updateDoc(doc(db, "users", curruntUser.id), userObj);
+
       setLoading(false);
       setOpen(false);
       setNotify({
         isOpen: true,
-        message: "Post updated successfully",
+        message: "Peofile Details Updated Successfully",
         type: "success",
         title: "Success",
       });
@@ -157,6 +158,7 @@ export default function ProfileUpdateForm({ data, setNotify, setOpen }) {
       setLoading(false);
     }
   };
+
   useEffect(() => {
     const getIntrestedArea = async () => {
       const data = await getDocs(intrestedAreasColletionRef);

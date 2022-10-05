@@ -18,7 +18,15 @@ import React, { useState, useEffect } from "react";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSelector } from "react-redux";
-import { collection, doc, getDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  documentId,
+  getDoc,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 import { db } from "../../FireBase/Config";
 import DoneIcon from "@mui/icons-material/Done";
 import CustomeDialog from "../../Components/CustomDialog/CustomDialog";
@@ -66,17 +74,32 @@ export default function UserProfile() {
     type: "error",
     title: "",
   });
+  // useEffect(() => {
+  //   setLoading(true);
+  //   async function getData() {
+  //     const snap = await getDoc(doc(db, "users", curruntUser.id));
+  //     setLoading(false);
+  //     setUserData(snap.data());
+  //     console.log(snap.data());
+  //   }
+
+  //   getData();
+  // }, [curruntUser.id, setUserData]);
+
   useEffect(() => {
     setLoading(true);
-    async function getData() {
-      const snap = await getDoc(doc(db, "users", curruntUser.id));
-      setLoading(false);
-      setUserData(snap.data());
-      console.log(snap.data());
-    }
+    const q = query(doc(db, "users", curruntUser.id));
+    const unsubscribe = onSnapshot(q, (querySnapshot) => {
+      const postData = [];
+      setUserData(querySnapshot.data());
 
-    getData();
-  }, [curruntUser.id, setUserData]);
+      setLoading(false);
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
   return (
     <>
       {/* <Header /> */}
