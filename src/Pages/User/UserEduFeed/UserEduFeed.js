@@ -100,13 +100,13 @@ export default function UserEduFeed() {
     setSelectedCardData(data);
   };
 
-  const getData = async (data) => {
+  const getMoreData = async (data) => {
     setLoadExtra(true);
     const q = query(
       collection(db, "EduationalPost"),
       orderBy(filter, orderDirections),
       startAfter(latestDoc ? latestDoc : 0),
-      limit(5)
+      limit(10)
     );
 
     const postData = [];
@@ -132,7 +132,7 @@ export default function UserEduFeed() {
   window.onscroll = function (event) {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight) {
       setLoadMore(true);
-      getData();
+      getMoreData();
     }
   };
   useEffect(() => {
@@ -150,8 +150,8 @@ export default function UserEduFeed() {
       q = query(
         collection(db, "EduationalPost"),
         orderBy(filter, orderDirections),
-        // startAfter(latestDoc ? latestDoc : 0),
         limit(10)
+        // startAfter(latestDoc ? latestDoc : 0),
       );
     }
 
@@ -180,6 +180,7 @@ export default function UserEduFeed() {
     const getData = async (data) => {
       const postData = [];
       const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs);
       setLatestDoc(querySnapshot.docs[querySnapshot.docs.length - 1]);
       if (querySnapshot.empty) {
         setDisableLoadMore(true);

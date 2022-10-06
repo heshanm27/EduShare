@@ -23,7 +23,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { signOut } from "firebase/auth";
 import { auth } from "../../FireBase/Config";
-
+import Logo from "../../Assets/images/Logo.png";
 export default function CustomNavBar() {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
@@ -74,6 +74,9 @@ export default function CustomNavBar() {
       case "/orgsignup":
         setHide(true);
         break;
+      case "/resetpassword":
+        setHide(true);
+        break;
       default:
         setHide(false);
     }
@@ -96,13 +99,24 @@ export default function CustomNavBar() {
           >
             <Toolbar>
               <Link href="/" underline="none">
-                <Typography
-                  variant="h4"
-                  color={theme.palette.primary.main}
-                  component="div"
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
                 >
-                  EduShare
-                </Typography>
+                  <Avatar
+                    alt="Logo"
+                    src={Logo}
+                    sx={{ width: 56, height: 56 }}
+                  />
+                  <Typography
+                    variant="h4"
+                    color={theme.palette.primary.main}
+                    component="div"
+                  >
+                    EduShare
+                  </Typography>
+                </Stack>
               </Link>
             </Toolbar>
 
@@ -118,7 +132,7 @@ export default function CustomNavBar() {
                             color="secondary"
                             variant="contained"
                             startIcon={link?.icon}
-                            href="/signin"
+                            onClick={() => navigate("signin")}
                           >
                             Sign In
                           </Button>
@@ -185,7 +199,7 @@ export default function CustomNavBar() {
         onClose={handleClose}
       >
         {curruntUser?.role != "admin" && (
-          <MenuItem onClick={() => handleClose("/profile")}>
+          <MenuItem onClick={() => handleClose("/userprofile")}>
             My account
           </MenuItem>
         )}
@@ -214,13 +228,26 @@ export default function CustomNavBar() {
             alignItems="center"
           >
             <Toolbar>
-              <Typography
-                variant="h4"
-                color={theme.palette.primary.main}
-                component="div"
-              >
-                EduShare
-              </Typography>
+              <Link href="/" underline="none">
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Avatar
+                    alt="Logo"
+                    src={Logo}
+                    sx={{ width: 56, height: 56 }}
+                  />
+                  <Typography
+                    variant="h4"
+                    color={theme.palette.primary.main}
+                    component="div"
+                  >
+                    EduShare
+                  </Typography>
+                </Stack>
+              </Link>
             </Toolbar>
             <Stack
               alignItems="center"

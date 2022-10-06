@@ -32,7 +32,8 @@ import { useSelector } from "react-redux";
 import * as XLSX from "xlsx";
 import Logo from "../../../../Assets/images/Logo.png";
 import { useReactToPrint } from "react-to-print";
-
+import PrintIcon from "@mui/icons-material/Print";
+import ArticleIcon from "@mui/icons-material/Article";
 const userStyle = makeStyles((theme) => ({
   roots: {
     marginTop: "50px",
@@ -86,7 +87,7 @@ export default function DonReport() {
   useEffect(() => {
     setLoading(true);
     const q = query(
-      collection(db, "EduPostResponse"),
+      collection(db, "DonPostResponse"),
       where("postCreatedAt", ">", calLastMonthe()),
       where("postCreatedAt", "<=", new Date()),
       where("postCreatedBy", "==", curruntUser.id)
@@ -120,7 +121,7 @@ export default function DonReport() {
 
   return (
     <div>
-      <Container maxWidth="lg" ref={pdfRef}>
+      <Container maxWidth="lg" ref={pdfRef} sx={{ border: "1px solid black" }}>
         <Box className={classes.box}>
           <Stack direction="row" spacing={2} justifyContent="center">
             <Avatar src={Logo} sx={{ width: 75, height: 75 }}></Avatar>
@@ -247,15 +248,16 @@ export default function DonReport() {
       <Box sx={{ margin: "20px" }}>
         <Stack direction="row" spacing={2} justifyContent="center">
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<PrintIcon />}
             variant="contained"
             type="submit"
             onClick={handlePrint}
           >
             Print As PDF
           </Button>
+
           <Button
-            startIcon={<DoneIcon />}
+            startIcon={<ArticleIcon />}
             variant="contained"
             type="submit"
             onClick={downloadExcel}

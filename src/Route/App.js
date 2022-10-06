@@ -37,6 +37,9 @@ import VolSummary from "../Pages/Organization/Summary/VolSummary/VolSummary";
 import VolReport from "../Pages/Organization/Report/VolReport/VolReport";
 import OrganizationSignUp from "../Pages/OrganizationSignUp/OrganizationSignUp";
 import UserDonApplyForm from "../Components/Forms/UserDonApplyForm/UserDonApplyForm";
+import AdminDonReport from "../Pages/Admin/Reports/AdminDonReport";
+import AdminEduReport from "../Pages/Admin/Reports/AdminEduReport";
+import ResetPassword from "../Pages/SignIn/ResetPassword";
 const theme = createTheme({
   palette: {
     primary: {
@@ -128,6 +131,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/orgsignup" element={<OrganizationSignUp />} />
           <Route path="/roles" element={<SignUpRole />} />
+          <Route path="/resetpassword" element={<ResetPassword />} />
           <Route
             path="/signin"
             element={
@@ -156,7 +160,9 @@ function App() {
               <Route element={<ProtetedRoute roleRequired="admin" />}>
                 <Route path="/usercontrol" element={<UserManage />} />
                 <Route path="/interested" element={<InterestedAreas />} />
-                <Route path="/report" element={<AdminReports />} />
+                <Route path="/adminvolreport" element={<AdminReports />} />
+                <Route path="/adminedureport" element={<AdminEduReport />} />
+                <Route path="/admindonreport" element={<AdminDonReport />} />
               </Route>
 
               {/* Organization route */}

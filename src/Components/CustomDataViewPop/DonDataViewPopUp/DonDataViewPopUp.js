@@ -13,13 +13,11 @@ import React, { useEffect } from "react";
 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { doc, getDoc, increment, updateDoc } from "firebase/firestore";
 import { db } from "../../../FireBase/Config";
 
 export default function DonDataViewPopUp({ data, setOpen, setNotify }) {
   const navigate = useNavigate();
-  const { curruntUser } = useSelector((state) => state.user);
 
   useEffect(() => {
     async function UpdateViewCount() {
