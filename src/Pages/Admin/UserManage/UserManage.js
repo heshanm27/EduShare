@@ -66,6 +66,11 @@ export default function UserManage() {
       },
     },
   ];
+
+  const handleSearch = (searchText, searchLsit) => {
+    return searchLsit.include((item) => item.name === searchText);
+  };
+
   const updateUserRole = async (id, role) => {
     try {
       await updateDoc(doc(db, "users", id), {

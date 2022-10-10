@@ -183,7 +183,7 @@ export default function UserVonFeed() {
       // unsubscribe();
     };
   }, [filter, orderDirections, search]);
-  console.log(eduPosts);
+
   return (
     <>
       <Container

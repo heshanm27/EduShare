@@ -31,6 +31,10 @@ export default function InterestedAreas() {
     { title: "Intrested Discription", field: "discription" },
   ];
 
+  const handleSearch = (searchText, searchLsit) => {
+    return searchLsit.include((item) => item.name === searchText);
+  };
+
   const updateOpenPopup = (data) => {
     setUpdateValue(data);
     setOpen(true);
