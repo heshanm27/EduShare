@@ -477,7 +477,6 @@ foreign woking opportunities to build a good career protfoloio.
  and React will efficiently update and render just the right*/
 /* <component 1> */
 
-<<<<<<< HEAD
 // this is testing 1
 // react is best frame work
 // we are team
@@ -569,14 +568,11 @@ foreign woking opportunities to build a good career protfoloio.
     React allows us to create reusable UI components.*/
 
 /*Using props and state, we can put together a small Todo application.
-=======
   /*Using props and state, we can put together a small Todo application.
->>>>>>> d31ad8c18927eec865df72146c3e2b9042221a65
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
 
-<<<<<<< HEAD
 /*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
@@ -1439,7 +1435,6 @@ foreign woking opportunities to build a good career protfoloio.
  and React will efficiently update and render just the right*/
 /* <component 1> */
 
-<<<<<<< HEAD
 // this is testing 1
 // react is best frame work
 // we are team
@@ -1531,14 +1526,11 @@ foreign woking opportunities to build a good career protfoloio.
     React allows us to create reusable UI components.*/
 
 /*Using props and state, we can put together a small Todo application.
-=======
   /*Using props and state, we can put together a small Todo application.
->>>>>>> d31ad8c18927eec865df72146c3e2b9042221a65
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
 
-<<<<<<< HEAD
 /*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
@@ -2400,7 +2392,7 @@ foreign woking opportunities to build a good career protfoloio.
  and React will efficiently update and render just the right*/
 /* <component 1> */
 
-<<<<<<< HEAD
+
 // this is testing 1
 // react is best frame work
 // we are team
@@ -2492,14 +2484,12 @@ foreign woking opportunities to build a good career protfoloio.
     React allows us to create reusable UI components.*/
 
 /*Using props and state, we can put together a small Todo application.
-=======
   /*Using props and state, we can put together a small Todo application.
->>>>>>> d31ad8c18927eec865df72146c3e2b9042221a65
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
 
-<<<<<<< HEAD
+
 /*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
@@ -2752,11 +2742,10 @@ foreign woking opportunities to build a good career protfoloio.
    Although event handlers appear to be rendered inline,
    they will be collected and implemented using event delegation.*/
 
-<<<<<<< HEAD
    /*Design simple views for each state in your application,
  and React will efficiently update and render just the right
   components when your data changes.*/
-=======
+
 /*Using props and state, we can put together a small Todo application.
    This example uses state to track the current list of items as well as the text that the user has entered.
    Although event handlers appear to be rendered inline,
@@ -2887,4 +2876,7 @@ foreign woking opportunities to build a good career protfoloio.
 /*Design simple views for each state in your application,
  and React will efficiently update and render just the right*/
 /* <component 1> */
->>>>>>> 39097a1524326583e062f1cf521479b83203d7b3
+
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right*/
+/* <component 1> */
