@@ -50,8 +50,11 @@ export default function DonDataViewPopUp({ data, setOpen, setNotify }) {
             width="50%"
             loading="lazy"
           />
+          <Typography variant="h5" color="primary" align="left">
+            {data.title}
+          </Typography>
           <Typography sx={{ p: 1 }}>{data.details}</Typography>
-          <div>
+          {/* <div>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -119,7 +122,7 @@ export default function DonDataViewPopUp({ data, setOpen, setNotify }) {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-          </div>
+          </div> */}
           <Button variant="contained" onClick={() => handleNavigate(data)}>
             Enroll now
           </Button>
