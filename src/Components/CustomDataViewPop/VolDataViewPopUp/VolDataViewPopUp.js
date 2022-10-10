@@ -147,7 +147,7 @@ export default function VolDataViewPopUp({ data, setOpen, setNotify }) {
             loading="lazy"
           />
           <Typography sx={{ p: 1 }}>{data.details}</Typography>
-          <div>
+          {/* <div>
             <Accordion>
               <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
@@ -215,7 +215,7 @@ export default function VolDataViewPopUp({ data, setOpen, setNotify }) {
                 </Typography>
               </AccordionDetails>
             </Accordion>
-          </div>
+          </div> */}
           <Button variant="contained" onClick={() => handleNavigate(data)}>
             Enroll now
           </Button>

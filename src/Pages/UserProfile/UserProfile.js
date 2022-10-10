@@ -32,6 +32,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import CustomeDialog from "../../Components/CustomDialog/CustomDialog";
 import ProfileUpdateForm from "../../Components/Forms/ProfileUpdateForm/ProfileUpdateForm";
 import CustomSnackBar from "../../Components/CustomSnackBar/CustomSnakBar";
+import CustomNavBar from "../../Components/NavBar/CustomNavBar";
 const useStyle = makeStyles((theme) => ({
   roots: {
     margin: "50px auto",
@@ -102,7 +103,7 @@ export default function UserProfile() {
   }, []);
   return (
     <>
-      {/* <Header /> */}
+      <CustomNavBar />
       <Container component="main" maxWidth="lg" className={classes.roots}>
         <Paper style={{ padding: "20px" }}>
           {!loading && (
@@ -274,7 +275,7 @@ export default function UserProfile() {
         <CustomSnackBar notify={notify} setNotify={setNotify} />
       </Container>
 
-      <Container component="main" maxWidth="lg" className={classes.root}>
+      {/* <Container component="main" maxWidth="lg" className={classes.root}>
         <Box>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -293,14 +294,14 @@ export default function UserProfile() {
             </Box>
             <Paper>
               <TabPanel value="1">
-                {/* <SparePartQuotationsOrder /> */}
+              <SparePartQuotationsOrder /> 
               </TabPanel>
-              <TabPanel value="2">{/* <FeedBackClient /> */}</TabPanel>
-              <TabPanel value="3">{/* <ReservationClient /> */}</TabPanel>
+              <TabPanel value="2"><FeedBackClient /> </TabPanel>
+              <TabPanel value="3"> <ReservationClient /> </TabPanel>
             </Paper>
           </TabContext>
         </Box>
-      </Container>
+      </Container> */}
     </>
   );
 }

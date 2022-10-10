@@ -229,7 +229,7 @@ export default function UserDonApplyForm() {
                   />
                 </Grid>
 
-                <Grid item xs={12}>
+                {/* <Grid item xs={12}>
                   <TextField
                     required
                     fullWidth
@@ -247,7 +247,7 @@ export default function UserDonApplyForm() {
                       min: new Date().toISOString().split("T")[0],
                     }}
                   />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12}>
                   <CustomTextArea
                     autoComplete="off"

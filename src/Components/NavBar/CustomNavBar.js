@@ -29,6 +29,7 @@ export default function CustomNavBar() {
   const [open, setOpen] = useState(false);
   const [hash, setHash] = useState("");
   const [hide, setHide] = useState(false);
+  const [onProfile, setOnProfile] = useState(false);
   const location = useLocation();
   const [anchor, setAnchor] = useState(false);
   const navigate = useNavigate();
@@ -76,6 +77,10 @@ export default function CustomNavBar() {
         break;
       case "/resetpassword":
         setHide(true);
+        break;
+      case "/userprofile":
+        setHide(true);
+        setOnProfile(true);
         break;
       default:
         setHide(false);
@@ -144,8 +149,7 @@ export default function CustomNavBar() {
                             <Button
                               variant="text"
                               color="primary"
-                              component="a"
-                              href="/edufeed"
+                              onClick={() => navigate("/edufeed")}
                             >
                               User Feed
                             </Button>
@@ -180,9 +184,15 @@ export default function CustomNavBar() {
                     );
                   }
                 })}
-              {hide && (
-                <Button variant="contained" href="/">
+              {hide && !onProfile && (
+                <Button variant="contained" onClick={() => navigate("/")}>
                   Home
+                </Button>
+              )}
+
+              {hide && onProfile && (
+                <Button variant="contained" onClick={() => navigate(-1)}>
+                  Back
                 </Button>
               )}
 
