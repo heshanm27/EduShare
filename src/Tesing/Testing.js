@@ -2877,3 +2877,6 @@ foreign woking opportunities to build a good career protfoloio.
  and React will efficiently update and render just the right*/
 /* <component 1> */
 
+/*Design simple views for each state in your application,
+ and React will efficiently update and render just the right*/
+/* <component 1> */
