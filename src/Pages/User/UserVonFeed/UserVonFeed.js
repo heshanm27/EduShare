@@ -332,7 +332,7 @@ export default function UserVonFeed() {
         <CustomeDialog
           open={open}
           setOpen={setOpen}
-          title="Course Details"
+          title="Post  Details"
           maxWidth="md"
         >
           <VolDataViewPopUp
