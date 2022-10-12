@@ -30,19 +30,16 @@ projects of an educational organization.
  REACT_APP_APP_ID=
 ```
 
-# How to run project
+> How to run project
 
-Download Code From [Github](https://github.com/heshanm27/EduShare/archive/refs/heads/main.zip)
-
+    - Download Code From [Github](https://github.com/heshanm27/EduShare/archive/refs/heads/main.zip)
     - Open in your IDE
     - Open terminal in code download path
     - in project root path run below code
-    - `npm install` (this will install all npm packages)
+    - ` npm install ` (this will install all npm packages)
     - after installation completed run below code
-         - `npm run` (this will start local server with application')
-
-
-Visit [site](http://localhost:3000/)
+    - ` npm run ` (this will start local server with application')
+    - visit [site](http://localhost:3000/)
 
 ## Project Tools And Languages
 
