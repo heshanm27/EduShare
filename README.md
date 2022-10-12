@@ -21,12 +21,14 @@ projects of an educational organization.
 
 **Environment variables** </br>
 
-    - `REACT_APP_FIRE_BASE_API_KEY=`</br>
-    - `REACT_APP_AUTH_DOMAIN=`</br>
-    - `REACT_APP_PROJECT_ID=`</br>
-    - `REACT_APP_STORAGEBUCKET=`</br>
-    - `REACT_APP_MESSAGE_SENDER_ID=`</br>
-    - `REACT_APP_APP_ID=`
+```
+ REACT_APP_FIRE_BASE_AP
+ REACT_APP_AUTH_DOMAIN=
+ REACT_APP_PROJECT_ID=
+ REACT_APP_STORAGEBUCKET=
+ REACT_APP_MESSAGE_SENDER_ID=
+ REACT_APP_APP_ID=
+```
 
 # How to run project
 
