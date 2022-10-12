@@ -17,16 +17,16 @@ projects of an educational organization.
 
 # Demo Of Our Project
 
-- visit [Demo](https://edushareorg.netlify.app/)
+> ## Check out our [Demo](https://edushareorg.netlify.app/)
 
-**_Environment variables _**</br>
+**Environment variables** </br>
 
-`REACT_APP_FIRE_BASE_API_KEY=`</br>
-`REACT_APP_AUTH_DOMAIN=`</br>
-`REACT_APP_PROJECT_ID=`</br>
-`REACT_APP_STORAGEBUCKET=`</br>
-`REACT_APP_MESSAGE_SENDER_ID=`</br>
-`REACT_APP_APP_ID=`
+- `REACT_APP_FIRE_BASE_API_KEY=`</br>
+- `REACT_APP_AUTH_DOMAIN=`</br>
+- `REACT_APP_PROJECT_ID=`</br>
+- `REACT_APP_STORAGEBUCKET=`</br>
+- `REACT_APP_MESSAGE_SENDER_ID=`</br>
+- `REACT_APP_APP_ID=`
 
 # How to run project
 
@@ -39,7 +39,7 @@ projects of an educational organization.
         -  `npm run` (this will start local server with application')
     - visit [site](http://localhost:3000/)
 
-### Project Tools And Languages
+## Project Tools And Languages
 
     - Languages
         - Javascript
