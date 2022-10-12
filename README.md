@@ -19,7 +19,7 @@ projects of an educational organization.
 
 > ## Check out our [Demo](https://edushareorg.netlify.app/)
 
-**Environment variables** </br>
+> Environment variables
 
 ```
  REACT_APP_FIRE_BASE_AP
