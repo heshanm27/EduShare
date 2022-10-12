@@ -32,7 +32,13 @@ projects of an educational organization.
 
 # How to run project
 
-Download Code From [Github](https://github.com/heshanm27/EduShare.git) - Open in your IDE - Open terminal in code download path - in project root path run below code - `npm install` (this will install all npm packages) - after installation completed run below code - `npm run` (this will start local server with application') - visit [site](http://localhost:3000/)
+Download Code From [Github](https://github.com/heshanm27/EduShare.git)
+
+    - Open in your IDE
+    - Open terminal in code download path
+    - in project root path run below code
+    - `npm install` (this will install all npm packages)
+    - after installation completed run below code - `npm run` (this will start local server with application') - visit [site](http://localhost:3000/)
 
 ## Project Tools And Languages
 
