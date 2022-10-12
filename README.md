@@ -1,72 +1,55 @@
-# Getting Started with Create React App
+# Project Discription
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Continuous learning is an essential topic in the modern world. However, most people find
+difficulties when finding learning opportunities due to various reasons. The Most common
+reason is unawareness about available opportunities due to the lack of communication between
+educational opportunity providers and opportunity seekers.
+Providing quality education for a reasonable price or free is also essential. However, it is
+challenging for the organizations due to the unavailability of funds and volunteers for ongoing
+projects.
 
-## Available Scripts
+Edu Share is a web-based solution designed to resolve the mentioned problems by connecting
+educational opportunity providers and the seekers via a community.
+By using this system, Organizations can publish their available educational opportunities and
+the projects that require financial aid and volunteers. Moreover, regular users will be able to
+find suitable educational opportunities and will be able to donate or contribute to the ongoing
+projects of an educational organization.
 
-In the project directory, you can run:
+# Demo Of Our Project
 
-### `npm start`
+- visit [Demo](https://edushareorg.netlify.app/)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+**_Environment variables _**</br>
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+`REACT_APP_FIRE_BASE_API_KEY=`</br>
+`REACT_APP_AUTH_DOMAIN=`</br>
+`REACT_APP_PROJECT_ID=`</br>
+`REACT_APP_STORAGEBUCKET=`</br>
+`REACT_APP_MESSAGE_SENDER_ID=`</br>
+`REACT_APP_APP_ID=`
 
-### `npm test`
+# How to run project
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+    - Download Code From [Github](https://github.com/heshanm27/EduShare.git)
+    - Open in your IDE
+    - Open terminal in code download path
+    - in project root path run below code
+        - `npm install` (this will install all npm packages)
+    - after installation completed run below code
+        -  `npm run` (this will start local server with application')
+    - visit [site](http://localhost:3000/)
 
-### `npm run build`
+### Project Tools And Languages
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-##Test Comment
+    - Languages
+        - Javascript
+    - Tools And Packages
+        - React(As Front End)
+        - Firebase(As BackEnd)
+            - Firestore(As DataBase)
+            - Firebase Storage
+            - Firebase Authentication
+        - EmailJs
+        - MatrialUI(Muiv5)
+        - Redux
+        - xlsx
