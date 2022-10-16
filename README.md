@@ -1,4 +1,4 @@
-# Project Discription
+# Project Description
 
 Continuous learning is an essential topic in the modern world. However, most people find
 difficulties when finding learning opportunities due to various reasons. The Most common
